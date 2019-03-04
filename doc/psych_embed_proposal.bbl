@@ -1,0 +1,74 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citename{Beam \bgroup et al.\egroup
+  }2018]{beamClinicalConceptEmbeddings2018}
+Andrew~L. Beam, Benjamin Kompa, Inbar Fried, Nathan~P. Palmer, Xu~Shi, Tianxi
+  Cai, and Isaac~S. Kohane.
+\newblock 2018.
+\newblock Clinical {{Concept Embeddings Learned}} from {{Massive Sources}} of
+  {{Multimodal Medical Data}}.
+\newblock {\em arXiv:1804.01486 [cs, stat]}, April.
+
+\bibitem[\protect\citename{Choi \bgroup et al.\egroup
+  }2016]{choiLearningLowDimensionalRepresentations2016}
+Youngduck Choi, Chill Yi-I Chiu, and David Sontag.
+\newblock 2016.
+\newblock Learning {{Low}}-{{Dimensional Representations}} of {{Medical
+  Concepts}}.
+\newblock {\em AMIA Summits on Translational Science Proceedings}, 2016:41--50,
+  July.
+
+\bibitem[\protect\citename{De~Vine \bgroup et al.\egroup
+  }2014]{devineMedicalSemanticSimilarity2014}
+Lance De~Vine, Guido Zuccon, Bevan Koopman, Laurianne Sitbon, and Peter Bruza.
+\newblock 2014.
+\newblock Medical {{Semantic Similarity}} with a {{Neural Language Model}}.
+\newblock In {\em Proceedings of the 23rd {{ACM International Conference}} on
+  {{Conference}} on {{Information}} and {{Knowledge Management}}}, {{CIKM}}
+  '14, pages 1819--1822, New York, NY, USA. {ACM}.
+
+\bibitem[\protect\citename{Forbush \bgroup et al.\egroup }2013  3
+  18]{forbushSittingPinsNeedles2013}
+Tyler~B. Forbush, Adi~V. Gundlapalli, Miland~N. Palmer, Shuying Shen, Brett~R.
+  South, Guy Divita, Marjorie Carter, Andrew Redd, Jorie~M. Butler, and Matthew
+  Samore.
+\newblock 2013 -3- 18.
+\newblock ``{{Sitting}} on {{Pins}} and {{Needles}}'': {{Characterization}} of
+  {{Symptom Descriptions}} in {{Clinical Notes}}''.
+\newblock {\em AMIA Summits on Translational Science Proceedings}, 2013:67--71.
+
+\bibitem[\protect\citename{Lee \bgroup et al.\egroup
+  }2018]{leeLeveragingExistingCorpora2018}
+Hee-Jin Lee, Yaoyun Zhang, Kirk Roberts, and Hua Xu.
+\newblock 2018.
+\newblock Leveraging existing corpora for de-identification of psychiatric
+  notes using domain adaptation.
+\newblock {\em AMIA Annual Symposium Proceedings}, 2017:1070--1079, April.
+
+\bibitem[\protect\citename{Mikolov \bgroup et al.\egroup
+  }2013]{mikolovEfficientEstimationWord2013}
+Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean.
+\newblock 2013.
+\newblock Efficient {{Estimation}} of {{Word Representations}} in {{Vector
+  Space}}.
+\newblock {\em arXiv:1301.3781 [cs]}, January.
+
+\bibitem[\protect\citename{{Minarro-Gim\'enez} \bgroup et al.\egroup
+  }2014]{minarro-gimenezExploringApplicationDeep2014}
+Jos\'e~Antonio {Minarro-Gim\'enez}, Oscar {Mar\'in-Alonso}, and Matthias
+  Samwald.
+\newblock 2014.
+\newblock Exploring the application of deep learning techniques on medical text
+  corpora.
+\newblock {\em Studies In Health Technology And Informatics}, 205:584--588.
+
+\bibitem[\protect\citename{Zhang \bgroup et al.\egroup
+  }2018]{zhangAdaptingWordEmbeddings2018}
+Yaoyun Zhang, Hee-Jin Li, Jingqi Wang, Trevor Cohen, Kirk Roberts, and Hua Xu.
+\newblock 2018.
+\newblock Adapting {{Word Embeddings}} from {{Multiple Domains}} to {{Symptom
+  Recognition}} from {{Psychiatric Notes}}.
+\newblock {\em AMIA Summits on Translational Science Proceedings},
+  2017:281--289, May.
+
+\end{thebibliography}
