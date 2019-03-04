@@ -9,6 +9,13 @@ Andrew~L. Beam, Benjamin Kompa, Inbar Fried, Nathan~P. Palmer, Xu~Shi, Tianxi
   {{Multimodal Medical Data}}.
 \newblock {\em arXiv:1804.01486 [cs, stat]}, April.
 
+\bibitem[\protect\citename{Bodenreider}2004]{bodenreiderUnifiedMedicalLanguage2004}
+Olivier Bodenreider.
+\newblock 2004.
+\newblock The {{Unified Medical Language System}} ({{UMLS}}): Integrating
+  biomedical terminology.
+\newblock {\em Nucleic Acids Research}, 32(Database issue):D267--D270, January.
+
 \bibitem[\protect\citename{Choi \bgroup et al.\egroup
   }2016]{choiLearningLowDimensionalRepresentations2016}
 Youngduck Choi, Chill Yi-I Chiu, and David Sontag.
@@ -44,6 +51,15 @@ Hee-Jin Lee, Yaoyun Zhang, Kirk Roberts, and Hua Xu.
 \newblock Leveraging existing corpora for de-identification of psychiatric
   notes using domain adaptation.
 \newblock {\em AMIA Annual Symposium Proceedings}, 2017:1070--1079, April.
+
+\bibitem[\protect\citename{McCoy \bgroup et al.\egroup
+  }2016]{mccoyImprovingPredictionSuicide2016}
+Thomas~H. McCoy, Victor~M. Castro, Ashlee~M. Roberson, Leslie~A. Snapper, and
+  Roy~H. Perlis.
+\newblock 2016.
+\newblock Improving {{Prediction}} of {{Suicide}} and {{Accidental Death After
+  Discharge From General Hospitals With Natural Language Processing}}.
+\newblock {\em JAMA psychiatry}, 73(10):1064--1071, October.
 
 \bibitem[\protect\citename{Mikolov \bgroup et al.\egroup
   }2013]{mikolovEfficientEstimationWord2013}

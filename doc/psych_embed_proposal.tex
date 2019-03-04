@@ -11,7 +11,7 @@
 
 \setlength\titlebox{6.5cm}    % Expanding the titlebox
 
-\title{Project Proposal: Do Word Embeddings Trained on General Medical Data Work for Psychiatric Tasks?}
+\title{Project Proposal: Do Word Embeddings Trained on General Medical Data Work for Psychiatric Concepts?}
 
 \author{John-Jose Nunez\\
   Depts. of Psychiatry and Computer Science, UBC\\
@@ -22,48 +22,30 @@
 \begin{document}
 \maketitle
 %\begin{abstract}
-%  This document contains the instructions for preparing a camera-ready
-%  manuscript for the proceedings of HLT-NAACL-2004. The document itself conforms
-%  to its own specifications, and is therefore an example of what
-%  your manuscript should look like.  Authors are asked to conform to
-%  all the directions reported in this document.
 %\end{abstract}
-
-%\section{Credits}
-%
-%This document has been adapted from the instructions for the
-%ACL-2002 proceedings by Dekang Lin and Eugene Charniak.  It was
-%adapted in turn from the ACL-02 proceedings by Norbert Reithinger,
-%Giorgio Satta, and Roberto Zamparelli. The ACL-01 instructions was
-%elaborated from similar documents used for previous editions of the
-%ACL and EACL annual meetings. Those versions were written by several
-%people, including John Chen, Henry S. Thompson and Donald
-%Walker. Additional elements were taken from the formatting
-%instructions of the Xth {\em International Joint Conference on
-%Artificial Intelligence}.
 
 \section{Introduction and Proposed Contribution}
 
 \subsection{Background}
 
-Recent work has applied natural language processing and machine learning to various predictive and classification tasks in medicine, such as EXAMPLE and EXAMPLE. Various methods are used to convert words to low-dimension vector representations which can then be used in these applications. These vectorizations are produced by training models on large corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained  medical embeddings using medical sources. 
+The application of natural language processing and machine learning to medicine presents an exciting opportunity for tasks requiring prediction and classification, such as predicting the risk of suicide after a patient is discharged from hospital \cite{mccoyImprovingPredictionSuicide2016}. A common approach is to convert the unstructured text produced by clinical interactions into low-dimension vector representations which can fed into these algorithms. These vectorizations are produced by training models on large unlabelled corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model, training a vector for a target word based on what words are found within a window near it. It was initially trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained medical embeddings using specific medical sources. 
 
-Recent approaches in this vein include De Vine et al \shortcite{devineMedicalSemanticSimilarity2014} who trained embeddings for medical concepts in the Unified Library Management System (ULMS) using journal abstracts from MEDLINE and clinical patient records. They then used these embeddings to compare predicted word similarity against human-judgements. Minarro-Gimenez et al \shortcite{minarro-gimenezExploringApplicationDeep2014} trained using medical manuals, articles, and Wikipedia articles, comparing predicted word similarity between medications against the National Drug File - Reference Terminology (NDF-RT) ontology. Choi et al \cite{choiLearningLowDimensionalRepresentations2016} improve on this work by learning on health record data consisting of raw text from clinical notes mapped to concepts from UMLS. In their yet unpublished work, Beam et al \cite{beamClinicalConceptEmbeddings2018} use an ``extremely large'' database of clinical notes, insurance claims, and full journal texts, and develop a new system termed ``cui2vec'', mapping concepts into a set of identifiers based on UCMLS, and then training on occurrences on these concepts with each other in a certain window length. 
+Recent approaches in this vein include De Vine et al \shortcite{devineMedicalSemanticSimilarity2014} which trained embeddings for medical concepts in the Unified Library Management System (ULMS) \cite{bodenreiderUnifiedMedicalLanguage2004} using journal abstracts from MEDLINE as well as with clinical patient records. They then used these embeddings to compare predicted word similarity against human-judgements. Minarro-Gimenez et al \shortcite{minarro-gimenezExploringApplicationDeep2014} trained embeddings using medical manuals, articles, and Wikipedia articles, comparing predicted vector similarity between medications against the National Drug File - Reference Terminology (NDF-RT) ontology. Choi et al \cite{choiLearningLowDimensionalRepresentations2016} improved on this work by learning on large-scale health record data consisting of raw text from clinical notes mapped to concepts from UMLS. In their yet unpublished work, Beam et al \cite{beamClinicalConceptEmbeddings2018} use an ``extremely large'' database of clinical notes, insurance claims, and full journal texts, and develop a new system termed ``cui2vec'', mapping concepts into a set of unique identifiers based on UMLS, and then training vectors for these identifiers based on the occurrences of other identifiers within a certain window length. 
 
-All of the above examples were both trained and tested on general medical data, from all fields of medicine. It is unclear whether these models will perform as well when applied to a specific field of medicine. This may be especially true in the medical speciality of psychiatry, the field of medicine concerned with mental illness such as depression or schizophrenia. Prior work has shown that psychiatric symptoms are often described in a long, varied, and subjective manner \cite{forbushSittingPinsNeedles2013} which may present a particular challenge for NLP tasks. 
+All of the above examples were both trained and evaluated on general medical data, from all fields of medicine. It is unclear how these models perform in specific fields of medicine. This may be especially true in the medical speciality of psychiatry, the field of medicine concerned with mental illness such as depression or schizophrenia. Prior work has shown that psychiatric symptoms are often described in a long, varied, and subjective manner \cite{forbushSittingPinsNeedles2013} which may present a particular challenge for NLP.
 
-Prior work has explored whether domain adaptation (DA), techniques to adapt data from other domains to work on a target, can improve performance when applied to this sub-domain of psychiatry. Lee et al \cite{leeLeveragingExistingCorpora2018} used these techniques to improve the task of de-identifying psychitric notes. Zhang et al \cite{zhangAdaptingWordEmbeddings2018} then applied DA to word embeddings trained from various sources: general language (Wikipedia), medical articles (MEDLINE), non-psychiatric medical notes, and data from an online forum used by mental health patients, testing on a dataset of psychiatric notes, showing some improvement by using DA. 
+Prior work has explored whether domain adaptation (DA), techniques to adapt data from other domains to work on a target, can improve performance when applied to this sub-domain of psychiatry. Lee et al \cite{leeLeveragingExistingCorpora2018} used these techniques to improve the task of de-identifying psychiatric notes. Zhang et al \cite{zhangAdaptingWordEmbeddings2018} then applied DA to word embeddings trained from general language and medical sources, showing some improvements when targeting a psychiatric dataset. 
 
 \subsection{Contribution}
 
-This project seeks to build on these prior works advancing the application of word embedding techniques in psychiatry. Specially, we will seek to determine whether embeddings trained on general medical data perform as well on psychiatric content as they do on other domains within medicine. From our knowledge, this has not been examined previously. We will compare various prior techniques and embeddings, to determine if techniques such as DA, or training on larger data-sets, improve applicability to psychiatry. This will contribute to future applications of NLP to psychiatry by investigating whether or not embeddings trained on domain-specific data may be required. This will either give impetus to the collection of a large psychiatric dataset and the training of our own embeddings, or will reassure future work that general medical embeddings are sufficient. 
+This project aims to advance the application of word embedding techniques in psychiatry. Specifically, we will seek to  determine whether embeddings trained on general medical data perform as well on psychiatric content as they do on other domains within medicine. We are unaware of prior work investigating this. We will compare multiple techniques for embeddings and evaluation. This will help determine generally how well these performance on psychiatric concepts, and whether various attributes may help or hinder this applicability, such as embeddings trained on larger training sets, or the use of DA.  This may impact future work by suggesting if psychiatric applications should use general-medicine trained embeddings, or those trained only on domain-specific data.  
 
 
 \section{Proposed Methodology}
 
-Generally, the project will to deploy the embeddings of prior projects, reusing their evaluation methods to compare these metrics when applied to psychiatric content compared to other fields of medicine. Psychiatric content (eg drugs, diagnoses) will be compared to those of general medical applicability, and other fields of medicine such as general practice, a general speciality like internal medicine, and another speciality that may have very specific terminology, ophthalmology. Performance metrics that can be compared against all embeddings and techniques will be used to determine if any improve domain applicability. 
+Generally, the project will deploy the embeddings of prior projects, using their evaluation methods to compare performance on psychiatric concepts with those from other fields of medicine. The comparison will be made with broader fields of medicine such as internal medicine, and those that are similarly specialized like ophthalmology. 
 
-The embeddings/techniques to be replicated include:
+We will compare the following embeddings/techniques, all of implement or are based upon word2vec:
 \begin{itemize}
 	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014} embeddings trained on medical records and abstracts.  
 	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014} embeddings trained on medical manuals and articles, Wikipedia.
@@ -72,15 +54,16 @@ The embeddings/techniques to be replicated include:
 	\item Beam et al's cui2vec embeddings trained on health insurance claims and full journal texts. 
 \end{itemize}
 
-The evaluation techniques to be replicated used to compare psychiatric outcomes vs others:
+The evaluation techniques to be replicated and used to determine psychatry-specific performance:
 \begin{itemize}
-	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014}'s evaluation framework, comparing predicted vector similarity against human judgements, comparing psychatric concepts vs others judged.  
-	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014}'s metric of predicting relationships between drugs based on the NDF-RT. This easily allows comparison between psychiatric drugs against those of other fields.
-	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Conceptual Similarity Property, comparing predicted vector similarity with whether concepts are neighbouring in UMLS. We will extended the concepts tested to include psychiatric and non-psychiatric ones
-	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Medical Relatedness Property, comparing predicted vector similarity with relatedness according to NDF-RT and the ICD9 groupings, based on these database's item relations such as ``may-treat'' and ``may-prevent''. Subsets can again be specified.
+	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014}'s evaluation framework, comparing predicted vector similarity against human judgements.
+	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014}'s metric of predicting relationships between drugs based on the NDF-RT. 
+	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Conceptual Similarity Property, comparing predicted vector similarity with whether concepts are neighbouring in UMLS. 
+	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Medical Relatedness Property, comparing predicted vector similarity with relatedness according to NDF-RT and the ICD9 groupings, based on these database's item relations such as ``may-treat'' and ``may-prevent''. 
 	\item Beam et al's \shortcite{beamClinicalConceptEmbeddings2018} statistical score based on whether known similarities in UMLS, NDF-RT and other work are predicted correctly in at least 95\% of bootstrapped samples of pairs of concepts. 
+\end{itemize}
 
-In order to determine which psychiatric and non-psychiatric terms should be compared, the most common concepts shall be used. For instance, we will compare the most commonly prescribed psychatric and non-psychatric drugs, or the most common diagnoses, based on prior epidemiology, in order to compare common, well described concepts.
+In order to determine which psychiatric and non-psychiatric terms should be compared, the most common concepts shall be used. For instance, we will compare the most commonly prescribed psychiatric and non-psychiatric drugs, or the most common diagnoses, based on prior epidemiology, in order to compare common, well described concepts.
 
 \subsection{Current Data Availability}
 
@@ -88,18 +71,17 @@ Of the five works mentioned above, two have their data publicly available for do
 
 \subsection{Project Flexibility and Extensibility}
 
-At a minimum, this project will use the available embeddings, and implement the metrics whose code is available, or whose description is sufficient to allow replication. An extensible system will be used such that future embeddings, when available, can be easily incorporated. It is expected that, even if not all embeddings are available by the project due data, the implementation of the embeddings and evaluation metrics available will be the majority of the work for the total project, and will yield a sizeable contribution. 
+At a minimum, this project will use the available embeddings, and implement the evaluation metrics whose code is available, or whose description is sufficient to allow replication. An extensible system will be used such that future embeddings, when available, can be easily incorporated and compared. It is expected that, even if not all embeddings are available by the project due data, the implementation of the embeddings and evaluation metrics available will be the majority of the work for the total project, and will yield a sizeable contribution. 
 
-If the proposed methodology is implemented easily and quickly, a possible extension will be determine the feasibility of training new embeddings based only on psychiatric data based on prior work, such as using the matrix from Choi et al's work \shortcite{choiLearningLowDimensionalRepresentations2016} but only the portion of the matrix with terms related to psychiatry. 
+If the proposed methodology is implemented easily and quickly, a possible extension will be determine the feasibility of training new embeddings based only on psychiatric data, such as using a subset of the matrix used by Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}; we could try only using the portion of the matrix with terms related to psychiatry. 
 
-Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in psychiatry and non-psychiatry, or articles from the medical practice manual UpToDate.
+Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so for psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in and outside of psychiatry, or a similar set of articles from the medical practice manual and learning resource UpToDate.
 
-%In the longer term, this project may be applicable for a separate project applying NLP and ML techniques to large BC Cancer clinical dataset consistency of medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
-\end{itemize}
+In the longer term, this project may be applicable to a separate project applying NLP and ML techniques to a large BC Cancer clinical dataset consistency of the medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
 
 \section{Expected Results}
 
-Due to the uniqueness of psychiatry, we expect the various embeddings will generally perform worse when used for psychiatric concepts than those not in this speciality. We expected that the performance of the various embeddings/techniques will follow a similar pattern with their general performance. However, it would not be overly surprising if the embeddings trained on larger dataset may perform worse for psychiatric terms, as the psychiatric-specific meaning of a word may get ``drowned-out'' more in larger datasets. 
+Due to the uniqueness of psychiatry, we expect the various embeddings will generally perform worse when used for psychiatric concepts than those not in this speciality. We expected that the performance the various embeddings/techniques that work better generally will also work better for psychiatric content. However, it would not be overly surprising if the embeddings trained on larger dataset may perform worse for psychiatric terms, as the psychiatric-specific meaning of a word may get ``drowned-out'' more in larger datasets. 
 %
 %
 %\section{Format of Electronic Manuscript}

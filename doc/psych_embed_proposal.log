@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  3 MAR 2019 16:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  3 MAR 2019 20:38
 entering extended mode
 **./psych_embed_proposal.tex
 (psych_embed_proposal.tex
@@ -72,66 +72,72 @@ LaTeX Font Info:    Try loading font information for OT1+pcr on input line 23.
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 47.
-
-Underfull \hbox (badness 1325) in paragraph at lines 51--52
-\OT1/ptm/m/n/10 pre-dicted word sim-i-lar-ity against human-judgements.
- []
-
-[1{C:/Users/jjnun/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 29.
+ [1{C:/Users/jjnun/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 68.
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
+[]\OT1/ptm/m/n/10 We will com-pare the fol-low-ing em-bed-
+ []
 
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 50.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 68.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 50.
 
-Underfull \hbox (badness 1776) in paragraph at lines 81--82
+Underfull \hbox (badness 1776) in paragraph at lines 63--64
 []\OT1/ptm/m/n/10 Beam et al's (2018) sta-tis-ti-cal score based on
  []
 
-
-Underfull \hbox (badness 1735) in paragraph at lines 95--96
-[]\OT1/ptm/m/n/10 Alternatively, it may be in-ter-est-ing to use the
- []
-
-
-Underfull \hbox (badness 1014) in paragraph at lines 95--96
-\OT1/ptm/m/n/10 em-bed-dings from prior work to carry out var-i-
- []
-
-[2] (psych_embed_proposal.bbl
+(psych_embed_proposal.bbl
 Underfull \hbox (badness 3229) in paragraph at lines 5--11
 []\OT1/ptm/m/n/10 Andrew L. Beam, Ben-jamin Kompa, In-bar Fried,
  []
 
+[2]
+Underfull \hbox (badness 1603) in paragraph at lines 13--18
+\OT1/ptm/m/n/10 mi-nol-ogy.  \OT1/ptm/m/it/10 Nu-cleic Acids Re-search\OT1/ptm/
+m/n/10 , 32(Database
+ []
 
-Underfull \hbox (badness 3668) in paragraph at lines 42--47
+
+Underfull \hbox (badness 3668) in paragraph at lines 49--54
 \OT1/ptm/m/n/10 Xu.  2018.  Lever-ag-ing ex-ist-ing cor-pora for
  []
 
-) [3] (psych_embed_proposal.aux) ) 
+
+Underfull \hbox (badness 2376) in paragraph at lines 57--63
+[]\OT1/ptm/m/n/10 Thomas H. Mc-Coy, Vic-tor M. Cas-tro, Ash-lee M.
+ []
+
+
+Underfull \hbox (badness 1005) in paragraph at lines 57--63
+\OT1/ptm/m/n/10 Rober-son, Leslie A. Snap-per, and Roy H. Perlis.
+ []
+
+) [3
+
+] (psych_embed_proposal.aux) ) 
 Here is how much of TeX's memory you used:
- 398 strings out of 492970
- 5681 string characters out of 3135854
+ 400 strings out of 492970
+ 5757 string characters out of 3135854
  68726 words of memory out of 3000000
- 4310 multiletter control sequences out of 15000+200000
+ 4312 multiletter control sequences out of 15000+200000
  17448 words of font info for 41 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 23i,9n,20p,1275b,256s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/
-base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9
-/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
-times/utmri8a.pfb>
-Output written on psych_embed_proposal.pdf (3 pages, 76889 bytes).
+ 23i,9n,20p,1397b,256s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base
+/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/time
+s/utmri8a.pfb>
+Output written on psych_embed_proposal.pdf (3 pages, 78044 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
