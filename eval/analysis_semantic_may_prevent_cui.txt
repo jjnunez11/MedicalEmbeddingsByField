@@ -1,0 +1,4 @@
+number of queries: 70
+DeVine_etal_200.txt,18.5714,13,34.4684,24.1279,Enoxaparin,Thromboembolism,57.1429,40
+claims_cuis_hs_300.txt,8.5714,6,28.0233,19.6163,Allopurinol,GOTA,55.7143,39
+stanford_cuis_svd_300.txt,38.5714,27,30.9468,21.6628,pyridoxine,Drug toxicity,48.5714,34

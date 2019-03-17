@@ -7,9 +7,12 @@ from scipy.spatial.distance import cdist
 from scipy.stats import pearsonr
 from scipy.stats import spearmanr
 from multiprocessing import Process, Queue
+from pathlib import Path
+
+data_folder = Path("../data")
 
 def get_cui_concept_mappings():
-    concept_to_cui_hdr = '2b_concept_ID_to_CUI.txt'
+    concept_to_cui_hdr = str(data_folder / '2b_concept_ID_to_CUI.txt')
     concept_to_cui = {}
     cui_to_concept = {}
     with open(concept_to_cui_hdr, 'r') as infile:
@@ -25,7 +28,7 @@ def get_cui_concept_mappings():
 # MRCONSO.RRF is a file that needs to be downloaded from the UMLS Metathesaurus
 def get_CUI_to_description():
     cui_to_description = {} 
-    with open('MRCONSO.RRF', 'r') as infile:
+    with open(str(data_folder / 'MRCONSO.RRF'), 'r') as infile:
         lines = infile.readlines()
         for row in lines:
             datum = row.strip().split('|')
@@ -34,7 +37,7 @@ def get_CUI_to_description():
     return cui_to_description
 
 def get_CUI_to_type():
-    CUI_to_type_hdr = 'MRSTY.RRF'
+    CUI_to_type_hdr = str(data_folder /  'MRSTY.RRF')
     CUI_to_type_map = {}
     with open(CUI_to_type_hdr, 'r') as infile:
         lines = infile.readlines()
@@ -62,7 +65,7 @@ def read_embedding_matrix(filename):
             cui = datum[0]
             if cui[0] != 'C':
                 if cui in concept_to_cui:
-                    cui = concept_to_cui[cui]
+                    cui = concept_to_cui[cui].strip() # JJN added to remove \n
             embedding_matrix[idx,:] = np.array(map(float, datum[1:]))
             idx_to_cui[idx] = cui
             cui_to_idx[cui] = idx
@@ -101,7 +104,7 @@ def generate_overlapping_sets(filenames):
             idx_of_overlapping_cuis[filename].append(embedding_idx_cui[filename][2][cui])
     filename_to_embedding_matrix = {}
     for filename in filenames:
-        idx_of_overlapping_cuis[filename] = np.array(idx_of_overlapping_cuis[filename])
+        idx_of_overlapping_cuis[filename] = np.array(idx_of_overlapping_cuis[filename]).astype(int) #JJN added due to change in numpy
         filename_to_embedding_matrix[filename] = embedding_idx_cui[filename][0][idx_of_overlapping_cuis[filename]]
     return filename_to_embedding_matrix, idx_to_cui, cui_to_idx
 
@@ -225,9 +228,9 @@ def get_all_target_analogies(ref_idx, seed_idx, query_to_targets, embedding_matr
 
 def get_drug_diseases_to_check(concept_filename, cui_to_idx):
     query_to_targets = {}
-    outfile = open('drug_disease_' + concept_filename.split('/')[-1] , 'w')
+    outfile = open(str(data_folder / ('drug_disease_' + concept_filename.split('/')[-1])), 'w')
     cui_to_description = get_CUI_to_description()
-    with open(concept_filename, 'r') as infile:
+    with open(str(data_folder / concept_filename), 'r') as infile:
         data = infile.readlines()
         for row in data:
             drug, diseases = row.strip().split(':')

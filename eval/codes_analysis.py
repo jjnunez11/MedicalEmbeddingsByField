@@ -4,12 +4,14 @@ import numpy as np
 import scipy as sp
 from scipy.spatial.distance import cdist
 from icd9 import ICD9
+from pathlib import Path
 
 tree = ICD9('codes.json')
+data_folder = Path("../data")
 
 def get_icd9_pairs(icd9_set):
     icd9_pairs = {}
-    with open('icd9_grp_file.txt', 'r') as infile:
+    with open(str(data_folder / 'icd9_grp_file.txt'), 'r') as infile:
         data = infile.readlines()
         for row in data:
             codes, name = row.strip().split('#')
@@ -37,7 +39,7 @@ def get_icd9_pairs(icd9_set):
 def get_coarse_icd9_pairs(icd9_set): 
     icd9_pairs = {}
     ccs_to_icd9 = {}
-    with open('ccs_coarsest.txt', 'r') as infile:
+    with open(str(data_folder / 'ccs_coarsest.txt'), 'r') as infile:
         data = infile.readlines()
         currect_ccs = ''
         for row in data:
@@ -78,7 +80,7 @@ def get_coarse_icd9_pairs(icd9_set):
     return icd9_pairs
 
 def get_cui_concept_mappings():
-    concept_to_cui_hdr = '2b_concept_ID_to_CUI.txt'
+    concept_to_cui_hdr = str(data_folder / '2b_concept_ID_to_CUI.txt')
     concept_to_cui = {}
     cui_to_concept = {}
     with open(concept_to_cui_hdr, 'r') as infile:
@@ -94,7 +96,7 @@ def get_cui_concept_mappings():
 def get_icd9_cui_mappings():
     cui_to_icd9 = {}
     icd9_to_cui = {}
-    with open('cui_icd9.txt', 'r') as infile:
+    with open(str(data_folder / 'cui_icd9.txt'), 'r') as infile:
         data = infile.readlines()
         for row in data:
             ele = row.strip().split('|')
@@ -110,7 +112,7 @@ def get_icd9_cui_mappings():
 def read_embedding_cui(filename):
     concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
     cui_to_icd9, icd9_to_cui = get_icd9_cui_mappings()
-    with open(filename, 'r') as infile:
+    with open(str(data_folder / filename), 'r') as infile:
         embedding_num, dimension = map(int, infile.readline().strip().split(' '))
         # -1 for remove </s>
         embedding_matrix = np.zeros((embedding_num-1, dimension))
@@ -125,7 +127,7 @@ def read_embedding_cui(filename):
             cui = datum[0]
             if cui[0] != 'C':
                 if cui in concept_to_cui:
-                    cui = concept_to_cui[cui]
+                    cui = concept_to_cui[cui].strip() # JJN Added to remove \n
             embedding_matrix[idx,:] = np.array(map(float, datum[1:]))
             # potential bug here
             if cui in cui_to_icd9:
@@ -140,7 +142,7 @@ def read_embedding_cui(filename):
     
 
 def read_embedding_codes(filename):
-    with open(filename, 'r') as infile:
+    with open(str(data_folder / filename), 'r') as infile:
         embedding_num, dimension = map(int, infile.readline().strip().split(' '))
         # -1 for remove </s>
         embedding_matrix = np.zeros((embedding_num-1, dimension))
@@ -203,14 +205,14 @@ def generate_overlapping_sets(filenames_type):
 
     filename_to_embedding_matrix = {}
     for filename, embedding_type in filenames_type:
-        idx_of_overlapping_icd9s[filename] = np.array(idx_of_overlapping_icd9s[filename])
+        idx_of_overlapping_icd9s[filename] = np.array(idx_of_overlapping_icd9s[filename]).astype(int) #JJN added due to change in numpy
         filename_to_embedding_matrix[filename] = embedding_idx_icd9[filename][0][idx_of_overlapping_icd9s[filename]]
     return filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx
 
 
 def get_icd9_to_description():
     icd9_to_description = {}
-    with open('CMS32_DESC_LONG_DX.txt', 'r') as infile:
+    with open(str(data_folder / 'CMS32_DESC_LONG_DX.txt'), 'r') as infile:
         data = infile.readlines()
         for row in data:
             icd9 = row.strip()[:6].strip()

@@ -1,0 +1,4 @@
+number of queries: 435
+DeVine_etal_200.txt,12.1839,53,31.3529,136.3851,podophyllin,Condylomata Acuminata,53.1034,231
+claims_cuis_hs_300.txt,19.0805,83,36.6942,159.6196,Nicotine,TABAKO ABUSUA,59.5402,259
+stanford_cuis_svd_300.txt,51.7241,225,34.9404,151.9906,Bumetanide,Hypertensive disease,52.6437,229
