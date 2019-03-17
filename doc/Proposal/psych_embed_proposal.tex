@@ -1,0 +1,285 @@
+%
+% Based on File hlt-naacl2004.tex
+%
+
+
+\documentclass[10pt]{article}
+\usepackage{hltnaacl04}
+\usepackage{times}
+\usepackage{latexsym}
+
+
+\setlength\titlebox{6.5cm}    % Expanding the titlebox
+
+\title{Project Proposal: Do Word Embeddings Trained on General Medical Data Work for Psychiatric Concepts?}
+
+\author{John-Jose Nunez\\
+  Depts. of Psychiatry and Computer Science, UBC\\
+  {\tt jjnunez11@gmail.com} 
+}
+\date{}
+
+\begin{document}
+\maketitle
+%\begin{abstract}
+%\end{abstract}
+
+\section{Introduction and Proposed Contribution}
+
+\subsection{Background}
+
+The application of natural language processing and machine learning to medicine presents an exciting opportunity for tasks requiring prediction and classification, such as predicting the risk of suicide after a patient is discharged from hospital \cite{mccoyImprovingPredictionSuicide2016}. A common approach is to convert the unstructured text produced by clinical interactions into low-dimension vector representations which can fed into these algorithms. These vectorizations are produced by training models on large unlabelled corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model, training a vector for a target word based on what words are found within a window near it. It was initially trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained medical embeddings using specific medical sources. 
+
+Recent approaches in this vein include De Vine et al \shortcite{devineMedicalSemanticSimilarity2014} which trained embeddings for medical concepts in the Unified Library Management System (ULMS) \cite{bodenreiderUnifiedMedicalLanguage2004} using journal abstracts from MEDLINE as well as with clinical patient records. They then used these embeddings to compare predicted word similarity against human-judgements. Minarro-Gimenez et al \shortcite{minarro-gimenezExploringApplicationDeep2014} trained embeddings using medical manuals, articles, and Wikipedia articles, comparing predicted vector similarity between medications against the National Drug File - Reference Terminology (NDF-RT) ontology. Choi et al \cite{choiLearningLowDimensionalRepresentations2016} improved on this work by learning on large-scale health record data consisting of raw text from clinical notes mapped to concepts from UMLS. In their yet unpublished work, Beam et al \cite{beamClinicalConceptEmbeddings2018} use an ``extremely large'' database of clinical notes, insurance claims, and full journal texts, and develop a new system termed ``cui2vec'', mapping concepts into a set of unique identifiers based on UMLS, and then training vectors for these identifiers based on the occurrences of other identifiers within a certain window length. 
+
+All of the above examples were both trained and evaluated on general medical data, from all fields of medicine. It is unclear how these models perform in specific fields of medicine. This may be especially true in the medical speciality of psychiatry, the field of medicine concerned with mental illness such as depression or schizophrenia. Prior work has shown that psychiatric symptoms are often described in a long, varied, and subjective manner \cite{forbushSittingPinsNeedles2013} which may present a particular challenge for NLP.
+
+Prior work has explored whether domain adaptation (DA), techniques to adapt data from other domains to work on a target, can improve performance when applied to this sub-domain of psychiatry. Lee et al \cite{leeLeveragingExistingCorpora2018} used these techniques to improve the task of de-identifying psychiatric notes. Zhang et al \cite{zhangAdaptingWordEmbeddings2018} then applied DA to word embeddings trained from general language and medical sources, showing some improvements when targeting a psychiatric dataset. 
+
+\subsection{Contribution}
+
+This project aims to advance the application of word embedding techniques in psychiatry. Specifically, we will seek to  determine whether embeddings trained on general medical data perform as well on psychiatric content as they do on other domains within medicine. We are unaware of prior work investigating this. We will compare multiple techniques for embeddings and evaluation. This will help determine generally how well these performance on psychiatric concepts, and whether various attributes may help or hinder this applicability, such as embeddings trained on larger training sets, or the use of DA.  This may impact future work by suggesting if psychiatric applications should use general-medicine trained embeddings, or those trained only on domain-specific data.  
+
+
+\section{Proposed Methodology}
+
+Generally, the project will deploy the embeddings of prior projects, using their evaluation methods to compare performance on psychiatric concepts with those from other fields of medicine. The comparison will be made with broader fields of medicine such as internal medicine, and those that are similarly specialized like ophthalmology. 
+
+We will compare the following embeddings/techniques, all of implement or are based upon word2vec:
+\begin{itemize}
+	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014} embeddings trained on medical records and abstracts.  
+	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014} embeddings trained on medical manuals and articles, Wikipedia.
+	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}'s two sets of embeddings trained differently using raw data mapped to a matrix based on UMLS techniques.  
+	\item Zhang et al's \shortcite{zhangAdaptingWordEmbeddings2018} best performing embeddings using domain-adaptation techniques. 
+	\item Beam et al's cui2vec embeddings trained on health insurance claims and full journal texts. 
+\end{itemize}
+
+The evaluation techniques to be replicated and used to determine psychatry-specific performance:
+\begin{itemize}
+	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014}'s evaluation framework, comparing predicted vector similarity against human judgements.
+	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014}'s metric of predicting relationships between drugs based on the NDF-RT. 
+	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Conceptual Similarity Property, comparing predicted vector similarity with whether concepts are neighbouring in UMLS. 
+	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Medical Relatedness Property, comparing predicted vector similarity with relatedness according to NDF-RT and the ICD9 groupings, based on these database's item relations such as ``may-treat'' and ``may-prevent''. 
+	\item Beam et al's \shortcite{beamClinicalConceptEmbeddings2018} statistical score based on whether known similarities in UMLS, NDF-RT and other work are predicted correctly in at least 95\% of bootstrapped samples of pairs of concepts. 
+\end{itemize}
+
+In order to determine which psychiatric and non-psychiatric terms should be compared, the most common concepts shall be used. For instance, we will compare the most commonly prescribed psychiatric and non-psychiatric drugs, or the most common diagnoses, based on prior epidemiology, in order to compare common, well described concepts.
+
+\subsection{Current Data Availability}
+
+Of the five works mentioned above, two have their data publicly available for download, one does not but has previously shared data with other authors, one is fully published so will likely share, and one is planning to share, but only when they are published. Relevant authors have been or will be contacted. 
+
+\subsection{Project Flexibility and Extensibility}
+
+At a minimum, this project will use the available embeddings, and implement the evaluation metrics whose code is available, or whose description is sufficient to allow replication. An extensible system will be used such that future embeddings, when available, can be easily incorporated and compared. It is expected that, even if not all embeddings are available by the project due data, the implementation of the embeddings and evaluation metrics available will be the majority of the work for the total project, and will yield a sizeable contribution. 
+
+If the proposed methodology is implemented easily and quickly, a possible extension will be determine the feasibility of training new embeddings based only on psychiatric data, such as using a subset of the matrix used by Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}; we could try only using the portion of the matrix with terms related to psychiatry. 
+
+Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so for psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in and outside of psychiatry, or a similar set of articles from the medical practice manual and learning resource UpToDate.
+
+In the longer term, this project may be applicable to a separate project applying NLP and ML techniques to a large BC Cancer clinical dataset consistency of the medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
+
+\section{Expected Results}
+
+Due to the uniqueness of psychiatry, we expect the various embeddings will generally perform worse when used for psychiatric concepts than those not in this speciality. We expected that the performance the various embeddings/techniques that work better generally will also work better for psychiatric content. However, it would not be overly surprising if the embeddings trained on larger dataset may perform worse for psychiatric terms, as the psychiatric-specific meaning of a word may get ``drowned-out'' more in larger datasets. 
+%
+%
+%\section{Format of Electronic Manuscript}
+%\label{sect:pdf}
+%
+%For the production of the electronic manuscript you must use Adobe's
+%Portable Document Format (PDF). This format can be generated from
+%postscript files: on Unix systems, you can use {\tt ps2pdf} for this
+%purpose; under Microsoft Windows, Adobe's Distiller can be used.  Note
+%that some word processing programs generate PDF which may not include
+%all the necessary fonts (esp. tree diagrams, symbols). When you print
+%or create the PDF file, there is usually an option in your printer
+%setup to include none, all or just non-standard fonts.  Please make
+%sure that you select of the option of including ALL the fonts.  {\em
+%  Before sending it, test your {\/\em PDF} by printing it from a
+%  computer different from the one where it was created}. Moreover,
+%some word processor may generate very large postscript/PDF files,
+%where each page is rendered as an image. Such images may reproduce
+%poorly.  In this case, try alternative ways to obtain the postscript
+%and/or PDF.  One way on some systems is to install a driver for a
+%postscript printer, send your document to the printer specifying
+%``Output to a file'', then convert the file to PDF.
+%
+%For reasons of uniformity, Adobe's {\bf Times Roman} font should be
+%used. In \LaTeX2e{} this is accomplished by putting
+%
+%\begin{quote}
+%\begin{verbatim}
+%\usepackage{times}
+%\usepackage{latexsym}
+%\end{verbatim}
+%\end{quote}
+%in the preamble.
+%
+%Additionally, it is of utmost importance to specify the US {\bf
+%  US-Letter format} (8.5in $\times$ 11in) when formatting the paper.
+%When working with {\tt dvips}, for instance, one should specify {\tt
+%  -t letter}.
+%
+%
+%\subsection{Layout}
+%\label{ssec:layout}
+%
+%Manuscripts should have two columns to a page, in the manner these
+%instructions are printed. The exact dimensions for a page on US-letter
+%paper are:
+%
+%\begin{itemize}
+%\item Left and right margins: 1in
+%\item Top margin:1in
+%\item Bottom margin: 1in
+%\item Columns width: 3.15in
+%\item Column height: 9in
+%\item Gap between columns: 0.2in
+%\end{itemize}
+%
+%
+%\subsection{The First Page}
+%\label{ssec:first}
+%
+%Center the title, (s) and affiliation(s) across both
+%columns. Do not use footnotes for affiliations.  Do not include the
+%paper ID number that was assigned during the submission process. 
+%Use the two-column format only when you begin the abstract.
+%
+%{\bf Title}: Place the title centered at the top of the first page, in
+%a 15-point bold font. Long title should be typed on two lines without
+%a blank line intervening. Approximately, put the title at 1in from the
+%top of the page, followed by a blank line, then the author's names(s),
+%and the affiliation on the following line.  Do not use only initials
+%for given names (middle initials are allowed). The affiliation should
+%contain the author's complete address, and if possible an electronic
+%mail address. Leave about 0.75in between the affiliation and the body
+%of the first page.
+%
+%{\bf Abstract}: Type the abstract at the beginning of the first
+%column.  The width of the abstract text should be smaller than the
+%width of the columns for the text in the body of the paper by about
+%0.25in on each side.  Center the word {\bf Abstract} in a 12 point
+%bold font above the body of the abstract. The abstract should be a
+%concise summary of the general thesis and conclusions of the paper.
+%It should be no longer than 200 words.
+%
+%{\bf Text}: Begin typing the main body of the text immediately after
+%the abstract, observing the two-column format as shown in 
+%the present document. Type single spaced. 
+%{\bf Indent} when starting a new paragraph. 
+%
+%{\bf Font:} 
+%For reasons of uniformity,
+%use Adobe's {\bf Times Roman} fonts, with 10 points for text and 
+%subsection headings, 12 points for section headings and 15 points for
+%the title. If Times Roman is unavailable, use {\bf Computer Modern
+%  Roman} (\LaTeX2e{}'s default; see section \ref{sect:pdf} above).
+%Note that the latter is about 10\% less dense than Adobe's Times Roman
+%font.  
+%
+%\subsection{Sections}
+%
+%{\bf Headings}: Type and label section and subsection headings in the
+%style shown on the present document.  Use numbered sections (Arabic
+%numerals) in order to facilitate cross references. Number subsections
+%with the section number and the subsection number separated by a dot,
+%in Arabic numerals. Do not number subsubsections.
+%
+%{\bf Citations}: Follow the ``Guidelines for Formatting Submissions''
+%to {\em Computational Linguistics\/} that appears in the first issue of
+%each volume, if possible.  That is, citations within the text appear
+%in parentheses as~\cite{Gusfield:97} or, if the author's name appears in
+%the text itself, as Gusfield~\shortcite{Gusfield:97}. 
+%Append lowercase letters to the year in cases of ambiguities.  
+%Treat double authors as in~\cite{Aho:72}, but write as 
+%in~\cite{Chandra:81} when more than two authors are involved. 
+%Collapse multiple citations as in~\cite{Gusfield:97,Aho:72}.
+%
+%\textbf{References}: Gather the full set of references together under
+%the heading {\bf References}; place the section before any Appendices,
+%unless they contain references. Arrange the references alphabetically
+%by first author, rather than by order of occurrence in the text.
+%Provide as complete a citation as possible, using a consistent format,
+%such as the one for {\em Computational Linguistics\/} or the one in the 
+%{\em Publication Manual of the American 
+%Psychological Association\/}~\cite{APA:83}.  Use of full names for
+%authors rather than initials is preferred.  A list of abbreviations
+%for common computer science journals can be found in the ACM 
+%{\em Computing Reviews\/}~\cite{ACM:83}.
+%
+%The provided \LaTeX{} and Bib\TeX{} style files roughly fit the
+%American Psychological Association format, allowing regular citations, 
+%short citations and multiple citations as described above.
+%
+%{\bf Appendices}: Appendices, if any, directly follow the text and the
+%references (but see above).  Letter them in sequence and provide an
+%informative title: {\bf Appendix A. Title of Appendix}.
+%
+%\textbf{Acknowledgements} sections should go as a last section immediately
+%before the references.  Do not number the acknowledgement section.
+%
+%\subsection{Footnotes}
+%
+%{\bf Footnotes}: Put footnotes at the bottom of the page. They may
+%be numbered or referred to by asterisks or other
+%symbols.\footnote{This is how a footnote should appear.} Footnotes
+%should be separated from the text by a line.\footnote{Note the
+%line separating the footnotes from the text.}
+%
+%\subsection{Graphics}
+%
+%{\bf Illustrations}: Place figures, tables, and photographs in the
+%paper near where they are first discussed, rather than at the end, if
+%possible.  Wide illustrations may run across both columns. Do not use
+%color illustrations as they may reproduce poorly.
+%
+%{\bf Captions}: Provide a caption for every illustration; number each one
+%sequentially in the form:  ``Figure 1. Caption of the Figure.'' ``Table 1.
+%Caption of the Table.''  Type the captions of the figures and 
+%tables below the body, using 10 point text.  
+
+
+\bibliographystyle{acl}
+\bibliography{my_library}{}
+
+%
+%\begin{thebibliography}{}
+%	
+%
+%	
+%
+%\bibitem[\protect\citename{Aho and Ullman}1972]{Aho:72}
+%Alfred~V. Aho and Jeffrey~D. Ullman.
+%\newblock 1972.
+%\newblock {\em The Theory of Parsing, Translation and Compiling}, volume~1.
+%\newblock Prentice-{Hall}, Englewood Cliffs, NJ.
+%
+%\bibitem[\protect\citename{{American Psychological Association}}1983]{APA:83}
+%{American Psychological Association}.
+%\newblock 1983.
+%\newblock {\em Publications Manual}.
+%\newblock American Psychological Association, Washington, DC.
+%
+%\bibitem[\protect\citename{{Association for Computing Machinery}}1983]{ACM:83}
+%{Association for Computing Machinery}.
+%\newblock 1983.
+%\newblock {\em Computing Reviews}, 24(11):503--512.
+%
+%\bibitem[\protect\citename{Chandra \bgroup et al.\egroup }1981]{Chandra:81}
+%Ashok~K. Chandra, Dexter~C. Kozen, and Larry~J. Stockmeyer.
+%\newblock 1981.
+%\newblock Alternation.
+%\newblock {\em Journal of the Association for Computing Machinery},
+%  28(1):114--133.
+%
+%\bibitem[\protect\citename{Gusfield}1997]{Gusfield:97}
+%Dan Gusfield.
+%\newblock 1997.
+%\newblock {\em Algorithms on Strings, Trees and Sequences}.
+%\newblock Cambridge University Press, Cambridge, UK.
+%
+%\end{thebibliography}
+
+\end{document}

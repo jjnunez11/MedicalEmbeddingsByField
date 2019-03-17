@@ -1,0 +1,5 @@
+data/stanford_cuis_svd_300.txt
+data/devine_etal_200.txt
+data/claims_cuis_hs_300.txt
+data/claims_codes_hs_300.txt
+eval/MRCONSO.RRF
