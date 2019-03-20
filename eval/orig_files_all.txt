@@ -1,3 +1,4 @@
 DeVine_etal_200.txt,cui
 claims_codes_hs_300.txt,codes
 stanford_cuis_svd_300.txt,cui
+cui2vec_pretrained.csv,cui

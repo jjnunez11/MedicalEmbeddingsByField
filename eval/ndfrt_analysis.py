@@ -50,18 +50,30 @@ def get_CUI_to_type():
                 CUI_to_type_map[CUI].append(type)
     return CUI_to_type_map
 
-
+# JJN changed to support csv embedding files
 def read_embedding_matrix(filename):
     concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
+    
+    # Assume embedding files with .txt are deliminated with ' ' and ',' if .csv
+    if filename.endswith('.txt'):
+        delim = ' '
+    elif filename.endswith('.csv'):
+        delim = ','
+    else:
+        raise Exception('embedding file must be .txt or .csv depending on deliminator')
+            
     with open(filename, 'r') as infile:
-        embedding_num, dimension = map(int, infile.readline().strip().split(' '))
+        first_line = infile.readline().strip().split(delim)
+        embedding_num = int(first_line[0])
+        dimension = int(first_line[1])
+        #embedding_num, dimension = map(int, infile.readline().strip().split(delim))
         # -1 for remove </s>
         embedding_matrix = np.zeros((embedding_num-1, dimension))
         data = infile.readlines() 
         idx_to_cui = {}
         cui_to_idx = {}
         for idx in xrange(embedding_num-1):
-            datum = data[idx+1].strip().split(' ')
+            datum = data[idx+1].strip().split(delim)
             cui = datum[0]
             if cui[0] != 'C':
                 if cui in concept_to_cui:
