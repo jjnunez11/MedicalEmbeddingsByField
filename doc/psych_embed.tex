@@ -5,7 +5,10 @@
 \usepackage{hltnaacl04}
 \usepackage{times}
 \usepackage{latexsym}
-
+\usepackage{hyperref}
+\usepackage{pgfplotstable}
+\usepackage{csvsimple}
+\usepackage{pgfplotstable}
 
 \setlength\titlebox{6.5cm}    % Expanding the titlebox
 
@@ -55,14 +58,38 @@ We will compare the following embeddings/techniques, all of implement or are bas
 The evaluation techniques to be replicated and used to determine psychatry-specific performance:
 \begin{itemize}
 	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014}'s evaluation framework, comparing predicted vector similarity against human judgements, using the evaluation from \cite{koopmanEvaluationCorpusdrivenMeasures2012} which compares predicted similarity against human judgements from \cite{pedersenMeasuresSemanticSimilarity2007} and \cite{caviedesDevelopmentConceptualDistance2004}.
+	\subitem I remember seeing these, where did we put them? Enough psych to matter?
 	\item Comparison against the UMNSRS benchmark per \cite{yuRetrofittingConceptVector2017}.
+	\subitem About 500 relations. However, include drugs, disorders, symptoms. Could do a cui2icd? Or hand annotate? Downloaded the file into data. Maybe use 'may treat into icd9's to figure out what system'? Or perhaps symptoms are related as well
 	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014}'s metric of predicting relationships between drugs based on the NDF-RT. 
+	\subitem Figure out if this is different enough from the first Choi one 
 	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Conceptual Similarity Property, comparing predicted vector similarity with whether concepts are neighbouring in UMLS. 
+	\subitem Look at more; weird performance and unsure how to consider vs others
 	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Medical Relatedness Property, comparing predicted vector similarity with relatedness according to NDF-RT and the ICD9 groupings, based on these database's item relations such as ``may-treat'' and ``may-prevent''. 
+	\item Done, still look at top 10 maybe
 	\item Beam et al's \shortcite{beamClinicalConceptEmbeddings2018} statistical score based on whether known similarities in UMLS, NDF-RT and other work are predicted correctly in at least 95\% of bootstrapped samples of pairs of concepts. 
+	\subitem No code yet, sigh. Work on others first. Will need way to systemize drugs, non-disorders.
 \end{itemize}
 
 In order to determine which psychiatric and non-psychiatric terms should be compared, the most common concepts shall be used. For instance, we will compare the most commonly prescribed psychiatric and non-psychiatric drugs, or the most common diagnoses, based on prior epidemiology, in order to compare common, well described concepts.
+
+For top diagnoses: Could access fancy Canadian Data with a data request per emails from librarians. Or, can use top diagonses cards from ACP from ICD 10 \href{https://www.acponline.org/system/files/documents/running_practice/payment_coding/coding/icd10_coding_card.pdf}{here} or ICD 9 version which seems to skip mental disorders. Or could just do a "top 10" and show quality for all of those.
+
+
+\section{Methods}
+
+\subsection{Obtaining Data}
+
+The embeddings from De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014} and both from Choi et al were obtained from the \href{https://github.com/clinicalml/embeddings}{later's website}. Beam et al's cui2vec embeddings were downloaded from \href{https://figshare.com/s/00d69861786cd0156d81}{this site}. The corresponding author for the remaining embeddings from Minarro-Gimenez and Zhang were contacted, but a response was not received. Miarro-Gimenez's project files are available at \href{https://code.google.com/archive/p/biomedical-text-exploring-tools/}{this code archive site} but lack documentation and could not be accessed. 
+
+TODO: Try to extract the embeddings. Probably accessed by TestClientThreadWord2vec.java, try opening it up in Eclipse, maybe can modify it and retrieve them. 
+
+\subsection{Evaluation}
+
+We reimplemented Choi et al's Medical Relatedness Property metric by extending their code to calculate this property for specific domains of medicine. First, we calculate this propertry for all concepts repersented by ICD-9 CM codes with each system. TODO: we then repeated this amongst the most popular diagnoses within each category. TODO ANOVA was performed to determine the significance of differences between systems and embeddings. 
+
+
+ 
 
 \subsection{Current Data Availability}
 
@@ -77,6 +104,33 @@ If the proposed methodology is implemented easily and quickly, a possible extens
 Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so for psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in and outside of psychiatry, or a similar set of articles from the medical practice manual and learning resource UpToDate.
 
 In the longer term, this project may be applicable to a separate project applying NLP and ML techniques to a large BC Cancer clinical dataset consistency of the medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
+
+\section{Results}
+
+
+%\csvautotabular{css_by_system_results.csv}
+
+Using Choi et al's Medical Relatedness Property, we see the embeddings performance on all codes within each ICD-9 system in Table~\ref{table1able1}. TODO ANOVA. We then repeat this for the most common diagnoses, finding the following results in Table. In this case, ANOVA shows:
+
+\begin{table*}
+	\begin{center}
+		\caption{Medical Relatedness Property Across All ICD-9 Diagnoses Within Systems.}
+		\label{table1}
+		\pgfplotstabletypeset[
+			col sep=comma,
+			string type,
+			columns/name/.style={column name=Name, column type={|l}},
+			columns/surname/.style={column name=Surname, column type={|l}},
+			columns/age/.style={column name=Age, column type={|c|}},
+			every head row/.style={before row=\hline,after row=\hline},
+			every last row/.style={after row=\hline},
+			]{../results/css_by_system_results.csv}
+  \end{center}
+\end{table*}
+
+
+
+
 
 \section{Expected Results}
 

@@ -1,0 +1,107 @@
+all
+DeVine_etal_200.txt & 24.55 \\
+claims_codes_hs_300.txt & 47.56 \\
+stanford_cuis_svd_300.txt & 37.42 \\
+cui2vec_pretrained.csv & 51.97 \\
+
+infectious and parasitic disease
+DeVine_etal_200.txt & 25.49 \\
+claims_codes_hs_300.txt & 30.13 \\
+stanford_cuis_svd_300.txt & 25.70 \\
+cui2vec_pretrained.csv & 36.17 \\
+
+neoplasms
+DeVine_etal_200.txt & 30.51 \\
+claims_codes_hs_300.txt & 50.30 \\
+stanford_cuis_svd_300.txt & 35.97 \\
+cui2vec_pretrained.csv & 52.14 \\
+
+endocrine, nutritional and metabolic diseases, and immunity disorders
+DeVine_etal_200.txt & 27.41 \\
+claims_codes_hs_300.txt & 43.87 \\
+stanford_cuis_svd_300.txt & 32.76 \\
+cui2vec_pretrained.csv & 45.77 \\
+
+diseases of the blood and blood-forming organs
+DeVine_etal_200.txt & 21.67 \\
+claims_codes_hs_300.txt & 36.76 \\
+stanford_cuis_svd_300.txt & 34.65 \\
+cui2vec_pretrained.csv & 39.87 \\
+
+mental disorders
+DeVine_etal_200.txt & 30.98 \\
+claims_codes_hs_300.txt & 49.10 \\
+stanford_cuis_svd_300.txt & 42.35 \\
+cui2vec_pretrained.csv & 56.47 \\
+
+diseases of the nervous system and sense organs
+DeVine_etal_200.txt & 34.80 \\
+claims_codes_hs_300.txt & 67.47 \\
+stanford_cuis_svd_300.txt & 57.57 \\
+cui2vec_pretrained.csv & 72.49 \\
+
+diseases of the circulatory system
+DeVine_etal_200.txt & 27.72 \\
+claims_codes_hs_300.txt & 43.17 \\
+stanford_cuis_svd_300.txt & 36.51 \\
+cui2vec_pretrained.csv & 52.13 \\
+
+diseases of the respiratory system
+DeVine_etal_200.txt & 23.01 \\
+claims_codes_hs_300.txt & 38.93 \\
+stanford_cuis_svd_300.txt & 26.32 \\
+cui2vec_pretrained.csv & 38.12 \\
+
+diseases of the digestive system
+DeVine_etal_200.txt & 21.11 \\
+claims_codes_hs_300.txt & 57.95 \\
+stanford_cuis_svd_300.txt & 35.60 \\
+cui2vec_pretrained.csv & 59.22 \\
+
+diseases of the genitourinary system
+DeVine_etal_200.txt & 15.96 \\
+claims_codes_hs_300.txt & 57.17 \\
+stanford_cuis_svd_300.txt & 42.63 \\
+cui2vec_pretrained.csv & 68.58 \\
+
+complications of pregnancy, childbirth, and the puerperium
+DeVine_etal_200.txt & 16.17 \\
+claims_codes_hs_300.txt & 32.84 \\
+stanford_cuis_svd_300.txt & 32.64 \\
+cui2vec_pretrained.csv & 40.82 \\
+
+diseases of the skin and subcutanous tissue
+DeVine_etal_200.txt & 12.69 \\
+claims_codes_hs_300.txt & 37.36 \\
+stanford_cuis_svd_300.txt & 21.51 \\
+cui2vec_pretrained.csv & 43.93 \\
+
+diseases of the musculoskeletal system and connective tissue
+DeVine_etal_200.txt & 17.72 \\
+claims_codes_hs_300.txt & 48.18 \\
+stanford_cuis_svd_300.txt & 38.46 \\
+cui2vec_pretrained.csv & 44.45 \\
+
+congenital anomalies
+DeVine_etal_200.txt & 22.95 \\
+claims_codes_hs_300.txt & 29.10 \\
+stanford_cuis_svd_300.txt & 22.92 \\
+cui2vec_pretrained.csv & 43.23 \\
+
+certain conditions originating in the perinatal period
+DeVine_etal_200.txt & 25.93 \\
+claims_codes_hs_300.txt & 17.08 \\
+stanford_cuis_svd_300.txt & 9.17 \\
+cui2vec_pretrained.csv & 36.40 \\
+
+symptoms, signs, and ill-defined conditions
+DeVine_etal_200.txt & 20.08 \\
+claims_codes_hs_300.txt & 38.14 \\
+stanford_cuis_svd_300.txt & 25.57 \\
+cui2vec_pretrained.csv & 34.07 \\
+
+injury and poisoning
+DeVine_etal_200.txt & 9.44 \\
+claims_codes_hs_300.txt & 35.06 \\
+stanford_cuis_svd_300.txt & 37.38 \\
+cui2vec_pretrained.csv & 37.69 \\

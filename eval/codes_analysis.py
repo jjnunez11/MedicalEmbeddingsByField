@@ -5,9 +5,11 @@ import scipy as sp
 from scipy.spatial.distance import cdist
 from icd9 import ICD9
 from pathlib import Path
+import re
 
 tree = ICD9('codes.json')
 data_folder = Path("../data")
+results_folder = Path("../results")
 
 def get_icd9_pairs(icd9_set):
     icd9_pairs = {}
@@ -181,7 +183,7 @@ def generate_overlapping_sets(filenames_type):
     overlapping_icd9s = set([])
     start = 1
 
-    for filename, embedding_type in filenames_type:
+    for filename, embedding_type, _ in filenames_type:
         #print filename
         #print embedding_type
         if embedding_type == 'codes':
@@ -205,7 +207,7 @@ def generate_overlapping_sets(filenames_type):
     overlapping_icd9s = list(overlapping_icd9s)
 
     idx_of_overlapping_icd9s = {}
-    for filename, embedding_type in filenames_type:
+    for filename, embedding_type, _ in filenames_type:
         idx_of_overlapping_icd9s[filename] = []
 
     idx_to_icd9 = {}
@@ -213,11 +215,11 @@ def generate_overlapping_sets(filenames_type):
     for idx, icd9 in enumerate(overlapping_icd9s):
         idx_to_icd9[idx] = icd9
         icd9_to_idx[icd9] = idx
-        for filename, embedding_type in filenames_type:
+        for filename, embedding_type, _ in filenames_type:
             idx_of_overlapping_icd9s[filename].append(embedding_idx_icd9[filename][2][icd9])
 
     filename_to_embedding_matrix = {}
-    for filename, embedding_type in filenames_type:
+    for filename, embedding_type, _ in filenames_type:
         idx_of_overlapping_icd9s[filename] = np.array(idx_of_overlapping_icd9s[filename]).astype(int) #JJN added due to change in numpy
         filename_to_embedding_matrix[filename] = embedding_idx_icd9[filename][0][idx_of_overlapping_icd9s[filename]]
     return filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx
@@ -262,7 +264,7 @@ def get_css_analysis(filenames_type, num_of_neighbor, type='f'):
 
     filename_all = []
     value_all = []
-    for filename, embedding_type in filenames_type:
+    for filename, embedding_type, _ in filenames_type:
         #print filename
         icd9_embeddings = filename_to_embedding_matrix[filename]
         Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')
@@ -307,19 +309,19 @@ def get_css_analysis(filenames_type, num_of_neighbor, type='f'):
     return filename_all, value_all
 
 
-def get_css_analysis_by_system(filenames_type, num_of_neighbor, type='f'):
+def get_css_analysis_by_system(filenames_type, num_of_neighbor, start, end, type='f'):
     filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets(filenames_type)
-    print len(icd9_to_idx.keys())
+    #print len(icd9_to_idx.keys())
     if type == 'c':
         icd9_pairs = get_coarse_icd9_pairs(set(icd9_to_idx.keys()))
     else:
         icd9_pairs = get_icd9_pairs(set(icd9_to_idx.keys()))
 
-    print len(icd9_pairs)
+    #print len(icd9_pairs)
     icd9_to_check = set(icd9_pairs.keys())
     icd9_to_check.intersection_update(set(icd9_to_idx.keys()))
 
-    print len(icd9_to_check)
+    #print len(icd9_to_check)
     
     icd9_to_description = get_icd9_to_description()
     for icd9 in icd9_to_idx.keys():
@@ -328,8 +330,7 @@ def get_css_analysis_by_system(filenames_type, num_of_neighbor, type='f'):
                 icd9_to_description[icd9] = tree.find(icd9).description.encode('utf-8')
             else:
                 icd9_to_description[icd9] = ''
-                
-    
+            
     
     #290 - 319
     # Above is mental disorders.
@@ -337,8 +338,9 @@ def get_css_analysis_by_system(filenames_type, num_of_neighbor, type='f'):
     
     # JJN: Create a set of filtered icd9 codes within the target system, based on the intergers repersenting this system
     ##icd_in_system = filter(lambda x: ((start <= x) and (x < end++)), icd9_to_check)
-    start = 290
-    end = 319
+    
+    ##start = 290
+    ##end = 319
     
     # Remove ICD9 codes that contain an alphanumeric charector, these are 'supplemental/misc', not applicable
     icd9_to_check_noV = [x for x in icd9_to_check if not(any(char.isalpha() for char in x))]
@@ -346,13 +348,9 @@ def get_css_analysis_by_system(filenames_type, num_of_neighbor, type='f'):
     # JJN: Select ICD9 codes pertaining to a specific system according to proivded start, end integer values 
     icd9_in_system = [ x for x in icd9_to_check_noV if start <= float(x) < end + 1]
 
-    
-
-
-
     filename_all = [] 
     value_all = []
-    for filename, embedding_type in filenames_type:
+    for filename, embedding_type, _ in filenames_type:
         #print filename
         icd9_embeddings = filename_to_embedding_matrix[filename]
         Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')
@@ -394,9 +392,49 @@ def get_css_analysis_by_system(filenames_type, num_of_neighbor, type='f'):
             cumulative_ndcgs.append(dcg/best_dcg)
         filename_all.append((filename))
         value_all.append(np.mean(np.array(cumulative_ndcgs)))
-    return filename_all, value_all
+    return filename_all, value_all, len(icd9_in_system)
 
 
+# JJN: Prints the Medical Relatedness Property by ICD9 system
+def print_css_by_system(filenames, num_of_nn=40):
+    # csv file to write results to
+    css_by_system_results = 'css_by_system_results.csv'
+    o = open(str(results_folder / css_by_system_results ), 'w')
+    o.write('ICD9 System,')
+    # Write headers from 3rd entry in orig_files_all.txt
+    o.write(",".join(list(map(lambda x: x[2], filenames))))
+    # Write Examples per System
+    o.write(", Examples in System")
+    
+    # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
+    icd9_systems_file = 'icd9_systems.txt'
+    # Parse above file to get the system names, starts, ends
+    icd9_systems = []
+    with open(icd9_systems_file, 'r') as infile:
+        data = infile.readlines()
+        for row in data:
+            icd9_systems.append(row.strip().split('|'))
+    
+    print 'Medical Relatedness Property by ICD9 system'
+    for system in icd9_systems:
+        system_name = system[0]
+        start = float(system[1])
+        end = float(system[2])
+        
+        filename_to_print, ndcgs_to_print, n_per_system = get_css_analysis_by_system(filenames, num_of_nn, start, end, 'c')
+        # Write ncdgs to file
+        ndcgs_rounded = [round(x*100,2) for x in ndcgs_to_print]
+        ncdgs_str = ','.join(map(str, ndcgs_rounded))
+        o.write('\n' + re.sub(",", " ", system_name) + ',') # Replace commas with space to use as csv
+        o.write(ncdgs_str)
+        o.write(", " + str(n_per_system))
+        # Print ncdfs 
+        print '\n' + system_name
+        for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
+            print '%s & %.2f \\\\' %(file_name.split('/')[-1], ndcg*100)
+        print "Number of examples: " + str(n_per_system)
+        
+    
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -410,14 +448,16 @@ if __name__ == '__main__':
         for row in data:
             filenames.append(row.strip().split(','))
     
-    num_of_nn = 40
+    
     
     ##filename_to_print, finegrain_ndcgs = get_css_analysis(filenames, num_of_nn, 'f')
     ##filename_to_print, coarsegrain_ndcgs = get_css_analysis(filenames, num_of_nn, 'c')
     ##for name, finegrain, coarsegrain in zip(filename_to_print, finegrain_ndcgs, coarsegrain_ndcgs):
     ##    print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], finegrain*100, coarsegrain*100)
     
-    filename_to_print, psych_ndcgs = get_css_analysis_by_system(filenames, num_of_nn, 'c')
-    filename_to_print, coarsegrain_ndcgs = get_css_analysis(filenames, num_of_nn, 'c')
-    for name, psychs, coarsegrain in zip(filename_to_print, psych_ndcgs, coarsegrain_ndcgs):
-        print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], psychs*100, coarsegrain*100)
+    print_css_by_system(filenames)
+    
+    ##filename_to_print, psych_ndcgs = get_css_analysis_by_system(filenames, num_of_nn, 'c')
+    ##filename_to_print, coarsegrain_ndcgs = get_css_analysis(filenames, num_of_nn, 'c')
+    ##for name, psychs, coarsegrain in zip(filename_to_print, psych_ndcgs, coarsegrain_ndcgs):
+    ##    print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], psychs*100, coarsegrain*100)
