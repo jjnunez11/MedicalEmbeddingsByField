@@ -641,7 +641,7 @@ if __name__ == '__main__':
     parser.add_argument("--filenames", default='files_to_process.txt')
     parser.add_argument("--number_of_nn", type=int, default=40, help='the number of neighbors to show')
     parser.add_argument("--number_of_cores", type=int, default=60, help='the number of cores to use')
-    parser.add_argument("--concept_file", default='ndf-rt/may_treat_cui.txt', help='input the concept file for query')
+    parser.add_argument("--concept_file", default='may_treat_cui.txt', help='input the concept file for query')
     args = parser.parse_args()
     analysis_type = args.analysis_type
     filenames_file = args.filenames

@@ -111,6 +111,36 @@ def get_icd9_cui_mappings():
                     icd9_to_cui[icd9] = cui
     return cui_to_icd9, icd9_to_cui
 
+def get_icd9_cui_mappings_rangeok():
+    """ Modified version of original. Some cui correspond to a range of icd9 codes
+    eg C0041296 is Tuberculosis, which is ICD9 range 010-018.99. This original method
+    just ignored these codes. For our purpose of figuring out if a cui is in a broad system
+    cateogry, we can simply choose a value within this range (now, midpoint). This is useful for cui --> icd9
+    but not the reverse, so we'll now only export the useful direction. 
+    """
+    cui_to_icd9 = {}
+    with open(str(data_folder / 'cui_icd9.txt'), 'r') as infile:
+        data = infile.readlines()
+        for row in data:
+            ele = row.strip().split('|')
+            if ele[11] == 'ICD9CM':
+                cui = ele[0]
+                icd9 = ele[10]
+                if cui not in cui_to_icd9 and icd9 != '' and not any(c.isalpha() for c in icd9): #Ignore icd9's with alphabet in them not part of our study
+                    # Check if this cui is a range of ICD9 
+                    if '-' in icd9:
+                        icd9range = icd9.split('-')
+                        beg = float(icd9range[0])
+                        end = float(icd9range[1])
+                        cui_to_icd9[cui] = '%.2f' % ((beg+end)/2)
+                        # else: # A select few ICD9 start with a letter, if so just choose first part of range
+                        #    icd9range = icd9.split('-')
+                        #    cui_to_icd9[cui] = icd9range[0]
+                    else:
+                        cui_to_icd9[cui] = icd9
+    return cui_to_icd9
+
+
 # JJN changed to support csv embedding files
 def read_embedding_cui(filename):
     concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
@@ -178,7 +208,6 @@ def read_embedding_codes(filename):
             embedding_matrix[idx,:] = np.array(map(float, datum[1:]))
         return embedding_matrix, embedding_type_to_indices, name_to_idx, idx_to_name
 
-
 def generate_overlapping_sets_icd9(filenames_type):
     embedding_idx_icd9 = {} # a dictionary of (embedding_matrix, idx_to_icd9, icd9_to_idx)
     overlapping_icd9s = set([])
@@ -225,6 +254,45 @@ def generate_overlapping_sets_icd9(filenames_type):
         filename_to_embedding_matrix[filename] = embedding_idx_icd9[filename][0][idx_of_overlapping_icd9s[filename]]
     return filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx
 
+def generate_overlapping_sets_cui(filenames_type):    
+    filenames = [filename for filename, _, _2 in filenames_type]
+    
+    embedding_idx_cui = {} # a dictionary of (embedding_matrix, idx_to_cui, cui_to_idx)
+    overlapping_cuis = set([])
+
+    if len(filenames) == 1:
+        embedding_matrix, idx_to_cui, cui_to_idx = read_embedding_matrix_cui(filenames[0])
+        filename_to_embedding_matrix = {}
+        filename_to_embedding_matrix[filenames[0]] = embedding_matrix
+        return filename_to_embedding_matrix, idx_to_cui, cui_to_idx
+
+    for fileidx, filename in enumerate(filenames):
+        embedding_matrix, idx_to_cui, cui_to_idx = read_embedding_matrix_cui(filename)
+        embedding_idx_cui[filename] = (embedding_matrix, idx_to_cui, cui_to_idx)
+        if fileidx == 0:
+            overlapping_cuis.update(set(cui_to_idx.keys()))
+        else:
+            overlapping_cuis.intersection_update(set(cui_to_idx.keys()))
+    overlapping_cuis = list(overlapping_cuis)
+    
+    idx_of_overlapping_cuis = {}
+    for filename in filenames:
+        idx_of_overlapping_cuis[filename] = []
+
+    idx_to_cui = {}
+    cui_to_idx = {}
+    for idx, cui in enumerate(overlapping_cuis):
+        idx_to_cui[idx] = cui
+        cui_to_idx[cui] = idx
+        for filename in filenames:
+            idx_of_overlapping_cuis[filename].append(embedding_idx_cui[filename][2][cui])
+    filename_to_embedding_matrix = {}
+    for filename in filenames:
+        idx_of_overlapping_cuis[filename] = np.array(idx_of_overlapping_cuis[filename]).astype(int) #JJN added due to change in numpy
+        filename_to_embedding_matrix[filename] = embedding_idx_cui[filename][0][idx_of_overlapping_cuis[filename]]
+    return filename_to_embedding_matrix, idx_to_cui, cui_to_idx
+
+# JJN changed to support csv embedding files
 def read_embedding_matrix_cui(filename):
     concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
     
@@ -235,8 +303,9 @@ def read_embedding_matrix_cui(filename):
         delim = ','
     else:
         raise Exception('embedding file must be .txt or .csv depending on deliminator')
-            
-    with open(filename, 'r') as infile:
+    
+
+    with open(str(data_folder / filename), 'r') as infile:            
         first_line = infile.readline().strip().split(delim)
         embedding_num = int(first_line[0])
         dimension = int(first_line[1])
@@ -354,7 +423,7 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
     icd9_to_check = set(icd9_pairs.keys())
     icd9_to_check.intersection_update(set(icd9_to_idx.keys()))
 
-    #print len(icd9_to_check)
+    print 'Overlapping icd9 number: ' + str(len(icd9_to_check))
     
     icd9_to_description = get_icd9_to_description()
     for icd9 in icd9_to_idx.keys():
@@ -415,24 +484,94 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
         value_all.append(np.mean(np.array(cumulative_ndcgs)))
     return filename_all, value_all, len(icd9_in_system)
 
+def get_cui_may_treat_prevent_icd9(cui_to_icd9):
+    """JJN: Builds two dictionaries. Keys are the cuis repersenting drugs. 
+    Values are the ICD9 codes of the conditions they may treat, or may prevent 
+    (for the two dictionaries respectively)
+    """
+    cui_to_icd9_may_treat = {}
+    cui_to_icd9_may_prevent = {}
+    
+    # Find diagonses that may be treated by drugs
+    with open(str(data_folder / 'may_treat_cui.txt'), 'r') as infile:
+        data = infile.readlines()
+        for row in data:
+            drug, diseases = row.strip().split(':')
+            diseases_cui = diseases.split(',')[:-1]
+            diseases_icd9 = []
+            for disease_cui in diseases_cui:
+                if disease_cui in cui_to_icd9.keys():
+                    diseases_icd9.append(cui_to_icd9[disease_cui])
+                else:
+                    print "Warning, this cui not found in cui_to_icd9: " + disease_cui
+            cui_to_icd9_may_treat[drug] = diseases_icd9
+    
+    # Find diagnoses that may be prevent by drugs
+    with open(str(data_folder / 'may_prevent_cui.txt'), 'r') as infile:
+        data = infile.readlines()
+        for row in data:
+            diseases_cui = diseases.split(',')[:-1]
+            drug, diseases = row.strip().split(':')
+            diseases_icd9 = []
+            for disease_cui in diseases_cui:
+                if disease_cui in cui_to_icd9.keys():
+                    diseases_icd9.append(cui_to_icd9[disease_cui])
+                else:
+                    print "Warning, this cui not found in cui_to_icd9: " + disease_cui
+            cui_to_icd9_may_prevent[drug] = diseases_icd9
+
+    return cui_to_icd9_may_treat, cui_to_icd9_may_prevent
+
+def cui_in_system(cui, start, end, cui_icd9_treat, cui_icd9_prevent, cui_to_icd9):
+    """JJN: finds whether a given CUI is in an ICD9 system. First, assumes its a diagnossis, looking up if CUI is a ICD9 diagnoses, if so returns whether in system. 
+    If not, assumes it is a drug, looks up if CUI is found in a list of may-prevent or may-treat relations.
+    If found, looks into whether these may-treat or may-prevent lists include a diagnosis with an ICD9 code within given range"""
+    
+    in_system_diag = False
+    in_system_drug = False
+    
+    # Try to see if cui is a diagnosis  
+    if cui in cui_to_icd9.keys():    
+        icd9 = cui_to_icd9[cui]
+        in_system_diag = start <= float(icd9) < end + 1
+        
+    # If not, determines if it may treat or prevent a disease in ICD9 system
+    if cui in cui_icd9_treat.keys():
+        for icd9 in cui_icd9_treat[cui]:
+            if start <= float(icd9) < end + 1: in_system_drug = True
+    
+    if cui in cui_icd9_prevent.keys():
+        for icd9 in cui_icd9_prevent[cui]:
+            if start <= float(icd9) < end + 1: in_system_drug = True
+    
+    return in_system_diag, in_system_drug
+
 # JJN Calculates the Spearman Correlation Coefficient between UMNSRS ratings and vector cosines when a pair contains
     # Either a diagnosis in the ICD 9 category, or treats or prevents a condition in that ICD 9 category
-def get_yu_umnsrs_cor_by_system(filenames_type, start, end):
-    filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets_icd9(filenames_type)
-    umnsrs_filename = 'UMNSRS_relatedness_mod458_word2vec.csv'
+def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9):
+    #filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets_cui(filenames_type)
+    filename_to_embedding_matrix, idx_to_cui, cui_to_idx = generate_overlapping_sets_cui(filenames_type)
     
+    print 'Number of overlapping cuis between embeddings: ' + str(len(idx_to_cui))
+        
+    umnsrs_filename = 'UMNSRS_relatedness_mod458_word2vec.csv'
     with open(str(data_folder / umnsrs_filename), 'rU') as f:
         umnsrs_rows = f.readlines()[1:]
     
-    print "Number of rows in unmsrs: " + str(len(umnsrs_rows))
-    
-    # Cui_to_icd9 mappings will be used
-    cui_to_icd9, icd9_to_cui = get_icd9_cui_mappings()
-    # Find all icd9s in the overlapping matrix
-    icd9s = icd9_to_idx.keys()
+    # Find all cuis in the overlapping matrix
+    cuis = cui_to_idx.keys()
 
     filename_all = []
     value_all = []
+    
+    ## TODO REMOVE THIS JUST FOR DEBUGGING
+    o = open(str(results_folder / 'overlappingcuis.txt' ), 'w')
+    for cui in cuis: o.write(str(cui)+'\n')
+    o.close()
+    ## -----------------------------------
+    n_drugs_in_system = 0 # Number of comparisons with a drug found in this system
+    n_diags_in_system = 0 # Number of comparisons with a diag found in this system
+    missing_cuis = []
     
     for filename, embedding_type, _ in filenames_type:
         #Contains the unmsrs scores from comparisons that have to do with this system
@@ -440,34 +579,46 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end):
         #Contains the vector cosine similarity between the embedding vectors
         veccos_scores = []
         #Number of relevant judgements
-        n_per_system = 0
-        
+        comparisons_in_cuis = 0
+
         for row_str in umnsrs_rows:
-            print "reach here in loop"
             row = row_str.strip().split(',')
-            print row_str
             umnsrs_rating = row[0]
             cui_1 = row[4]
-            icd9_1 = cui_to_icd9[cui_1]
-            print 'Here is icd9_1' + str(icd9_1)
             cui_2 = row[5]
-            icd9_2 = cui_to_icd9[cui_2]
             
-            if (icd9_1 in icd9s): #and (icd9_2 in icd9s):
-                #if (cui_in_sytem(cui_1, start, end) or cui_in_system(cui_2, start_end)):
-                if 1 == 1:
-                    print icd9_1
-                    cos_sim = 0 # Calculate Cosine similiarity between embeddings
-                    veccos_scores.append[cos_sim]
-                    unmsrs_scores.append[umnsrs_rating]
-                    n_per_system += 1
-            
+            if (cui_1 in cuis) and (cui_2 in cuis):
+                comparisons_in_cuis += 1
+                in_system_diag_1, in_system_drug_1 = cui_in_system(cui_1, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9)
+                in_system_diag_2, in_system_drug_2 = cui_in_system(cui_2, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9)
+                if in_system_diag_1 or in_system_drug_1 or in_system_diag_2 or in_system_drug_2:
+                    cos_sim = 0 # Calculate Cosine similiarity between vectors
+                    
+                    
+                    
+                    
+                    
+                    veccos_scores.append(cos_sim)
+                    unmsrs_scores.append(umnsrs_rating)
+                    
+                    # Keep track of hits from drugs or diag
+                    if in_system_diag_1 or in_system_diag_2:
+                        n_diags_in_system += 1
+                    if in_system_drug_1 or in_system_drug_2:
+                        n_drugs_in_system += 1
+                    
+            elif cui_1 in cuis:
+                missing_cuis.append(cui_2)
+            else:
+                missing_cuis.append(cui_1)
+        #print(set(missing_cuis))
+        
             
         rho, pval = spearmanr(unmsrs_scores,veccos_scores)
         filename_all.append((filename))
         value_all.append(rho)        
             
-    return filename_all, value_all, n_per_system
+    return filename_all, value_all, comparisons_in_cuis, n_diags_in_system, n_drugs_in_system
     
 
 
@@ -497,22 +648,27 @@ def print_choi_mrp(filenames, num_of_nn=40):
         start = float(system[1])
         end = float(system[2])
         
-        filename_to_print, ndcgs_to_print, n_per_system = get_choi_mrp_by_system(filenames, num_of_nn, start, end, 'c')
+        filename_to_print, ndcgs_to_print, comparisons_in_cuis = get_choi_mrp_by_system(filenames, num_of_nn, start, end, 'c')
         # Write ncdgs to file
         ndcgs_rounded = [round(x*100,2) for x in ndcgs_to_print]
         ncdgs_str = ','.join(map(str, ndcgs_rounded))
         o.write('\n' + re.sub(",", " ", system_name) + ',') # Replace commas with space to use as csv
         o.write(ncdgs_str)
-        o.write(", " + str(n_per_system))
+        o.write(", " + str(comparisons_in_cuis))
         # Print ncdfs 
         print '\n' + system_name
         for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
             print '%s & %.2f \\\\' %(file_name.split('/')[-1], ndcg*100)
-        print "Number of examples: " + str(n_per_system)
+        print "Number of examples: " + str(comparisons_in_cuis)
         
 
 # JJN: Prints the Spearman Correlation with Relevant Comparisons in the UMNSRS database by ICD9 system
 def print_yu_umnsrs_cor(filenames):
+    # Cui_to_icd9 mappings will be used
+    cui_to_icd9 = get_icd9_cui_mappings_rangeok()
+    # Create dictionaries linking drug cuis to the icd9 conditions they prevent or treat
+    cui_icd9_tr, cui_icd9_pr = get_cui_may_treat_prevent_icd9(cui_to_icd9)
+    
     # csv file to write results to
     yu_umnsrs_cor_by_system = 'yu_umnsrs_cor_by_system.csv'
     o = open(str(results_folder / yu_umnsrs_cor_by_system ), 'w')
@@ -537,19 +693,20 @@ def print_yu_umnsrs_cor(filenames):
         start = float(system[1])
         end = float(system[2])
         
-        filename_to_print, ndcgs_to_print, n_per_system = get_yu_umnsrs_cor_by_system(filenames, start, end)
+        filename_to_print, ndcgs_to_print, comparisons_in_cuis, n_diags_in_system, n_drugs_in_system = get_yu_umnsrs_cor_by_system(filenames, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9)
         # Write ncdgs to file
         ndcgs_rounded = [round(x*100,2) for x in ndcgs_to_print]
         ncdgs_str = ','.join(map(str, ndcgs_rounded))
         o.write('\n' + re.sub(",", " ", system_name) + ',') # Replace commas with space to use as csv
         o.write(ncdgs_str)
-        o.write(", " + str(n_per_system))
+        o.write(", " + str(comparisons_in_cuis))
         # Print ncdfs 
         print '\n' + system_name
         for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
             print '%s & %.2f \\\\' %(file_name.split('/')[-1], ndcg*100)
-        print "Number of examples: " + str(n_per_system)
-    
+        print "Number of comparisons with both cuis present: " + str(comparisons_in_cuis)
+        print "Number of lines with a drug found in this system: " + str(n_drugs_in_system)
+        print "Number of lines with a diagnoses found in this system: " + str(n_diags_in_system)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
