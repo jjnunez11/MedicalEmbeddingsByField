@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 import scipy as sp
 from scipy.spatial.distance import cdist
+from scipy.stats import spearmanr
 from icd9 import ICD9
 from pathlib import Path
 import re
@@ -178,7 +179,7 @@ def read_embedding_codes(filename):
         return embedding_matrix, embedding_type_to_indices, name_to_idx, idx_to_name
 
 
-def generate_overlapping_sets(filenames_type):
+def generate_overlapping_sets_icd9(filenames_type):
     embedding_idx_icd9 = {} # a dictionary of (embedding_matrix, idx_to_icd9, icd9_to_idx)
     overlapping_icd9s = set([])
     start = 1
@@ -224,6 +225,38 @@ def generate_overlapping_sets(filenames_type):
         filename_to_embedding_matrix[filename] = embedding_idx_icd9[filename][0][idx_of_overlapping_icd9s[filename]]
     return filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx
 
+def read_embedding_matrix_cui(filename):
+    concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
+    
+    # Assume embedding files with .txt are deliminated with ' ' and ',' if .csv
+    if filename.endswith('.txt'):
+        delim = ' '
+    elif filename.endswith('.csv'):
+        delim = ','
+    else:
+        raise Exception('embedding file must be .txt or .csv depending on deliminator')
+            
+    with open(filename, 'r') as infile:
+        first_line = infile.readline().strip().split(delim)
+        embedding_num = int(first_line[0])
+        dimension = int(first_line[1])
+        #embedding_num, dimension = map(int, infile.readline().strip().split(delim))
+        # -1 for remove </s>
+        embedding_matrix = np.zeros((embedding_num-1, dimension))
+        data = infile.readlines() 
+        idx_to_cui = {}
+        cui_to_idx = {}
+        for idx in xrange(embedding_num-1):
+            datum = data[idx+1].strip().split(delim)
+            cui = datum[0]
+            if cui[0] != 'C':
+                if cui in concept_to_cui:
+                    cui = concept_to_cui[cui].strip() # JJN added to remove \n
+            embedding_matrix[idx,:] = np.array(map(float, datum[1:]))
+            idx_to_cui[idx] = cui
+            cui_to_idx[cui] = idx
+        return embedding_matrix, idx_to_cui, cui_to_idx
+
 
 def get_icd9_to_description():
     icd9_to_description = {}
@@ -240,7 +273,7 @@ def get_icd9_to_description():
 
 # type == f: fine grain, c: coarse grain
 def get_css_analysis(filenames_type, num_of_neighbor, type='f'):
-    filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets(filenames_type)
+    filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets_icd9(filenames_type)
     print len(icd9_to_idx.keys())
     if type == 'c':
         icd9_pairs = get_coarse_icd9_pairs(set(icd9_to_idx.keys()))
@@ -309,8 +342,8 @@ def get_css_analysis(filenames_type, num_of_neighbor, type='f'):
     return filename_all, value_all
 
 
-def get_css_analysis_by_system(filenames_type, num_of_neighbor, start, end, type='f'):
-    filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets(filenames_type)
+def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'):
+    filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets_icd9(filenames_type)
     #print len(icd9_to_idx.keys())
     if type == 'c':
         icd9_pairs = get_coarse_icd9_pairs(set(icd9_to_idx.keys()))
@@ -330,17 +363,6 @@ def get_css_analysis_by_system(filenames_type, num_of_neighbor, start, end, type
                 icd9_to_description[icd9] = tree.find(icd9).description.encode('utf-8')
             else:
                 icd9_to_description[icd9] = ''
-            
-    
-    #290 - 319
-    # Above is mental disorders.
-    # icd9_to_check is a set. May a filtered something and then compute the statistics only for those
-    
-    # JJN: Create a set of filtered icd9 codes within the target system, based on the intergers repersenting this system
-    ##icd_in_system = filter(lambda x: ((start <= x) and (x < end++)), icd9_to_check)
-    
-    ##start = 290
-    ##end = 319
     
     # Remove ICD9 codes that contain an alphanumeric charector, these are 'supplemental/misc', not applicable
     icd9_to_check_noV = [x for x in icd9_to_check if not(any(char.isalpha() for char in x))]
@@ -351,7 +373,6 @@ def get_css_analysis_by_system(filenames_type, num_of_neighbor, start, end, type
     filename_all = [] 
     value_all = []
     for filename, embedding_type, _ in filenames_type:
-        #print filename
         icd9_embeddings = filename_to_embedding_matrix[filename]
         Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')
         ranks = np.argsort(Y)
@@ -394,12 +415,67 @@ def get_css_analysis_by_system(filenames_type, num_of_neighbor, start, end, type
         value_all.append(np.mean(np.array(cumulative_ndcgs)))
     return filename_all, value_all, len(icd9_in_system)
 
+# JJN Calculates the Spearman Correlation Coefficient between UMNSRS ratings and vector cosines when a pair contains
+    # Either a diagnosis in the ICD 9 category, or treats or prevents a condition in that ICD 9 category
+def get_yu_umnsrs_cor_by_system(filenames_type, start, end):
+    filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets_icd9(filenames_type)
+    umnsrs_filename = 'UMNSRS_relatedness_mod458_word2vec.csv'
+    
+    with open(str(data_folder / umnsrs_filename), 'rU') as f:
+        umnsrs_rows = f.readlines()[1:]
+    
+    print "Number of rows in unmsrs: " + str(len(umnsrs_rows))
+    
+    # Cui_to_icd9 mappings will be used
+    cui_to_icd9, icd9_to_cui = get_icd9_cui_mappings()
+    # Find all icd9s in the overlapping matrix
+    icd9s = icd9_to_idx.keys()
+
+    filename_all = []
+    value_all = []
+    
+    for filename, embedding_type, _ in filenames_type:
+        #Contains the unmsrs scores from comparisons that have to do with this system
+        unmsrs_scores = []
+        #Contains the vector cosine similarity between the embedding vectors
+        veccos_scores = []
+        #Number of relevant judgements
+        n_per_system = 0
+        
+        for row_str in umnsrs_rows:
+            print "reach here in loop"
+            row = row_str.strip().split(',')
+            print row_str
+            umnsrs_rating = row[0]
+            cui_1 = row[4]
+            icd9_1 = cui_to_icd9[cui_1]
+            print 'Here is icd9_1' + str(icd9_1)
+            cui_2 = row[5]
+            icd9_2 = cui_to_icd9[cui_2]
+            
+            if (icd9_1 in icd9s): #and (icd9_2 in icd9s):
+                #if (cui_in_sytem(cui_1, start, end) or cui_in_system(cui_2, start_end)):
+                if 1 == 1:
+                    print icd9_1
+                    cos_sim = 0 # Calculate Cosine similiarity between embeddings
+                    veccos_scores.append[cos_sim]
+                    unmsrs_scores.append[umnsrs_rating]
+                    n_per_system += 1
+            
+            
+        rho, pval = spearmanr(unmsrs_scores,veccos_scores)
+        filename_all.append((filename))
+        value_all.append(rho)        
+            
+    return filename_all, value_all, n_per_system
+    
+
 
 # JJN: Prints the Medical Relatedness Property by ICD9 system
-def print_css_by_system(filenames, num_of_nn=40):
+def print_choi_mrp(filenames, num_of_nn=40):
     # csv file to write results to
-    css_by_system_results = 'css_by_system_results.csv'
-    o = open(str(results_folder / css_by_system_results ), 'w')
+    choi_mrp_by_system = 'choi_mrp_by_system.csv'
+    o = open(str(results_folder / choi_mrp_by_system ), 'w')
     o.write('ICD9 System,')
     # Write headers from 3rd entry in orig_files_all.txt
     o.write(",".join(list(map(lambda x: x[2], filenames))))
@@ -415,13 +491,13 @@ def print_css_by_system(filenames, num_of_nn=40):
         for row in data:
             icd9_systems.append(row.strip().split('|'))
     
-    print 'Medical Relatedness Property by ICD9 system'
+    print 'Choi Medical Relatedness Property by ICD9 system'
     for system in icd9_systems:
         system_name = system[0]
         start = float(system[1])
         end = float(system[2])
         
-        filename_to_print, ndcgs_to_print, n_per_system = get_css_analysis_by_system(filenames, num_of_nn, start, end, 'c')
+        filename_to_print, ndcgs_to_print, n_per_system = get_choi_mrp_by_system(filenames, num_of_nn, start, end, 'c')
         # Write ncdgs to file
         ndcgs_rounded = [round(x*100,2) for x in ndcgs_to_print]
         ncdgs_str = ','.join(map(str, ndcgs_rounded))
@@ -434,6 +510,45 @@ def print_css_by_system(filenames, num_of_nn=40):
             print '%s & %.2f \\\\' %(file_name.split('/')[-1], ndcg*100)
         print "Number of examples: " + str(n_per_system)
         
+
+# JJN: Prints the Spearman Correlation with Relevant Comparisons in the UMNSRS database by ICD9 system
+def print_yu_umnsrs_cor(filenames):
+    # csv file to write results to
+    yu_umnsrs_cor_by_system = 'yu_umnsrs_cor_by_system.csv'
+    o = open(str(results_folder / yu_umnsrs_cor_by_system ), 'w')
+    o.write('ICD9 System,')
+    # Write headers from 3rd entry in orig_files_all.txt
+    o.write(",".join(list(map(lambda x: x[2], filenames))))
+    # Write Examples per System
+    o.write(", Examples in System")
+    
+    # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
+    icd9_systems_file = 'icd9_systems.txt'
+    # Parse above file to get the system names, starts, ends
+    icd9_systems = []
+    with open(icd9_systems_file, 'r') as infile:
+        data = infile.readlines()
+        for row in data:
+            icd9_systems.append(row.strip().split('|'))
+    
+    print 'Yu Spearman Correlation with UMNSRS ratings by ICD9 system'
+    for system in icd9_systems:
+        system_name = system[0]
+        start = float(system[1])
+        end = float(system[2])
+        
+        filename_to_print, ndcgs_to_print, n_per_system = get_yu_umnsrs_cor_by_system(filenames, start, end)
+        # Write ncdgs to file
+        ndcgs_rounded = [round(x*100,2) for x in ndcgs_to_print]
+        ncdgs_str = ','.join(map(str, ndcgs_rounded))
+        o.write('\n' + re.sub(",", " ", system_name) + ',') # Replace commas with space to use as csv
+        o.write(ncdgs_str)
+        o.write(", " + str(n_per_system))
+        # Print ncdfs 
+        print '\n' + system_name
+        for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
+            print '%s & %.2f \\\\' %(file_name.split('/')[-1], ndcg*100)
+        print "Number of examples: " + str(n_per_system)
     
 
 if __name__ == '__main__':
@@ -455,9 +570,12 @@ if __name__ == '__main__':
     ##for name, finegrain, coarsegrain in zip(filename_to_print, finegrain_ndcgs, coarsegrain_ndcgs):
     ##    print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], finegrain*100, coarsegrain*100)
     
-    print_css_by_system(filenames)
+    #print_choi_mrp(filenames)
     
-    ##filename_to_print, psych_ndcgs = get_css_analysis_by_system(filenames, num_of_nn, 'c')
+    print_yu_umnsrs_cor(filenames)
+    
+    
+    ##filename_to_print, psych_ndcgs = get_choi_mrp_by_system(filenames, num_of_nn, 'c')
     ##filename_to_print, coarsegrain_ndcgs = get_css_analysis(filenames, num_of_nn, 'c')
     ##for name, psychs, coarsegrain in zip(filename_to_print, psych_ndcgs, coarsegrain_ndcgs):
     ##    print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], psychs*100, coarsegrain*100)
