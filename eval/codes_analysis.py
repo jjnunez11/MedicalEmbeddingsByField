@@ -2,7 +2,7 @@ from __future__ import division
 import argparse
 import numpy as np
 import scipy as sp
-from scipy.spatial.distance import cdist
+from scipy.spatial.distance import cdist, cosine
 from scipy.stats import spearmanr
 from icd9 import ICD9
 from pathlib import Path
@@ -561,6 +561,7 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
     # Find all cuis in the overlapping matrix
     cuis = cui_to_idx.keys()
 
+    # Start arrays to store filenames, and to store the comparison values
     filename_all = []
     value_all = []
     
@@ -569,17 +570,27 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
     for cui in cuis: o.write(str(cui)+'\n')
     o.close()
     ## -----------------------------------
-    n_drugs_in_system = 0 # Number of comparisons with a drug found in this system
-    n_diags_in_system = 0 # Number of comparisons with a diag found in this system
+    
+    # Use a dict to keep track of how many of the UMNSRS comparisons are used in this system
+    # To avoid extra code, this will be reset with each file, but will all be the same
+    compares = {}
+    compares['possible'] = 0 # Total # of UMNSRS that could be used, as have both cuis found in the overlapping matrix for the embeddings
+    compares['total'] = 0 # Total # of UMNSRS comparisons used in this system
+    compares['diags'] = 0 # Total # with a diagnosis from this system
+    compares['drugs'] = 0 # Total # with a drug from this system
+    files_processed = 0 # Only set above for first file, again, same for all
+    
     missing_cuis = []
+    
+    ERROR CHECK, FIGURE OUT WHY ITS 999 CUIS PRESENT CAUSE NOOOPE LOL
     
     for filename, embedding_type, _ in filenames_type:
         #Contains the unmsrs scores from comparisons that have to do with this system
         unmsrs_scores = []
         #Contains the vector cosine similarity between the embedding vectors
         veccos_scores = []
-        #Number of relevant judgements
-        comparisons_in_cuis = 0
+        # Matrix to convert cui to positions in the relevant filename
+        embedding_matrix = filename_to_embedding_matrix[filename]
 
         for row_str in umnsrs_rows:
             row = row_str.strip().split(',')
@@ -588,24 +599,36 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
             cui_2 = row[5]
             
             if (cui_1 in cuis) and (cui_2 in cuis):
-                comparisons_in_cuis += 1
+                if files_processed == 0: compares['possible'] += 1
                 in_system_diag_1, in_system_drug_1 = cui_in_system(cui_1, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9)
                 in_system_diag_2, in_system_drug_2 = cui_in_system(cui_2, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9)
                 if in_system_diag_1 or in_system_drug_1 or in_system_diag_2 or in_system_drug_2:
-                    cos_sim = 0 # Calculate Cosine similiarity between vectors
+                    # Calculate Cosine similiarity between vectors
+                    vec_1 = embedding_matrix[cui_to_idx[cui_1],:]
+                    vec_2 = embedding_matrix[cui_to_idx[cui_2],:]
+                    cos_sim = cosine(vec_1, vec_2)
                     
-                    
-                    
-                    
-                    
+                    # Recrod scores
                     veccos_scores.append(cos_sim)
                     unmsrs_scores.append(umnsrs_rating)
                     
-                    # Keep track of hits from drugs or diag
-                    if in_system_diag_1 or in_system_diag_2:
-                        n_diags_in_system += 1
-                    if in_system_drug_1 or in_system_drug_2:
-                        n_drugs_in_system += 1
+                    # print 'This is cui_1: ' + cui_1
+                    # print 'This is the cui_to_idx ' + str(cui_to_idx[cui_1])
+                    # print 'This is start of vector above: ' + str(embedding_matrix[cui_to_idx[cui_1],0:10])
+                    
+                    # Keep track of # of UMNSRS comparisons for this system
+                    if files_processed == 0:
+                        in_system_diag = in_system_diag_1 or in_system_diag_2
+                        in_system_drug = in_system_drug_1 or in_system_drug_2
+                        
+                        if in_system_diag: 
+                            compares['diags'] += 1
+                            compares['total'] += 1
+                        if in_system_drug:
+                            compares['drugs'] += 1
+                            compares['total'] += 1
+                        if in_system_drug and in_system_diag:
+                            compares['total'] -= 1 # Don't double count
                     
             elif cui_1 in cuis:
                 missing_cuis.append(cui_2)
@@ -616,9 +639,9 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
             
         rho, pval = spearmanr(unmsrs_scores,veccos_scores)
         filename_all.append((filename))
-        value_all.append(rho)        
+        value_all.append(rho)
             
-    return filename_all, value_all, comparisons_in_cuis, n_diags_in_system, n_drugs_in_system
+    return filename_all, value_all, compares
     
 
 
@@ -675,8 +698,12 @@ def print_yu_umnsrs_cor(filenames):
     o.write('ICD9 System,')
     # Write headers from 3rd entry in orig_files_all.txt
     o.write(",".join(list(map(lambda x: x[2], filenames))))
-    # Write Examples per System
-    o.write(", Examples in System")
+    
+    # Write headings for the # of UMNSRS comparisons used
+    o.write(", UMNSRS Comparisons with cuis found")
+    o.write(", Total UMNSRS comparisons for this system")
+    o.write(", Diag comparisons")
+    o.write(", Drug comparisons")
     
     # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
     icd9_systems_file = 'icd9_systems.txt'
@@ -693,20 +720,24 @@ def print_yu_umnsrs_cor(filenames):
         start = float(system[1])
         end = float(system[2])
         
-        filename_to_print, ndcgs_to_print, comparisons_in_cuis, n_diags_in_system, n_drugs_in_system = get_yu_umnsrs_cor_by_system(filenames, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9)
+        filename_to_print, ndcgs_to_print, compares = get_yu_umnsrs_cor_by_system(filenames, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9)
         # Write ncdgs to file
         ndcgs_rounded = [round(x*100,2) for x in ndcgs_to_print]
         ncdgs_str = ','.join(map(str, ndcgs_rounded))
         o.write('\n' + re.sub(",", " ", system_name) + ',') # Replace commas with space to use as csv
         o.write(ncdgs_str)
-        o.write(", " + str(comparisons_in_cuis))
+        o.write(", " + str(compares['possible']))
+        o.write(", " + str(compares['total']))
+        o.write(", " + str(compares['diags']))
+        o.write(", " + str(compares['drugs']))
         # Print ncdfs 
         print '\n' + system_name
         for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
             print '%s & %.2f \\\\' %(file_name.split('/')[-1], ndcg*100)
-        print "Number of comparisons with both cuis present: " + str(comparisons_in_cuis)
-        print "Number of lines with a drug found in this system: " + str(n_drugs_in_system)
-        print "Number of lines with a diagnoses found in this system: " + str(n_diags_in_system)
+        print "Number of comparisons with both cuis present: " + str(compares['possible'])
+        print "Number of comparisons involving this system: " + str(compares['total'])
+        print "Number of comparisons with a drug from this system: " + str(compares['drugs'])
+        print "Number of comparisons with a diag from this system: " + str(compares['diags'])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

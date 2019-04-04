@@ -1,19 +1,19 @@
-ICD9 System,BeamCui2Vec500, Examples in System
-all,nan, 419
-infectious and parasitic disease,nan, 419
-neoplasms,nan, 419
-endocrine  nutritional and metabolic diseases  and immunity disorders,nan, 419
-diseases of the blood and blood-forming organs,nan, 419
-mental disorders,nan, 419
-diseases of the nervous system and sense organs,nan, 419
-diseases of the circulatory system,nan, 419
-diseases of the respiratory system,nan, 419
-diseases of the digestive system,nan, 419
-diseases of the genitourinary system,nan, 419
-complications of pregnancy  childbirth  and the puerperium,nan, 419
-diseases of the skin and subcutanous tissue,nan, 419
-diseases of the musculoskeletal system and connective tissue,nan, 419
-congenital anomalies,nan, 419
-certain conditions originating in the perinatal period,nan, 419
-symptoms  signs  and ill-defined conditions,nan, 419
-injury and poisoning,nan, 419
+ICD9 System,DeVine200,ChoiClinical300,BeamCui2Vec500, UMNSRS Comparisons with cuis found, Total UMNSRS comparisons for this system, Diag comparisons, Drug comparisons
+all,31.42,29.7,30.14, 999, 852, 603, 387
+infectious and parasitic disease,20.64,17.15,23.36, 999, 120, 66, 54
+neoplasms,56.47,31.76,59.12, 999, 48, 0, 48
+endocrine  nutritional and metabolic diseases  and immunity disorders,37.31,18.92,32.53, 999, 126, 45, 87
+diseases of the blood and blood-forming organs,41.65,18.8,25.07, 999, 84, 42, 48
+mental disorders,10.05,7.84,21.08, 999, 51, 9, 42
+diseases of the nervous system and sense organs,14.08,27.31,25.7, 999, 258, 117, 144
+diseases of the circulatory system,32.45,14.44,26.14, 999, 195, 81, 126
+diseases of the respiratory system,1.41,12.48,13.5, 999, 66, 9, 57
+diseases of the digestive system,30.49,4.43,44.62, 999, 117, 42, 75
+diseases of the genitourinary system,24.11,-12.94,-6.03, 999, 69, 18, 51
+complications of pregnancy  childbirth  and the puerperium,64.29,83.33,14.29, 999, 24, 0, 24
+diseases of the skin and subcutanous tissue,71.43,14.29,50.0, 999, 21, 6, 15
+diseases of the musculoskeletal system and connective tissue,25.69,46.44,22.23, 999, 69, 36, 36
+congenital anomalies,nan,nan,nan, 999, 0, 0, 0
+certain conditions originating in the perinatal period,100.0,100.0,100.0, 999, 6, 0, 6
+symptoms  signs  and ill-defined conditions,28.26,18.5,24.56, 999, 372, 234, 162
+injury and poisoning,29.09,37.27,33.64, 999, 33, 0, 33
