@@ -581,9 +581,7 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
     files_processed = 0 # Only set above for first file, again, same for all
     
     missing_cuis = []
-    
-    ERROR CHECK, FIGURE OUT WHY ITS 999 CUIS PRESENT CAUSE NOOOPE LOL
-    
+  
     for filename, embedding_type, _ in filenames_type:
         #Contains the unmsrs scores from comparisons that have to do with this system
         unmsrs_scores = []
@@ -612,9 +610,21 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
                     veccos_scores.append(cos_sim)
                     unmsrs_scores.append(umnsrs_rating)
                     
-                    # print 'This is cui_1: ' + cui_1
-                    # print 'This is the cui_to_idx ' + str(cui_to_idx[cui_1])
-                    # print 'This is start of vector above: ' + str(embedding_matrix[cui_to_idx[cui_1],0:10])
+# =============================================================================
+#                     ## Debugging/
+#                     if cui_1 == 'C0019270':
+#                         print 'This is cui_1: ' + cui_1
+#                         print 'This is cui_2: ' + cui_2
+#                         print 'This is the cos_sim: ' + str(cos_sim)
+#                         print 'This is umnsrs rating: ' + str(umnsrs_rating)
+#                         print 'Part of 1st vec' + str(vec_1[0:5])
+#                         print 'Part of 2nd vec' + str(vec_2[0:5])
+#                     # print 'This is the cui_to_idx ' + str(cui_to_idx[cui_1])
+#                     # print 'This is start of vector above: ' + str(embedding_matrix[cui_to_idx[cui_1],0:10])
+#                     
+#                     ## /Debugging----
+# =============================================================================
+                    
                     
                     # Keep track of # of UMNSRS comparisons for this system
                     if files_processed == 0:
@@ -634,13 +644,15 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
                 missing_cuis.append(cui_2)
             else:
                 missing_cuis.append(cui_1)
-        #print(set(missing_cuis))
+        ## print(set(missing_cuis))
         
             
         rho, pval = spearmanr(unmsrs_scores,veccos_scores)
         filename_all.append((filename))
         value_all.append(rho)
-            
+        files_processed += 1
+    
+    ## print 'Here is value_all: ' + str(value_all)        
     return filename_all, value_all, compares
     
 
