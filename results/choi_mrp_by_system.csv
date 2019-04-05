@@ -1,2 +1,19 @@
-ICD9 System,DeVine200,ChoiClaims300,ChoiClinical300,BeamCui2Vec500, Examples in System
-all,24.55,47.56,37.42,51.97, 1435
+ICD9 System,DeVine200,ChoiClinical300,BeamCui2Vec500, Examples in System
+all,11.03,13.4,47.17, 1630
+infectious and parasitic disease,14.03,10.92,30.2, 126
+neoplasms,13.75,10.86,40.26, 92
+endocrine  nutritional and metabolic diseases  and immunity disorders,13.46,11.52,43.82, 91
+diseases of the blood and blood-forming organs,10.95,12.22,37.23, 49
+mental disorders,18.84,18.7,53.82, 72
+diseases of the nervous system and sense organs,13.95,20.75,67.61, 309
+diseases of the circulatory system,8.8,10.7,47.67, 124
+diseases of the respiratory system,10.43,8.81,34.13, 63
+diseases of the digestive system,9.17,12.34,53.49, 112
+diseases of the genitourinary system,7.42,13.35,63.95, 106
+complications of pregnancy  childbirth  and the puerperium,26.42,19.93,40.98, 25
+diseases of the skin and subcutanous tissue,5.24,6.5,38.95, 59
+diseases of the musculoskeletal system and connective tissue,7.48,16.01,39.82, 102
+congenital anomalies,10.19,9.12,43.41, 107
+certain conditions originating in the perinatal period,11.35,0.0,36.23, 11
+symptoms  signs  and ill-defined conditions,7.49,7.71,31.29, 111
+injury and poisoning,2.39,14.54,29.08, 71
