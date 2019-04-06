@@ -29,7 +29,7 @@ if __name__ == '__main__':
     ##for name, finegrain, coarsegrain in zip(filename_to_print, finegrain_ndcgs, coarsegrain_ndcgs):
     ##    print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], finegrain*100, coarsegrain*100)
     
-    print_choi_mrp(filenames)
+    #print_choi_mrp(filenames)
     print_yu_umnsrs_cor(filenames)
     
     

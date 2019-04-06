@@ -5,7 +5,8 @@ Created on Fri Apr  5 15:06:34 2019
 @author: jjnun
 """
 from __future__ import division
-from scipy.spatial.distance import cosine
+##from scipy.spatial.distance import cosine
+from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import spearmanr
 from icd9 import ICD9
 from pathlib import Path
@@ -27,7 +28,8 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
     
     print 'Number of overlapping cuis between embeddings: ' + str(len(idx_to_cui))
         
-    umnsrs_filename = 'UMNSRS_relatedness_mod458_word2vec.csv'
+    #umnsrs_filename = 'UMNSRS_relatedness_mod458_word2vec.csv'
+    umnsrs_filename = 'UMNSRS_similarity_mod449_word2vec.csv'
     with open(str(data_folder / umnsrs_filename), 'rU') as f:
         umnsrs_rows = f.readlines()[1:]
     
@@ -77,11 +79,11 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
                     # Calculate Cosine similiarity between vectors
                     vec_1 = embedding_matrix[cui_to_idx[cui_1],:]
                     vec_2 = embedding_matrix[cui_to_idx[cui_2],:]
-                    cos_sim = cosine(vec_1, vec_2)
+                    cos_sim = cosine_similarity([vec_1], [vec_2])[0,0]
                     
                     # Recrod scores
                     veccos_scores.append(cos_sim)
-                    unmsrs_scores.append(umnsrs_rating)
+                    unmsrs_scores.append(float(umnsrs_rating))
                     
 # =============================================================================
 #                     ## Debugging/
@@ -139,7 +141,7 @@ def print_yu_umnsrs_cor(filenames):
     cui_icd9_tr, cui_icd9_pr = get_cui_may_treat_prevent_icd9(cui_to_icd9)
     
     # csv file to write results to
-    yu_umnsrs_cor_by_system = 'yu_umnsrs_cor_by_system.csv'
+    yu_umnsrs_cor_by_system = 'yu_umnsrs_cor_by_system_similiarity.csv'
     o = open(str(results_folder / yu_umnsrs_cor_by_system ), 'w')
     o.write('ICD9 System,')
     # Write headers from 3rd entry in orig_files_all.txt
@@ -176,6 +178,7 @@ def print_yu_umnsrs_cor(filenames):
         o.write(", " + str(compares['total']))
         o.write(", " + str(compares['diags']))
         o.write(", " + str(compares['drugs']))
+        o.close()
         # Print ncdfs 
         print '\n' + system_name
         for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
