@@ -1,13 +1,7 @@
 from __future__ import division
 import argparse
-##import numpy as np
-##import scipy as sp
-##from scipy.spatial.distance import cdist, cosine
-##from scipy.stats import spearmanr
-##from icd9 import ICD9
-##from pathlib import Path
-##import re
 from analysis_choi_mrp import print_choi_mrp
+from analysis_choi_mcsp import print_choi_mcsp
 from analysis_yu_umnsrs_cor import print_yu_umnsrs_cor
 
 if __name__ == '__main__':
@@ -30,7 +24,8 @@ if __name__ == '__main__':
     ##    print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], finegrain*100, coarsegrain*100)
     
     #print_choi_mrp(filenames)
-    print_yu_umnsrs_cor(filenames)
+    #print_yu_umnsrs_cor(filenames)
+    print_choi_mcsp(filenames)
     
     
     ##filename_to_print, psych_ndcgs = get_choi_mrp_by_system(filenames, num_of_nn, 'c')

@@ -62,7 +62,8 @@ def get_icd9_cui_mappings_rangeok():
 def get_cui_may_treat_prevent_icd9(cui_to_icd9):
     """JJN: Builds two dictionaries. Keys are the cuis repersenting drugs. 
     Values are the ICD9 codes of the conditions they may treat, or may prevent 
-    (for the two dictionaries respectively)
+    (for the two dictionaries respectively. Takes in a dict of cui_to_icd9 repersenting
+    the list of cuis of diagnoses that have known icd9 relations)
     """
     cui_to_icd9_may_treat = {}
     cui_to_icd9_may_prevent = {}
@@ -78,8 +79,10 @@ def get_cui_may_treat_prevent_icd9(cui_to_icd9):
                 if disease_cui in cui_to_icd9.keys():
                     diseases_icd9.append(cui_to_icd9[disease_cui])
                 else:
-                    print "Warning, this cui not found in cui_to_icd9: " + disease_cui
-            cui_to_icd9_may_treat[drug] = diseases_icd9
+                    print "Warning, this treated cui not found in cui_to_icd9: " + disease_cui
+            if len(diseases_icd9) != 0: # Only add entries that treat an ICD9 code
+                cui_to_icd9_may_treat[drug] = diseases_icd9    
+            
     
     # Find diagnoses that may be prevent by drugs
     with open(str(data_folder / 'may_prevent_cui.txt'), 'r') as infile:
@@ -92,8 +95,9 @@ def get_cui_may_treat_prevent_icd9(cui_to_icd9):
                 if disease_cui in cui_to_icd9.keys():
                     diseases_icd9.append(cui_to_icd9[disease_cui])
                 else:
-                    print "Warning, this cui not found in cui_to_icd9: " + disease_cui
-            cui_to_icd9_may_prevent[drug] = diseases_icd9
+                    print "Warning, this prevented cui not found in cui_to_icd9: " + disease_cui
+            if len(diseases_icd9) != 0:
+                cui_to_icd9_may_prevent[drug] = diseases_icd9
 
     return cui_to_icd9_may_treat, cui_to_icd9_may_prevent
 
@@ -121,7 +125,30 @@ def cui_in_system(cui, start, end, cui_icd9_treat, cui_icd9_prevent, cui_to_icd9
     
     return in_system_diag, in_system_drug
 
-
+def cui_to_icd9_drug_or_diag(cui, cui_to_icd9_dicts):
+    
+    # Unpack cui to icd9 relations from dict
+    cui_to_icd9 = cui_to_icd9_dicts['cui_to_icd9']
+    cui_to_icd9_may_treat = cui_to_icd9_dicts['cui_to_icd9_may_treat']
+    cui_to_icd9_may_prevent = cui_to_icd9_dicts['cui_to_icd9_may_prevent']
+    
+    #Merge the lists of which cuis treat or prevent which icd9s
+    cui_to_icd9_may_treat_or_prevent = cui_to_icd9_may_treat
+    for a_cui in cui_to_icd9_may_prevent.keys():
+        if a_cui in cui_to_icd9_may_treat.keys():
+            overlap = list(set(cui_to_icd9_may_treat[a_cui] + cui_to_icd9_may_prevent[a_cui]))
+            cui_to_icd9_may_treat_or_prevent[a_cui] = overlap
+        else:
+            cui_to_icd9_may_treat_or_prevent[a_cui] = cui_to_icd9_may_prevent[a_cui]
+        
+    if cui in cui_to_icd9:
+        return 'diag', [cui_to_icd9[cui]]
+    elif cui in cui_to_icd9_may_treat_or_prevent:
+        icd9s = cui_to_icd9_may_treat_or_prevent[cui]
+        assert len(icd9s) != 0, 'No icd9s found for: ' + cui
+        return 'drug', list(set(icd9s)) # Keep only uniques
+    else: 
+        return 'none', []    
 
 def get_icd9_pairs(icd9_set):
     icd9_pairs = {}
@@ -222,3 +249,33 @@ def get_icd9_cui_mappings():
                     icd9_to_cui[icd9] = cui
     return cui_to_icd9, icd9_to_cui
 
+def get_cui_to_systems(cui_to_icd9_types, icd9_systems):
+    """
+    Takes in a dictionary of cuis containing their ICD9 relationship (diag is they're
+    directly a ICD9 diagnosis, drug is that they may prevent or may treat an ICD9 diagnosis)
+    and outputs a new cui dictionary containing the systems these ICD9 relationships are within
+    """
+    cui_to_systems = {}
+
+    for cui in cui_to_icd9_types.keys():
+        ## print "This should be cui: " + cui
+        systems = []
+        cui_dict = cui_to_icd9_types[cui] 
+        ## print cui_dict
+        icd9s = cui_dict['icd9s']
+        ## print 'Here are some icd9s: ' + str(icd9s)
+        ##if len(icd9s) == 0: print '0 len icd9s for: ' + cui
+        for icd9 in icd9s:
+            systems_len = len(systems)
+            for system in icd9_systems:
+                system_name  = system[0]
+                system_start = system[1]
+                system_end   = system[2]
+                if system_start <= float(icd9) < system_end + 1:
+                    systems.append(system_name)
+            if systems_len == len(systems): # Catch if no systems added
+                print 'icd9 not found in a system: ' + icd9
+        cui_to_systems[cui] = list(set(systems)) # Keep only unique
+    
+    return cui_to_systems
+        

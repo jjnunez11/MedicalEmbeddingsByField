@@ -5,11 +5,8 @@ Created on Fri Apr  5 15:04:31 2019
 @author: jjnun
 """
 from __future__ import division
-##import argparse
 import numpy as np
-##import scipy as sp
 from scipy.spatial.distance import cdist
-##from scipy.stats import spearmanr
 from icd9 import ICD9
 from pathlib import Path
 import re
