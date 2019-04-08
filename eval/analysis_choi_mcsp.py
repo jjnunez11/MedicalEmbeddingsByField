@@ -20,7 +20,12 @@ data_folder = Path("../data")
 results_folder = Path("../results")
 
 
-def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_to_icd9_dicts, o):
+def write_results_to_file(results,f):
+    for row in results:
+        f.write(','.join(row) + '\n')
+
+
+def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_to_icd9_dicts, results):
     filename_to_embedding_matrix, idx_to_cui, cui_to_idx, cui_to_icd9_types = generate_overlapping_sets_cui(filenames_type, True, cui_to_icd9_dicts)
     
     # Obtain dictionary between cuis and the ICD9 disease systems they're part of/related to
@@ -47,7 +52,7 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
         o.write(cui + ': ')
         o.write(str(cui_to_systems[cui])+ '\n')
     
-    
+    filename_index = 0
     for filename, embedding_type, _ in filenames_type:
         # Matrix to convert cui to positions in the relevant filename
         embedding_matrix = filename_to_embedding_matrix[filename]
@@ -56,15 +61,19 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
         systems_idx_dcg_err = {}
         systems_dcg = {}
         systems_err = {}
+        systems_examples = {} # Count of examples found for this system
         print 'done calcualting distance'
         
+        system_index = 0
         for system in icd9_systems_names:
             systems_dcg[system] = []
             systems_err[system] = []
             systems_idx_dcg_err[system] = []
+            systems_examples[system] = 0
         for idx in idx_to_systems.keys():
             target = ranks[idx, 1:num_of_neighbor+1]
             for system in idx_to_systems[idx]:
+                systems_examples[system] += 1
                 dcg = 0
                 err = 0 
                 for i in xrange(num_of_neighbor):
@@ -79,17 +88,20 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
                 systems_err[system].append(err)
         
         ##Temporary
+        system_index = 0
         for system in icd9_systems_names:
-            print '%50s (DCG) %2.5f %2.5f' %(system, np.mean(np.array(systems_dcg[system])), np.std(np.array(systems_dcg[system])))
-            print '%50s (ERR) %2.5f %2.5f' %(system, np.mean(np.array(systems_err[system])), np.std(np.array(systems_err[system])))
+            results[system_index + 1][0] = re.sub(",", " ", system)
+            results[system_index + 1][filename_index + 1] = '%2.5f +/-  %2.5f' %(np.mean(np.array(systems_dcg[system])), np.std(np.array(systems_dcg[system])))
+            results[system_index + 1][-1] = str(systems_examples[system]) # Number of examples used for this calculation. Will be re-written by each file but that's okay as always same
+            ##print '%50s (DCG) %2.5f %2.5f' %(system, np.mean(np.array(systems_dcg[system])), np.std(np.array(systems_dcg[system])))
+            ##print '%50s (ERR) %2.5f %2.5f' %(system, np.mean(np.array(systems_err[system])), np.std(np.array(systems_err[system])))
             ##f.write('%50s (DCG) %2.5f %2.5f\n' %(type, np.mean(np.array(type_dcg[type])), np.std(np.array(type_dcg[type]))))
             ##f.write('%50s (ERR) %2.5f %2.5f\n' %(type, np.mean(np.array(type_err[type])), np.std(np.array(type_err[type]))))
-    
-    return 'todo', 'todo', 'todo'
+            system_index += 1
+        filename_index += 1
+        
+    return results
 
-TODO THIS IS PROBABLY WORKING SO JUST NEED TO GET ABOVE FUNCTION TO PACKAGE AND RETURN THINGS NICELY TO THE PRINT FUNCTION
-WHICH SHOULD THEN PRINT IT ALL SIMILIARLY TO THE OTHER ONES. ALSO MAYBE FIGURE OUT WTF ERROR IS, AND CHANGE TO AN ACCURACY?
-THEN THE CENTROID FUNCTION SHOULD BE PRETTY DAMN QUICK AND YOURE DONE LOL
 
 
 # JJN: Prints the Medical Relatedness Property by ICD9 system
@@ -104,17 +116,6 @@ def print_choi_mcsp(filenames, num_of_nn=40):
     cui_to_icd9_dicts['cui_to_icd9_may_treat'] = cui_icd9_tr
     cui_to_icd9_dicts['cui_to_icd9_may_prevent'] = cui_icd9_pr
     
-    # csv file to write results to
-    choi_mrp_by_system = 'choi_mcsp_by_system.csv'
-    o = open(str(results_folder / choi_mrp_by_system ), 'w')
-    o.write('ICD9 System,')
-    # Write headers from 3rd entry in orig_files_all.txt
-    o.write(",".join(list(map(lambda x: x[2], filenames))))
-    # Write Examples per System
-    o.write(", Examples in System")
-    # Write DCG, Accuracy
-    o.write(", DCG")
-    o.write(", Accuracy")
     
     # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
     icd9_systems_file = 'icd9_systems.txt'
@@ -125,11 +126,39 @@ def print_choi_mcsp(filenames, num_of_nn=40):
         for row in data:
             row_str = row.strip().split('|')
             if row_str[0] != 'all':
-                icd9_systems.append([row_str[0], float(row_str[1]), float(row_str[2])])
+                icd9_systems.append([row_str[0], float(row_str[1]), float(row_str[2])])        
+    
+    # Make a numpy matrix to store results for easy printing
+    cols = len(filenames) + 2 # System, Each Filename's MCSP, Examples per System
+    rows = len(icd9_systems) + 1 # One for each system plus the header
+    empty_results = [[0 for x in range(cols)] for y in range(rows)] 
+    empty_results[0][0] = 'ICD9 Systems'
+    empty_results[0][1:len(filenames) + 1] = list(map(lambda x: x[2], filenames))
+    empty_results[0][-1] = 'Examples in System'
+    ## print empty_results
+    # csv file to write results to
+    
+    ##o.write('ICD9 System,')
+    # Write headers from 3rd entry in orig_files_all.txt
+    ##o.write(",".join(list(map(lambda x: x[2], filenames))))
+    # Write Examples per System
+    ##o.write(", Examples in System")
+    # Write DCG, Accuracy
+    ##o.write(", DCG")
+    ##o.write(", Accuracy")
+    
+    
     
     print 'Choi Medical Conceptual Similarity Property by ICD9 system'
-    filename_to_print, ndcgs_to_print, comparisons_in_cuis = get_choi_mcsp_by_systems(filenames, num_of_nn, icd9_systems, cui_to_icd9_dicts, o)
-
+    results = get_choi_mcsp_by_systems(filenames, num_of_nn, icd9_systems, cui_to_icd9_dicts, empty_results)
+    for line in results: print line
+    
+    choi_mrp_by_system = 'choi_mcsp_by_system.csv'
+    o = open(str(results_folder / choi_mrp_by_system ), 'w')
+    write_results_to_file(results,o)
+    o.close()    
+    
+    
     #for system in icd9_systems:
     #    system_name = system[0]
     #    start = float(system[1])
