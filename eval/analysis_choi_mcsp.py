@@ -61,7 +61,7 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
         systems_idx_dcg_err = {}
         systems_dcg = {}
         systems_err = {}
-        systems_examples = {} # Count of examples found for this system
+        systems_n = {} # Count of examples found for this system
         print 'done calcualting distance'
         
         system_index = 0
@@ -69,11 +69,11 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
             systems_dcg[system] = []
             systems_err[system] = []
             systems_idx_dcg_err[system] = []
-            systems_examples[system] = 0
+            systems_n[system] = 0
         for idx in idx_to_systems.keys():
             target = ranks[idx, 1:num_of_neighbor+1]
             for system in idx_to_systems[idx]:
-                systems_examples[system] += 1
+                systems_n[system] += 1
                 dcg = 0
                 err = 0 
                 for i in xrange(num_of_neighbor):
@@ -92,7 +92,7 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
         for system in icd9_systems_names:
             results[system_index + 1][0] = re.sub(",", " ", system)
             results[system_index + 1][filename_index + 1] = '%2.5f +/-  %2.5f' %(np.mean(np.array(systems_dcg[system])), np.std(np.array(systems_dcg[system])))
-            results[system_index + 1][-1] = str(systems_examples[system]) # Number of examples used for this calculation. Will be re-written by each file but that's okay as always same
+            results[system_index + 1][-1] = str(systems_n[system]) # Number of examples used for this calculation. Will be re-written by each file but that's okay as always same
             ##print '%50s (DCG) %2.5f %2.5f' %(system, np.mean(np.array(systems_dcg[system])), np.std(np.array(systems_dcg[system])))
             ##print '%50s (ERR) %2.5f %2.5f' %(system, np.mean(np.array(systems_err[system])), np.std(np.array(systems_err[system])))
             ##f.write('%50s (DCG) %2.5f %2.5f\n' %(type, np.mean(np.array(type_dcg[type])), np.std(np.array(type_dcg[type]))))

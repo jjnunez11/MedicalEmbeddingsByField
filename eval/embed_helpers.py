@@ -274,12 +274,14 @@ def read_embedding_matrix_cui_icd9_only(filename, cui_to_icd9_dicts):
         filtered_matrix = []        
         for line in entire_matrix:
             cui = line[0]
-            icd9_type, icd9s = cui_to_icd9_drug_or_diag(cui, cui_to_icd9_dicts)
+            #print 'From read_embedding_matrix_blah, see this cui: ' + cui
+            icd9_type, icd9s, cuis = cui_to_icd9_drug_or_diag(cui, cui_to_icd9_dicts)
             if icd9_type != 'none':
                 filtered_matrix.append(line)
                 cui_dict = {}
                 cui_dict['icd9_type'] = icd9_type
                 cui_dict['icd9s'] = icd9s
+                cui_dict['cuis'] = cuis
                 cui_to_icd9_types[cui] = cui_dict
                 ## print icd9_type + ': ' + str(icd9s)
                 assert len(cui_dict['icd9s']) != 0 

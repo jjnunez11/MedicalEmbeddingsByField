@@ -61,9 +61,9 @@ def get_icd9_cui_mappings_rangeok():
 
 def get_cui_may_treat_prevent_icd9(cui_to_icd9):
     """JJN: Builds two dictionaries. Keys are the cuis repersenting drugs. 
-    Values are the ICD9 codes of the conditions they may treat, or may prevent 
-    (for the two dictionaries respectively. Takes in a dict of cui_to_icd9 repersenting
-    the list of cuis of diagnoses that have known icd9 relations)
+    Values are arrays containing dicts which have the cui and ICD9 code of a disease treated
+    or prevented (for the two dictionaries respectively. Takes in a dict of cui_to_icd9 repersenting
+    the list of cuis of diagnoses that have known icd9 relations). 
     """
     cui_to_icd9_may_treat = {}
     cui_to_icd9_may_prevent = {}
@@ -74,30 +74,43 @@ def get_cui_may_treat_prevent_icd9(cui_to_icd9):
         for row in data:
             drug, diseases = row.strip().split(':')
             diseases_cui = diseases.split(',')[:-1]
-            diseases_icd9 = []
+            treated_diseases = []
             for disease_cui in diseases_cui:
                 if disease_cui in cui_to_icd9.keys():
-                    diseases_icd9.append(cui_to_icd9[disease_cui])
+                    treated_disease = {}
+                    treated_disease['cui'] = disease_cui
+                    treated_disease['icd9'] = cui_to_icd9[disease_cui]
+                    treated_diseases.append(treated_disease)
                 else:
                     print "Warning, this treated cui not found in cui_to_icd9: " + disease_cui
-            if len(diseases_icd9) != 0: # Only add entries that treat an ICD9 code
-                cui_to_icd9_may_treat[drug] = diseases_icd9    
+            if len(treated_diseases) != 0: # Only add entries that treat an ICD9 code
+                cui_to_icd9_may_treat[drug] = treated_diseases
             
     
     # Find diagnoses that may be prevent by drugs
     with open(str(data_folder / 'may_prevent_cui.txt'), 'r') as infile:
         data = infile.readlines()
         for row in data:
-            diseases_cui = diseases.split(',')[:-1]
             drug, diseases = row.strip().split(':')
-            diseases_icd9 = []
+            diseases_cui = diseases.split(',')[:-1]
+            prevented_diseases = []
+            ##if drug == 'C0066685':
+                ##print 'inisde get_cui_may_treat_prevent'
+                ##print 'here is the drug: ' + drug
+                ##print 'here is the diseases: ' + diseases
+                ##print 'here is the diseases split: ' + str(diseases_cui)
             for disease_cui in diseases_cui:
                 if disease_cui in cui_to_icd9.keys():
-                    diseases_icd9.append(cui_to_icd9[disease_cui])
+                    prevented_disease = {}
+                    prevented_disease['cui'] = disease_cui
+                    prevented_disease['icd9'] = cui_to_icd9[disease_cui]
+                    prevented_diseases.append(prevented_disease)
+                    ##if drug == 'C0066685':
+                    ##    print 'here is the prevented_disease: ' + str(prevented_disease)
                 else:
                     print "Warning, this prevented cui not found in cui_to_icd9: " + disease_cui
-            if len(diseases_icd9) != 0:
-                cui_to_icd9_may_prevent[drug] = diseases_icd9
+            if len(prevented_diseases) != 0:
+                cui_to_icd9_may_prevent[drug] = prevented_diseases
 
     return cui_to_icd9_may_treat, cui_to_icd9_may_prevent
 
@@ -132,23 +145,91 @@ def cui_to_icd9_drug_or_diag(cui, cui_to_icd9_dicts):
     cui_to_icd9_may_treat = cui_to_icd9_dicts['cui_to_icd9_may_treat']
     cui_to_icd9_may_prevent = cui_to_icd9_dicts['cui_to_icd9_may_prevent']
     
+    ##print 'Len of cui icd9 may tr: ' + str(len(cui_to_icd9_may_treat))
+    ##print 'Len of cui icd9 may pr: ' + str(len(cui_to_icd9_may_prevent)) 
+    if cui == 'C0066685':
+        print 'Heres the treat dict at the start'
+        print cui_to_icd9_may_treat[cui]
+        print 'Heres the prevent dict at the start'
+        print cui_to_icd9_may_prevent[cui]
+        print 'end of start'
+
+       
+    
     #Merge the lists of which cuis treat or prevent which icd9s
     cui_to_icd9_may_treat_or_prevent = cui_to_icd9_may_treat
     for a_cui in cui_to_icd9_may_prevent.keys():
         if a_cui in cui_to_icd9_may_treat.keys():
-            overlap = list(set(cui_to_icd9_may_treat[a_cui] + cui_to_icd9_may_prevent[a_cui]))
-            cui_to_icd9_may_treat_or_prevent[a_cui] = overlap
+            if a_cui == 'C0066685XXX':
+                print 'We found this cui in both: - ' + a_cui
+                print 'Len of cui icd9 may tr: ' + str(len(cui_to_icd9_may_treat))
+                print 'Len of cui icd9 may pr: ' + str(len(cui_to_icd9_may_prevent))
+                print cui_to_icd9_may_treat[a_cui]
+                print cui_to_icd9_may_prevent[a_cui]
+                print 'end of this stuff'
+                combined_tr_pr_diseases = combine_dicts(cui_to_icd9_may_treat[a_cui], cui_to_icd9_may_prevent[a_cui])
+            combined_tr_pr_diseases = []
+            cui_to_icd9_may_treat_or_prevent[a_cui] = combined_tr_pr_diseases
         else:
             cui_to_icd9_may_treat_or_prevent[a_cui] = cui_to_icd9_may_prevent[a_cui]
         
     if cui in cui_to_icd9:
-        return 'diag', [cui_to_icd9[cui]]
+        return 'diag', [cui_to_icd9[cui]], []
     elif cui in cui_to_icd9_may_treat_or_prevent:
-        icd9s = cui_to_icd9_may_treat_or_prevent[cui]
+        # This step done is unison to ensure position of cuis and icd9s are same
+        # so they repersent the same disease being treated/prevented
+        diseases_tr_or_pr = cui_to_icd9_may_treat_or_prevent[cui]
+        ##print 'Length of diseases_tr_or_pr: ' + str(len(diseases_tr_or_pr))
+        icd9s = []
+        cuis = []
+        for disease_tr_or_pr in diseases_tr_or_pr:
+            cuis.append(disease_tr_or_pr['cui'])
+            icd9s.append(disease_tr_or_pr['icd9'])
         assert len(icd9s) != 0, 'No icd9s found for: ' + cui
-        return 'drug', list(set(icd9s)) # Keep only uniques
+        return 'drug', icd9s, cuis  # Keep only uniques
     else: 
-        return 'none', []    
+        return 'none', [], []
+
+def combine_dicts(list_dicts_1, list_dicts_2):
+    """ JJN: Quick helper function that takes in two lists of dicts and returns
+    a list of dicts. If a dict is only in one list, is brought to new list. If 
+    a dict is in both, for each key, values are a unique set of values from 
+    both dicts. In this implementation, the two lists are dicts of a disease that is
+    treated or prevented by a given drug, and so I will be explcit for keys. Could
+    later be changed to be general if needed. 
+    """
+    combined_dicts = list_dicts_2
+    
+    for dict_1 in list_dicts_1:
+        cui_1 = dict_1['cui']
+        icd9_1 = dict_1['icd9']
+        
+        in_other_dict = False
+        # Check if in other list of dict
+        for dict_2 in list_dicts_2:
+            cui_2 = dict_2['cui']
+            icd9_2 = dict_2['icd9']
+            
+            if cui_1 == cui_2:
+                assert icd9_1 == icd9_2, 'A disease dict should have icd9 and cui the same'
+                in_other_dict = True
+        
+        if not in_other_dict:
+            combined_dicts.append(dict_1)
+    
+    # Check
+    if len(combined_dicts) > 1:
+        print 'Check to see this was combined correctly: '
+        print '---'
+        print list_dicts_1
+        print '---'
+        print list_dicts_2
+        print '---'
+        print combined_dicts
+        print '---'
+    
+    #--
+    return combined_dicts    
 
 def get_icd9_pairs(icd9_set):
     icd9_pairs = {}
