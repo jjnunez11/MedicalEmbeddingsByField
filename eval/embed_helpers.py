@@ -13,7 +13,7 @@ import numpy as np
 from icd9 import ICD9
 from pathlib import Path
 ##import re
-from cui_icd9_helpers import get_cui_concept_mappings, get_icd9_cui_mappings, cui_to_icd9_drug_or_diag
+from cui_icd9_helpers import get_cui_concept_mappings, get_icd9_cui_mappings
 
 
 tree = ICD9('codes.json')
@@ -240,6 +240,7 @@ def read_embedding_matrix_cui_icd9_only(filename, cui_to_icd9_dicts):
     related ICD9 codes (1 if a diag, 1 or more if a drug)
     """
     concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
+    cui_to_icd9_drug_or_diag = cui_to_icd9_dicts['cui_to_icd9_drug_or_diag']
     
     # Assume embedding files with .txt are deliminated with ' ' and ',' if .csv
     if filename.endswith('.txt'):
@@ -274,17 +275,19 @@ def read_embedding_matrix_cui_icd9_only(filename, cui_to_icd9_dicts):
         filtered_matrix = []        
         for line in entire_matrix:
             cui = line[0]
-            #print 'From read_embedding_matrix_blah, see this cui: ' + cui
-            icd9_type, icd9s, cuis = cui_to_icd9_drug_or_diag(cui, cui_to_icd9_dicts)
-            if icd9_type != 'none':
+            if cui in cui_to_icd9_drug_or_diag.keys():
+                
+                cui_dict = cui_to_icd9_drug_or_diag[cui]
                 filtered_matrix.append(line)
-                cui_dict = {}
-                cui_dict['icd9_type'] = icd9_type
-                cui_dict['icd9s'] = icd9s
-                cui_dict['cuis'] = cuis
                 cui_to_icd9_types[cui] = cui_dict
                 ## print icd9_type + ': ' + str(icd9s)
                 assert len(cui_dict['icd9s']) != 0 
+                if cui_dict['icd9_type'] == 'XXX':
+                    print "----------------"
+                    print 'This cui was kept: ' + cui
+                    print 'Heres the added dict: '
+                    print cui_dict
+                    print "-----------------"
     
         cuis_relevant = len(filtered_matrix) # Number of cuis found with an icd9 relation
                             

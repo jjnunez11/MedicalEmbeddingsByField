@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 from embed_helpers import generate_overlapping_sets_cui
 from cui_icd9_helpers import get_coarse_icd9_pairs, get_icd9_pairs, get_icd9_to_description, get_cui_to_systems
-from cui_icd9_helpers import cui_in_system, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9
+from cui_icd9_helpers import cui_in_system, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9, get_cui_to_icd9_drug_or_diag
 
 tree = ICD9('codes.json')
 data_folder = Path("../data")
@@ -152,11 +152,13 @@ def print_beam_bootstrap(filenames):
     cui_to_icd9 = get_icd9_cui_mappings_rangeok()
     # Create dictionaries linking drug cuis to the icd9 conditions they prevent or treat
     cui_icd9_tr, cui_icd9_pr = get_cui_may_treat_prevent_icd9(cui_to_icd9)
+    cui_to_icd9_drug_or_diag = get_cui_to_icd9_drug_or_diag(cui_to_icd9, cui_icd9_tr, cui_icd9_pr)
     # Store in a dict to pass
     cui_to_icd9_dicts = {}
     cui_to_icd9_dicts['cui_to_icd9'] = cui_to_icd9
-    cui_to_icd9_dicts['cui_to_icd9_may_treat'] = cui_icd9_tr
-    cui_to_icd9_dicts['cui_to_icd9_may_prevent'] = cui_icd9_pr
+    ##cui_to_icd9_dicts['cui_to_icd9_may_treat'] = cui_icd9_tr
+    ##cui_to_icd9_dicts['cui_to_icd9_may_prevent'] = cui_icd9_pr
+    cui_to_icd9_dicts['cui_to_icd9_drug_or_diag'] = cui_to_icd9_drug_or_diag
     
     ##print "lets make sure these dicts are cool"
     ##print cui_icd9_tr['C0066685']

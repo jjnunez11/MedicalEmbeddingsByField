@@ -138,57 +138,131 @@ def cui_in_system(cui, start, end, cui_icd9_treat, cui_icd9_prevent, cui_to_icd9
     
     return in_system_diag, in_system_drug
 
-def cui_to_icd9_drug_or_diag(cui, cui_to_icd9_dicts):
+def get_cui_to_icd9_drug_or_diag(cui_to_icd9, cui_icd9_tr, cui_icd9_pr):
+    """ JJN: Makes a dictionary with keys all possible cuis, and the values
+    a dictionary for each cui, with the icd9_type (diag if ICD9 diagnosis, drug
+    if it treats or prevents an ICD9 diagnosis), and an array of the ICD9(s)
+    and an array of the treated/prevent cuis (empty if it's a diag)
+    """
+    cui_to_icd9_drug_or_diag = {}
     
     # Unpack cui to icd9 relations from dict
-    cui_to_icd9 = cui_to_icd9_dicts['cui_to_icd9']
-    cui_to_icd9_may_treat = cui_to_icd9_dicts['cui_to_icd9_may_treat']
-    cui_to_icd9_may_prevent = cui_to_icd9_dicts['cui_to_icd9_may_prevent']
+    ##cui_to_icd9 = cui_to_icd9_dicts['cui_to_icd9']
+    ##cui_to_icd9_may_treat = cui_to_icd9_dicts['cui_to_icd9_may_treat']
+    ##cui_to_icd9_may_prevent = cui_to_icd9_dicts['cui_to_icd9_may_prevent']
     
     ##print 'Len of cui icd9 may tr: ' + str(len(cui_to_icd9_may_treat))
     ##print 'Len of cui icd9 may pr: ' + str(len(cui_to_icd9_may_prevent)) 
-    if cui == 'C0066685':
-        print 'Heres the treat dict at the start'
-        print cui_to_icd9_may_treat[cui]
-        print 'Heres the prevent dict at the start'
-        print cui_to_icd9_may_prevent[cui]
-        print 'end of start'
+    #if cui == 'C0066685':
+    #    print 'Heres the treat dict at the start'
+    #    print cui_to_icd9_may_treat[cui]
+    #    print 'Heres the prevent dict at the start'
+    #    print cui_to_icd9_may_prevent[cui]
+    #    print 'end of start'
 
-       
+    # First, make an entry for every cui that's a diagnosis (in cui_to_icd9)
+    for diag_cui in cui_to_icd9.keys():
+        cui_dict = {}
+        cui_dict['icd9_type'] = 'diag'
+        cui_dict['icd9s'] = [cui_to_icd9[diag_cui]]
+        cui_dict['cuis'] = []
+        cui_to_icd9_drug_or_diag[diag_cui] = cui_dict
     
-    #Merge the lists of which cuis treat or prevent which icd9s
-    cui_to_icd9_may_treat_or_prevent = cui_to_icd9_may_treat
-    for a_cui in cui_to_icd9_may_prevent.keys():
-        if a_cui in cui_to_icd9_may_treat.keys():
-            if a_cui == 'C0066685XXX':
-                print 'We found this cui in both: - ' + a_cui
-                print 'Len of cui icd9 may tr: ' + str(len(cui_to_icd9_may_treat))
-                print 'Len of cui icd9 may pr: ' + str(len(cui_to_icd9_may_prevent))
-                print cui_to_icd9_may_treat[a_cui]
-                print cui_to_icd9_may_prevent[a_cui]
-                print 'end of this stuff'
-                combined_tr_pr_diseases = combine_dicts(cui_to_icd9_may_treat[a_cui], cui_to_icd9_may_prevent[a_cui])
-            combined_tr_pr_diseases = []
-            cui_to_icd9_may_treat_or_prevent[a_cui] = combined_tr_pr_diseases
-        else:
-            cui_to_icd9_may_treat_or_prevent[a_cui] = cui_to_icd9_may_prevent[a_cui]
+    tr_cuis = cui_icd9_tr.keys() # 
+    pr_cuis = cui_icd9_pr.keys()
+    all_cuis = list(set(tr_cuis + pr_cuis))
+    
+    for drug_cui in all_cuis:
+        if drug_cui == 'C0066685XXX':
+            print 'Heres the treat dict at the start'
+            print cui_icd9_tr[drug_cui]
+            print 'Heres the prevent dict at the start'
+            print cui_icd9_pr[drug_cui]
+            print 'end of start'
         
-    if cui in cui_to_icd9:
-        return 'diag', [cui_to_icd9[cui]], []
-    elif cui in cui_to_icd9_may_treat_or_prevent:
-        # This step done is unison to ensure position of cuis and icd9s are same
-        # so they repersent the same disease being treated/prevented
-        diseases_tr_or_pr = cui_to_icd9_may_treat_or_prevent[cui]
-        ##print 'Length of diseases_tr_or_pr: ' + str(len(diseases_tr_or_pr))
-        icd9s = []
-        cuis = []
-        for disease_tr_or_pr in diseases_tr_or_pr:
-            cuis.append(disease_tr_or_pr['cui'])
-            icd9s.append(disease_tr_or_pr['icd9'])
-        assert len(icd9s) != 0, 'No icd9s found for: ' + cui
-        return 'drug', icd9s, cuis  # Keep only uniques
-    else: 
-        return 'none', [], []
+        if drug_cui in tr_cuis and drug_cui in pr_cuis:
+            tr_or_pr_diseases = combine_dicts(cui_icd9_tr[drug_cui], cui_icd9_pr[drug_cui])
+            icd9s = []
+            cuis = []
+            for tr_or_pr_disease in tr_or_pr_diseases:
+                cuis.append(tr_or_pr_disease['cui'])
+                icd9s.append(tr_or_pr_disease['icd9'])
+            cui_dict = {}
+            cui_dict['icd9_type'] = 'drug'
+            cui_dict['icd9s'] = icd9s
+            cui_dict['cuis'] = cuis
+            cui_to_icd9_drug_or_diag[drug_cui] = cui_dict
+            
+            if drug_cui == 'C0066685XXX':
+                print 'Heres the icd9s after combination: '
+                print icd9s
+                print 'Heres the cuis after combination: '
+                print cuis
+                print 'Heres the whole dict: '
+                print cui_dict
+                print "end------"
+            
+        elif drug_cui in tr_cuis:
+            icd9s = []
+            cuis = []
+            for tr_disease in cui_icd9_tr[drug_cui]:
+                cuis.append(tr_disease['cui'])
+                icd9s.append(tr_disease['icd9'])            
+            cui_dict = {}
+            cui_dict['icd9_type'] = 'drug'
+            cui_dict['icd9s'] = icd9s
+            cui_dict['cuis'] = cuis
+            cui_to_icd9_drug_or_diag[drug_cui] = cui_dict
+        elif drug_cui in pr_cuis:
+            cui_dict = {}
+            
+            icd9s = []
+            cuis = []
+            for pr_disease in cui_icd9_pr[drug_cui]:
+                cuis.append(pr_disease['cui'])
+                icd9s.append(pr_disease['icd9'])
+            cui_dict['icd9_type'] = 'drug'
+            cui_dict['icd9s'] = icd9s
+            cui_dict['cuis'] = cuis
+            cui_to_icd9_drug_or_diag[drug_cui] = cui_dict
+        
+    return cui_to_icd9_drug_or_diag
+
+# =============================================================================
+#         
+#     
+#     #Merge the lists of which cuis treat or prevent which icd9s
+#     cui_to_icd9_may_treat_or_prevent = cui_to_icd9_may_treat
+#     for a_cui in cui_to_icd9_may_prevent.keys():
+#         if a_cui in cui_to_icd9_may_treat.keys():
+#             if a_cui == 'C0066685XXX':
+#                 print 'We found this cui in both: - ' + a_cui
+#                 print 'Len of cui icd9 may tr: ' + str(len(cui_to_icd9_may_treat))
+#                 print 'Len of cui icd9 may pr: ' + str(len(cui_to_icd9_may_prevent))
+#                 print cui_to_icd9_may_treat[a_cui]
+#                 print cui_to_icd9_may_prevent[a_cui]
+#                 print 'end of this stuff'
+#                 combined_tr_pr_diseases = combine_dicts(cui_to_icd9_may_treat[a_cui], cui_to_icd9_may_prevent[a_cui])
+#             combined_tr_pr_diseases = []
+#             cui_to_icd9_may_treat_or_prevent[a_cui] = combined_tr_pr_diseases
+#         else:
+#             cui_to_icd9_may_treat_or_prevent[a_cui] = cui_to_icd9_may_prevent[a_cui]
+#         
+#     elif cui in cui_to_icd9_may_treat_or_prevent:
+#         # This step done is unison to ensure position of cuis and icd9s are same
+#         # so they repersent the same disease being treated/prevented
+#         diseases_tr_or_pr = cui_to_icd9_may_treat_or_prevent[cui]
+#         ##print 'Length of diseases_tr_or_pr: ' + str(len(diseases_tr_or_pr))
+#         icd9s = []
+#         cuis = []
+#         for disease_tr_or_pr in diseases_tr_or_pr:
+#             cuis.append(disease_tr_or_pr['cui'])
+#             icd9s.append(disease_tr_or_pr['icd9'])
+#         assert len(icd9s) != 0, 'No icd9s found for: ' + cui
+#         return 'drug', icd9s, cuis  # Keep only uniques
+#     else: 
+#         return 'none', [], []
+# =============================================================================
 
 def combine_dicts(list_dicts_1, list_dicts_2):
     """ JJN: Quick helper function that takes in two lists of dicts and returns
@@ -218,7 +292,7 @@ def combine_dicts(list_dicts_1, list_dicts_2):
             combined_dicts.append(dict_1)
     
     # Check
-    if len(combined_dicts) > 1:
+    if len(combined_dicts) > 99:
         print 'Check to see this was combined correctly: '
         print '---'
         print list_dicts_1
