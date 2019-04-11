@@ -276,7 +276,6 @@ def read_embedding_matrix_cui_icd9_only(filename, cui_to_icd9_dicts):
         for line in entire_matrix:
             cui = line[0]
             if cui in cui_to_icd9_drug_or_diag.keys():
-                
                 cui_dict = cui_to_icd9_drug_or_diag[cui]
                 filtered_matrix.append(line)
                 cui_to_icd9_types[cui] = cui_dict

@@ -32,27 +32,35 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
     cui_to_systems = get_cui_to_systems(cui_to_icd9_types, icd9_systems)
     
     # Obtain dictionary between drug cui and the cuis they treat or prevent
-    cui_to_tr_pr_cuis = []
-    for cui in cui_to_icd9_types.keys():
-        if cui_to_icd9_types[cui]['icd9_type'] == 'drug':
-            tr_pr_cuis = cui_to_icd9_types[cui]['cuis']
-            cui_to_tr_pr_cuis[cui] = tr_pr_cuis
-        
+    #cui_to_tr_pr_cuis = {}
+    #for cui in cui_to_icd9_types.keys():
+    #    if cui_to_icd9_types[cui]['icd9_type'] == 'drug':
+    #        tr_pr_cuis = cui_to_icd9_types[cui]['cuis']
+    #        cui_to_tr_pr_cuis[cui] = tr_pr_cuis
+    
+    ##test_systems = cui_to_systems['C0010592']
+    ##test_cuis = cui_to_icd9_types['C0010592']['cuis']
+    ##print 'Are things okay here? len systems:' + str(len(test_systems)) + 'len cuis' + str(len(test_cuis))
+    ##print test_systems
+    ##print test_cuis
+
+    
     # And also build a similiar idx_to_system, and a list of idx that are drugs, or diags
-    idx_to_systems = {}
+    idx_to_tr_pr_systems = {}
     idx_to_tr_pr_cuis = {}
     drugs_idx = [] # idx's of cuis repersenting a drug
     diags_idx = [] # '                        ' a diagnosis
     for idx in idx_to_cui:
         cui = idx_to_cui[idx]
         systems = cui_to_systems[cui]
-        idx_to_systems[idx] = systems
+        idx_to_tr_pr_systems[idx] = systems
         if cui_to_icd9_types[cui]['icd9_type'] == 'diag':
             diags_idx.append(idx)
         elif cui_to_icd9_types[cui]['icd9_type'] == 'drug':
             drugs_idx.append(idx)
-            tr_pr_cuis = cui_to_tr_pr_cuis[cui]
+            tr_pr_cuis = cui_to_icd9_types[cui]['cuis']
             idx_to_tr_pr_cuis[idx] = tr_pr_cuis
+            assert len(tr_pr_cuis) == len(systems), 'While building dictionary, cuis and systems had different length for cui: ' + cui
         else:
             raise Exception('Each cui used must repersent a ICD9 diagnosis, or drug that treats one')
     
@@ -65,11 +73,11 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
     
     
     
-    test_cuis = cui_to_systems.keys()[0:5]
-    for cui in test_cuis:
-        print 'Here is the type of some cuis: ' + cui_to_icd9_types[cui]['icd9_type']
-    print 'Number of idx that are diags: ' + str(len(diags_idx))
-    print 'Number of idx that are drugs: ' + str(len(drugs_idx))
+    #test_cuis = cui_to_systems.keys()[0:5]
+    #for cui in test_cuis:
+    #    print 'Here is the type of some cuis: ' + cui_to_icd9_types[cui]['icd9_type']
+    #print 'Number of idx that are diags: ' + str(len(diags_idx))
+    #print 'Number of idx that are drugs: ' + str(len(drugs_idx))
     
     ##print "Here are some keys" + str(cui_to_systems.keys()[0:5])
     ##print "Here are some values" + str(cui_to_systems.values()[0:5])
@@ -97,21 +105,26 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
 #            systems_n[system] = 0
         # Test all drug-relations that have cuis in this system
          for idx in drugs_idx:
-             cui_drug = idx_to_cui(idx)
-             tr_pr_systems = idx_to_systems[idx]
+             cui_drug = idx_to_cui[idx]
+             tr_pr_systems = idx_to_tr_pr_systems[idx]
              tr_pr_cuis    = idx_to_tr_pr_cuis[idx]
-             assert len(tr_pr_systems) == len(tr_pr_cuis), 'The systems and cuis a drug treats or prevents must be the same length (so refer to same list)'    
+             assert len(tr_pr_systems) == len(tr_pr_cuis), 'Length must be same as they correspond'
+             
+             #assert len(tr_pr_systems) == len(tr_pr_cuis), 'The systems and cuis a drug treats or prevents must be the same length (so refer to same list)'    
              for i in range(len(tr_pr_systems)):
                  tr_pr_system = tr_pr_systems[i]
-                 systems_n[tr_pr_system] += 1
-                 
                  tr_pr_cui = tr_pr_cuis[i]
-                    
-                 vec_1 = embedding_matrix[cui_to_idx[cui_drug],:]
-                 vec_2 = embedding_matrix[cui_to_idx[tr_pr_cui],:]
-                 cos_sim = cosine_similarity([vec_1], [vec_2])[0,0]
                  
-                 if cos_sim > sig_threshold: systems_sig += 1
+                 # Ignore this treated or prevented disease if it doesn't have a vector repersentation. 
+                 # Not checked until this point as for other analysis we just want to know the system a drug treats
+                 # And our cui_to_icd9 dictionary has more entries than embedings
+                 if tr_pr_cui in cui_to_idx.keys(): 
+                     systems_n[tr_pr_system] += 1    
+                     vec_1 = embedding_matrix[cui_to_idx[cui_drug],:]
+                     vec_2 = embedding_matrix[cui_to_idx[tr_pr_cui],:]
+                     cos_sim = cosine_similarity([vec_1], [vec_2])[0,0]
+                     
+                     if cos_sim > sig_threshold: systems_sig[tr_pr_system] += 1
              
              
              
@@ -120,7 +133,7 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
                  # 
 #                for i in xrange(num_of_neighbor):
 #                    neighbor_idx = target[i]
-#                    neighbor_systems = idx_to_systems[neighbor_idx]
+#                    neighbor_systems = idx_to_tr_pr_systems[neighbor_idx]
 #                    if system in neighbor_systems:
 #                        dcg += np.reciprocal(np.log2(i+2))
 #                        if err == 0:

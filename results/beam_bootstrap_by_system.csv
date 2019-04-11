@@ -1,18 +1,18 @@
 ICD9 Systems,DeVine200,Examples in System
--,-,212
--,-,47
--,-,143
--,-,50
--,-,65
--,-,229
--,-,162
--,-,78
--,-,95
--,-,130
--,-,9
--,-,76
--,-,72
--,-,7
--,-,3
--,-,131
--,-,56
+infectious and parasitic disease,0.54937,395
+neoplasms,0.43333,90
+endocrine  nutritional and metabolic diseases  and immunity disorders,0.56863,153
+diseases of the blood and blood-forming organs,0.55556,54
+mental disorders,0.40952,105
+diseases of the nervous system and sense organs,0.40161,249
+diseases of the circulatory system,0.56777,273
+diseases of the respiratory system,0.48810,84
+diseases of the digestive system,0.40667,150
+diseases of the genitourinary system,0.48447,161
+complications of pregnancy  childbirth  and the puerperium,0.28571,7
+diseases of the skin and subcutanous tissue,0.50602,83
+diseases of the musculoskeletal system and connective tissue,0.38272,81
+congenital anomalies,0.18182,11
+certain conditions originating in the perinatal period,0.00000,3
+symptoms  signs  and ill-defined conditions,0.17647,136
+injury and poisoning,0.46154,52

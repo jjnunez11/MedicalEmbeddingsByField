@@ -187,6 +187,8 @@ def get_cui_to_icd9_drug_or_diag(cui_to_icd9, cui_icd9_tr, cui_icd9_pr):
             for tr_or_pr_disease in tr_or_pr_diseases:
                 cuis.append(tr_or_pr_disease['cui'])
                 icd9s.append(tr_or_pr_disease['icd9'])
+            assert len(icd9s) == len(cuis), 'Not equal here, icd9 len: ' + len(icd9s) + 'while cuis is: ' + len(cuis)
+            
             cui_dict = {}
             cui_dict['icd9_type'] = 'drug'
             cui_dict['icd9s'] = icd9s
@@ -430,7 +432,7 @@ def get_cui_to_systems(cui_to_icd9_types, icd9_systems):
                     systems.append(system_name)
             if systems_len == len(systems): # Catch if no systems added
                 print 'icd9 not found in a system: ' + icd9
-        cui_to_systems[cui] = list(set(systems)) # Keep only unique
+        cui_to_systems[cui] = systems
     
     return cui_to_systems
         
