@@ -27,7 +27,7 @@ if __name__ == '__main__':
     #print_choi_mrp(filenames)
     #print_yu_umnsrs_cor(filenames)
     #print_choi_mcsp(filenames)
-    print_beam_bootstrap(filenames[0:1])
+    print_beam_bootstrap(filenames)
     
     ##filename_to_print, psych_ndcgs = get_choi_mrp_by_system(filenames, num_of_nn, 'c')
     ##filename_to_print, coarsegrain_ndcgs = get_css_analysis(filenames, num_of_nn, 'c')

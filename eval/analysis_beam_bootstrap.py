@@ -14,6 +14,7 @@ import re
 from embed_helpers import generate_overlapping_sets_cui
 from cui_icd9_helpers import get_coarse_icd9_pairs, get_icd9_pairs, get_icd9_to_description, get_cui_to_systems
 from cui_icd9_helpers import cui_in_system, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9, get_cui_to_icd9_drug_or_diag
+import random
 
 tree = ICD9('codes.json')
 data_folder = Path("../data")
@@ -38,26 +39,22 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
     #        tr_pr_cuis = cui_to_icd9_types[cui]['cuis']
     #        cui_to_tr_pr_cuis[cui] = tr_pr_cuis
     
-    ##test_systems = cui_to_systems['C0010592']
-    ##test_cuis = cui_to_icd9_types['C0010592']['cuis']
-    ##print 'Are things okay here? len systems:' + str(len(test_systems)) + 'len cuis' + str(len(test_cuis))
-    ##print test_systems
-    ##print test_cuis
+    
 
     
     # And also build a similiar idx_to_system, and a list of idx that are drugs, or diags
     idx_to_tr_pr_systems = {}
     idx_to_tr_pr_cuis = {}
-    drugs_idx = [] # idx's of cuis repersenting a drug
-    diags_idx = [] # '                        ' a diagnosis
+    drug_idxs = [] # idx's of cuis repersenting a drug
+    diag_idxs = [] # '                        ' a diagnosis
     for idx in idx_to_cui:
         cui = idx_to_cui[idx]
         systems = cui_to_systems[cui]
         idx_to_tr_pr_systems[idx] = systems
         if cui_to_icd9_types[cui]['icd9_type'] == 'diag':
-            diags_idx.append(idx)
+            diag_idxs.append(idx)
         elif cui_to_icd9_types[cui]['icd9_type'] == 'drug':
-            drugs_idx.append(idx)
+            drug_idxs.append(idx)
             tr_pr_cuis = cui_to_icd9_types[cui]['cuis']
             idx_to_tr_pr_cuis[idx] = tr_pr_cuis
             assert len(tr_pr_cuis) == len(systems), 'While building dictionary, cuis and systems had different length for cui: ' + cui
@@ -68,16 +65,17 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
     icd9_systems_names = []
     for row in icd9_systems: icd9_systems_names.append(row[0])    
     
-    # Calculate the threshold for p < 0.05 significance in cosine similarity
-    sig_threshold = 0.2 #TODO
     
+    
+    
+        
     
     
     #test_cuis = cui_to_systems.keys()[0:5]
     #for cui in test_cuis:
     #    print 'Here is the type of some cuis: ' + cui_to_icd9_types[cui]['icd9_type']
-    #print 'Number of idx that are diags: ' + str(len(diags_idx))
-    #print 'Number of idx that are drugs: ' + str(len(drugs_idx))
+    #print 'Number of idx that are diags: ' + str(len(diag_idxs))
+    #print 'Number of idx that are drugs: ' + str(len(drug_idxs))
     
     ##print "Here are some keys" + str(cui_to_systems.keys()[0:5])
     ##print "Here are some values" + str(cui_to_systems.values()[0:5])
@@ -87,7 +85,29 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
     for filename, embedding_type, _ in filenames_type:
 #        # Matrix to convert cui to positions in the relevant filename
          embedding_matrix = filename_to_embedding_matrix[filename]
-
+         
+         # Create a null distribution by a bootstrap sample involving a set number 
+         # of cosine similiarities between random drug and disease pairs
+         #drug_cuis = [idx_to_cui[x] for x in drug_idxs]
+         #diag_cuis = [idx_to_cui[x] for x in diag_idxs]    
+         n_bootstrap = 1000
+         null_cos_sims = []
+         p_value = 0.05
+         for j in range(n_bootstrap):
+             rand_drug = random.choice(drug_idxs)
+             rand_diag = random.choice(diag_idxs)
+             vec_1 = embedding_matrix[rand_drug,:]
+             vec_2 = embedding_matrix[rand_diag,:]
+             cos_sim = cosine_similarity([vec_1], [vec_2])[0,0]
+             null_cos_sims.append(cos_sim)
+        
+         # Calculate the threshold for p < 0.05 significance in cosine similarity
+         pos_threshold = int(n_bootstrap*p_value)
+         sig_threshold = sorted(null_cos_sims)[-1*pos_threshold]        
+         print 'Done with bootstrap. Have this many examples: ' + str(len(null_cos_sims))
+         print 'Significance threshold is: ' + str(sig_threshold)
+         #print null_cos_sims[77:107]
+            
 #        Y = cdist(embedding_matrix, embedding_matrix, 'cosine')
 #        ranks = np.argsort(Y)
 #        systems_idx_dcg_err = {}
@@ -99,12 +119,12 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
          # Set up
          system_index = 0
          for system in icd9_systems_names:
-             systems_n[system] = 0
+             systems_n[system] = 0.0000001
              systems_sig[system] = 0
 #            systems_idx_dcg_err[system] = []
 #            systems_n[system] = 0
         # Test all drug-relations that have cuis in this system
-         for idx in drugs_idx:
+         for idx in drug_idxs:
              cui_drug = idx_to_cui[idx]
              tr_pr_systems = idx_to_tr_pr_systems[idx]
              tr_pr_cuis    = idx_to_tr_pr_cuis[idx]
@@ -153,7 +173,7 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
 #            ##f.write('%50s (DCG) %2.5f %2.5f\n' %(type, np.mean(np.array(type_dcg[type])), np.std(np.array(type_dcg[type]))))
 #            ##f.write('%50s (ERR) %2.5f %2.5f\n' %(type, np.mean(np.array(type_err[type])), np.std(np.array(type_err[type]))))
             system_index += 1
-#        filename_index += 1
+         filename_index += 1
         
     return results
 
