@@ -1,18 +1,18 @@
 ICD9 Systems,DeVine200,Examples in System
-infectious and parasitic disease,4.00000,1421
-neoplasms,4.00000,246
-endocrine  nutritional and metabolic diseases  and immunity disorders,4.00000,290
-diseases of the blood and blood-forming organs,4.00000,116
-mental disorders,4.00000,233
-diseases of the nervous system and sense organs,4.00000,756
-diseases of the circulatory system,4.00000,442
-diseases of the respiratory system,4.00000,208
-diseases of the digestive system,4.00000,315
-diseases of the genitourinary system,4.00000,313
-complications of pregnancy  childbirth  and the puerperium,4.00000,68
-diseases of the skin and subcutanous tissue,4.00000,159
-diseases of the musculoskeletal system and connective tissue,4.00000,235
-congenital anomalies,4.00000,174
-certain conditions originating in the perinatal period,4.00000,42
-symptoms  signs  and ill-defined conditions,4.00000,286
-injury and poisoning,4.00000,216
+infectious and parasitic disease,8.37,1421
+neoplasms,10.16,246
+endocrine  nutritional and metabolic diseases  and immunity disorders,1.72,290
+diseases of the blood and blood-forming organs,7.76,116
+mental disorders,0.43,233
+diseases of the nervous system and sense organs,7.67,756
+diseases of the circulatory system,30.54,442
+diseases of the respiratory system,1.92,208
+diseases of the digestive system,0.95,315
+diseases of the genitourinary system,25.88,313
+complications of pregnancy  childbirth  and the puerperium,2.94,68
+diseases of the skin and subcutanous tissue,8.18,159
+diseases of the musculoskeletal system and connective tissue,14.04,235
+congenital anomalies,2.30,174
+certain conditions originating in the perinatal period,0.00,42
+symptoms  signs  and ill-defined conditions,20.98,286
+injury and poisoning,7.87,216
