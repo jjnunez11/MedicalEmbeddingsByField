@@ -4,6 +4,7 @@ from analysis_choi_mrp import print_choi_mrp
 from analysis_choi_mcsp import print_choi_mcsp
 from analysis_yu_umnsrs_cor import print_yu_umnsrs_cor
 from analysis_beam_bootstrap import print_beam_bootstrap
+from analysis_new_centroid import print_new_centroid
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -27,7 +28,9 @@ if __name__ == '__main__':
     #print_choi_mrp(filenames)
     #print_yu_umnsrs_cor(filenames)
     #print_choi_mcsp(filenames)
-    print_beam_bootstrap(filenames)
+    #print_beam_bootstrap(filenames)
+    print_new_centroid(filenames[0:1])
+    
     
     ##filename_to_print, psych_ndcgs = get_choi_mrp_by_system(filenames, num_of_nn, 'c')
     ##filename_to_print, coarsegrain_ndcgs = get_css_analysis(filenames, num_of_nn, 'c')
