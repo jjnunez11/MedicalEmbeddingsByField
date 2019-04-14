@@ -17,3 +17,10 @@ cat3 = np.zeros(15)
 print cat3[np.argsort(x)[-n:]]
 
 print [cat2[x] for x in np.argsort(x)[-n:]]
+
+print 'lets test normazlie'
+
+a = np.zeros((3, 3))
+a[0,2] = 1
+b = a[0,:]
+print normalize(b.reshape(1,-1))[0]

@@ -8,6 +8,7 @@ from __future__ import division
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.spatial.distance import cdist
+from sklearn.preprocessing import normalize
 from icd9 import ICD9
 from pathlib import Path
 import re
@@ -93,13 +94,22 @@ def get_new_centroid_by_system(filenames_type, icd9_systems, cui_to_icd9_dicts, 
          systems_correct = {}
          for system in icd9_systems_names:
              systems_centroid[system] = []
-             systems_n[system] = 0
+             systems_n[system] = 0.0001
              systems_correct[system] = 0
 
          for cui in cui_to_idx.keys():
-             cui_vec = embedding_matrix[cui_to_idx[cui],:]
-             for system in cui_to_systems[cui]:
-                 systems_centroid[system].append(cui_vec)
+             if cui_to_icd9_types[cui]['icd9_type'] == 'diag':
+                 cui_vec = embedding_matrix[cui_to_idx[cui],:]
+                 #cui_vec_norm = np.linalg.norm(cui_vec) 
+                 #print cui_vec_norm
+                 #cui_vec = cui_vec/cui_vec_norm #Normalize
+                 cui_vec = normalize(cui_vec.reshape(1, -1))[0]
+                 for system in cui_to_systems[cui]:
+                     systems_centroid[system].append(cui_vec)
+                     # Below for generating random set
+                     ##rand_system = random.choice(icd9_systems_names)
+                     ##systems_centroid[rand_system].append(cui_vec)
+                     
                  ##systems_n[system] += 1
         
          for system in icd9_systems_names:
@@ -108,24 +118,41 @@ def get_new_centroid_by_system(filenames_type, icd9_systems, cui_to_icd9_dicts, 
          
          # Calculate accuracies using centroids. 
          for cui in cui_to_idx.keys():
-             cui_vec = embedding_matrix[cui_to_idx[cui],:]
-             true_systems = cui_to_systems[cui]
+             if cui_to_icd9_types[cui]['icd9_type'] == 'diag':
+                 cui_vec = embedding_matrix[cui_to_idx[cui],:]
+                 #cui_vec = cui_vec/np.linalg.norm(cui_vec) #Normalize
+                 cui_vec = normalize(cui_vec.reshape(1, -1))[0]
+                 true_systems = cui_to_systems[cui]
              
-             cos_sims = np.zeros(n_of_systems)
+                 cos_sims = np.zeros(n_of_systems)
              
-             # Generate list of cos similarities with the system centroids
-             for i in range(n_of_systems):
-                 system = systems_centroid.keys()[i]
-                 system_vec = systems_centroid[system]
-                 cos_sim = cosine_similarity([cui_vec], [system_vec])[0,0]
-                 cos_sims[i] = cos_sim
+                # Generate list of cos similarities with the system centroids
+                 for i in range(n_of_systems):
+                    system = systems_centroid.keys()[i]
+                    system_vec = systems_centroid[system]
+                    #system_vec = normalize(system_vec)
+                    if np.isnan(system_vec).any():
+                        print "Here are the vecs:"
+                        print 'The system is: ' + system
+                        print system_vec[0:10]
+                        print 'The cui is: ' + cui
+                        print cui_vec[0:10]
+                        cos_sim = -99
+                    else:
+                        cos_sim = cosine_similarity([cui_vec], [system_vec])[0,0]
+                    cos_sims[i] = cos_sim
              
-             n = len(true_systems) # Number of systems this cui treats or prevents or 1 if diagnosis
-             pred_systems = [icd9_systems_names[i] for i in np.argsort(cos_sims)[-n:]]
-             
-             for system in true_systems:
-                 systems_n[system] += 1
-                 if system in pred_systems: systems_correct[system] += 1
+                 n = len(true_systems) # Number of systems this cui treats or prevents or 1 if diagnosis
+                 pred_systems = [icd9_systems_names[i] for i in np.argsort(cos_sims)[-n:]]
+                
+                 #true_systems = [random.choice(icd9_systems_names) for x in true_systems] # Randomize
+                 #pred_systems = [random.choice(icd9_systems_names) for x in pred_systems] # Randomize
+                 for system in true_systems:
+                    systems_n[system] += 1
+                    if system in pred_systems: systems_correct[system] += 1
+                    #rand_system = random.choice(icd9_systems_names)
+                    #if rand_system in pred_systems: systems_correct[system] += 1
+
 
              #TODO: Iterate through systems, make a new dict for cos_sims
              #Then, find a way to find top n systems
@@ -264,7 +291,7 @@ def print_new_centroid(filenames):
     results = get_new_centroid_by_system(filenames, icd9_systems, cui_to_icd9_dicts, empty_results)
     for line in results: print line
     
-    out_filename = 'new_centroid_by_system.csv'
+    out_filename = 'new_centroid_by_system_diag_all_normed.csv'
     o = open(str(results_folder / out_filename ), 'w')
     write_results_to_file(results,o)
     o.close()    
