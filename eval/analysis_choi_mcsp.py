@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 from embed_helpers import generate_overlapping_sets_cui
 from cui_icd9_helpers import get_coarse_icd9_pairs, get_icd9_pairs, get_icd9_to_description, get_cui_to_systems
-from cui_icd9_helpers import cui_in_system, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9
+from cui_icd9_helpers import cui_in_system, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9, get_cui_to_icd9_drug_or_diag
 
 tree = ICD9('codes.json')
 data_folder = Path("../data")
@@ -115,7 +115,9 @@ def print_choi_mcsp(filenames, num_of_nn=40):
     cui_to_icd9_dicts['cui_to_icd9'] = cui_to_icd9
     cui_to_icd9_dicts['cui_to_icd9_may_treat'] = cui_icd9_tr
     cui_to_icd9_dicts['cui_to_icd9_may_prevent'] = cui_icd9_pr
-    
+    cui_to_icd9_drug_or_diag = get_cui_to_icd9_drug_or_diag(cui_to_icd9, cui_icd9_tr, cui_icd9_pr)
+    cui_to_icd9_dicts['cui_to_icd9_drug_or_diag'] = cui_to_icd9_drug_or_diag
+
     
     # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
     icd9_systems_file = 'icd9_systems.txt'

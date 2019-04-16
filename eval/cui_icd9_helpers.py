@@ -129,12 +129,12 @@ def cui_in_system(cui, start, end, cui_icd9_treat, cui_icd9_prevent, cui_to_icd9
         
     # If not, determines if it may treat or prevent a disease in ICD9 system
     if cui in cui_icd9_treat.keys():
-        for icd9 in cui_icd9_treat[cui]:
-            if start <= float(icd9) < end + 1: in_system_drug = True
+        for tr_disease in cui_icd9_treat[cui]:
+            if start <= float(tr_disease['icd9']) < end + 1: in_system_drug = True
     
     if cui in cui_icd9_prevent.keys():
-        for icd9 in cui_icd9_prevent[cui]:
-            if start <= float(icd9) < end + 1: in_system_drug = True
+        for pr_disease in cui_icd9_prevent[cui]:
+            if start <= float(pr_disease['icd9']) < end + 1: in_system_drug = True
     
     return in_system_diag, in_system_drug
 

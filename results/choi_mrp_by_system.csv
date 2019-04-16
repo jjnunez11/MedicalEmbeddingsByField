@@ -1,19 +1,19 @@
-ICD9 System,DeVine200,ChoiClinical300,BeamCui2Vec500, Examples in System
-all,11.03,13.4,47.17, 1630
-infectious and parasitic disease,14.03,10.92,30.2, 126
-neoplasms,13.75,10.86,40.26, 92
-endocrine  nutritional and metabolic diseases  and immunity disorders,13.46,11.52,43.82, 91
-diseases of the blood and blood-forming organs,10.95,12.22,37.23, 49
-mental disorders,18.84,18.7,53.82, 72
-diseases of the nervous system and sense organs,13.95,20.75,67.61, 309
-diseases of the circulatory system,8.8,10.7,47.67, 124
-diseases of the respiratory system,10.43,8.81,34.13, 63
-diseases of the digestive system,9.17,12.34,53.49, 112
-diseases of the genitourinary system,7.42,13.35,63.95, 106
-complications of pregnancy  childbirth  and the puerperium,26.42,19.93,40.98, 25
-diseases of the skin and subcutanous tissue,5.24,6.5,38.95, 59
-diseases of the musculoskeletal system and connective tissue,7.48,16.01,39.82, 102
-congenital anomalies,10.19,9.12,43.41, 107
-certain conditions originating in the perinatal period,11.35,0.0,36.23, 11
-symptoms  signs  and ill-defined conditions,7.49,7.71,31.29, 111
-injury and poisoning,2.39,14.54,29.08, 71
+ICD9 System,DeVine200,ChoiClaims300,ChoiClinical300,BeamCui2Vec500, Examples in System
+all,24.1,43.13,33.35,51.6, 1435
+infectious and parasitic disease,24.74,25.46,21.62,35.69, 88
+neoplasms,30.22,47.9,32.33,51.26, 60
+endocrine  nutritional and metabolic diseases  and immunity disorders,26.27,40.05,27.37,45.73, 87
+diseases of the blood and blood-forming organs,21.02,34.02,31.09,39.7, 48
+mental disorders,30.5,44.12,36.78,55.26, 71
+diseases of the nervous system and sense organs,34.24,60.48,51.71,71.63, 272
+diseases of the circulatory system,26.96,41.38,30.98,51.96, 117
+diseases of the respiratory system,22.47,34.03,23.26,38.12, 61
+diseases of the digestive system,20.89,54.92,32.93,59.18, 106
+diseases of the genitourinary system,15.6,50.99,38.95,68.54, 98
+complications of pregnancy  childbirth  and the puerperium,16.17,18.92,29.91,40.75, 6
+diseases of the skin and subcutanous tissue,12.57,24.47,17.28,43.74, 56
+diseases of the musculoskeletal system and connective tissue,17.62,43.83,36.02,44.18, 97
+congenital anomalies,22.85,27.6,21.64,43.05, 92
+certain conditions originating in the perinatal period,25.93,12.89,8.55,36.4, 9
+symptoms  signs  and ill-defined conditions,19.77,36.55,21.45,33.85, 110
+injury and poisoning,9.27,33.78,35.98,37.69, 57

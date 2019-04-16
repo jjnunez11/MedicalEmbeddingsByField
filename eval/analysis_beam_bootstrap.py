@@ -5,15 +5,12 @@ Created on Mon Apr  8 20:30:55 2019
 @author: jjnun
 """
 from __future__ import division
-import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from scipy.spatial.distance import cdist
 from icd9 import ICD9
 from pathlib import Path
 import re
 from embed_helpers import generate_overlapping_sets_cui
-from cui_icd9_helpers import get_coarse_icd9_pairs, get_icd9_pairs, get_icd9_to_description, get_cui_to_systems
-from cui_icd9_helpers import cui_in_system, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9, get_cui_to_icd9_drug_or_diag
+from cui_icd9_helpers import get_cui_to_systems, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9, get_cui_to_icd9_drug_or_diag
 import random
 
 tree = ICD9('codes.json')

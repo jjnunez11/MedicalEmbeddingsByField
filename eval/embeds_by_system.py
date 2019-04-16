@@ -25,11 +25,11 @@ if __name__ == '__main__':
     ##for name, finegrain, coarsegrain in zip(filename_to_print, finegrain_ndcgs, coarsegrain_ndcgs):
     ##    print '%s & %.2f & %.2f \\\\' %(name.split('/')[-1], finegrain*100, coarsegrain*100)
     
-    #print_choi_mrp(filenames)
-    #print_yu_umnsrs_cor(filenames)
-    #print_choi_mcsp(filenames)
-    #print_beam_bootstrap(filenames)
-    print_new_centroid(filenames)
+    #print_choi_mrp(filenames) CHECKED
+    print_yu_umnsrs_cor(filenames)
+    #print_choi_mcsp(filenames) CHECKED
+    #print_beam_bootstrap(filenames) CHECKED
+    #print_new_centroid(filenames)
     
     
     ##filename_to_print, psych_ndcgs = get_choi_mrp_by_system(filenames, num_of_nn, 'c')

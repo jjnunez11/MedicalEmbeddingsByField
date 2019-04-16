@@ -178,7 +178,7 @@ def print_yu_umnsrs_cor(filenames):
         o.write(", " + str(compares['total']))
         o.write(", " + str(compares['diags']))
         o.write(", " + str(compares['drugs']))
-        o.close()
+        
         # Print ncdfs 
         print '\n' + system_name
         for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
@@ -187,3 +187,4 @@ def print_yu_umnsrs_cor(filenames):
         print "Number of comparisons involving this system: " + str(compares['total'])
         print "Number of comparisons with a drug from this system: " + str(compares['drugs'])
         print "Number of comparisons with a diag from this system: " + str(compares['diags'])
+    o.close()
