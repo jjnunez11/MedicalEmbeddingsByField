@@ -1,0 +1,19 @@
+ICD9 System,DeVine200,ChoiClaims300,ChoiClinical300,BeamCui2Vec500, UMNSRS Comparisons with cuis found, Total UMNSRS comparisons for this system, Diag comparisons, Drug comparisons
+all,50.71,56.12,49.83,46.59, 118, 117, 87, 69
+infectious and parasitic disease,38.94,23.76,41.36,39.6, 118, 14, 4, 10
+neoplasms,80.0,90.0,80.0,80.0, 118, 5, 0, 5
+endocrine  nutritional and metabolic diseases  and immunity disorders,68.18,67.79,57.79,67.53, 118, 21, 4, 18
+diseases of the blood and blood-forming organs,45.36,67.86,52.86,47.5, 118, 15, 5, 11
+mental disorders,60.0,65.71,-60.0,54.29, 118, 6, 1, 5
+diseases of the nervous system and sense organs,54.24,56.95,52.94,47.8, 118, 47, 20, 27
+diseases of the circulatory system,75.04,61.82,45.01,77.31, 118, 30, 10, 22
+diseases of the respiratory system,51.93,34.32,38.28,40.7, 118, 14, 1, 13
+diseases of the digestive system,24.11,33.3,42.29,26.48, 118, 23, 9, 14
+diseases of the genitourinary system,45.14,37.5,62.29,40.6, 118, 18, 3, 15
+complications of pregnancy  childbirth  and the puerperium,nan,nan,nan,nan, 118, 0, 0, 0
+diseases of the skin and subcutanous tissue,50.0,-50.0,100.0,50.0, 118, 3, 1, 2
+diseases of the musculoskeletal system and connective tissue,84.62,84.07,65.93,85.16, 118, 13, 6, 8
+congenital anomalies,nan,nan,nan,nan, 118, 0, 0, 0
+certain conditions originating in the perinatal period,nan,nan,nan,nan, 118, 0, 0, 0
+symptoms  signs  and ill-defined conditions,35.15,47.49,48.24,33.87, 118, 81, 54, 33
+injury and poisoning,100.0,100.0,100.0,100.0, 118, 2, 0, 2

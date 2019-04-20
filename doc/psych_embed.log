@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  20 APR 2019 11:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  20 APR 2019 16:40
 entering extended mode
 **./psych_embed.tex
 (psych_embed.tex
@@ -760,17 +760,18 @@ LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 181.
+               Default added (so using `tbp') on input line 177.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 206.
+               Default added (so using `tbp') on input line 205.
 
-(psych_embed.bbl
-Underfull \vbox (badness 1571) has occurred while \output is active []
+[3] [4]
 
- [3]
-[4]
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 220.
+
+[5] [6] (psych_embed.bbl
 Underfull \hbox (badness 7540) in paragraph at lines 49--54
 []\OT1/ptm/m/n/10 Hee-Jin Lee, Yaoyun Zhang, Kirk
  []
@@ -801,21 +802,21 @@ Underfull \hbox (badness 1874) in paragraph at lines 98--104
 []\OT1/ptm/m/n/10 Yaoyun Zhang, Hee-Jin Li, Jingqi
  []
 
-) [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 299.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 299.
+) [7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 339.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 339.
  (psych_embed.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 299.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 299.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 339.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 339.
 Package rerunfilecheck Info: File `psych_embed.out' has not changed.
-(rerunfilecheck)             Checksum: ECB0AA74F7126966DC26E9B16B62D6F5;764.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 299.
+(rerunfilecheck)             Checksum: 92D9F8601E9EC2DFF18D3D00A393BF33;1011.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 339.
  ) 
 Here is how much of TeX's memory you used:
- 26232 strings out of 492970
- 655279 string characters out of 3135854
- 858515 words of memory out of 3000000
- 29643 multiletter control sequences out of 15000+200000
+ 26244 strings out of 492970
+ 655431 string characters out of 3135854
+ 860515 words of memory out of 3000000
+ 29647 multiletter control sequences out of 15000+200000
  17766 words of font info for 44 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,10n,98p,1388b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -824,9 +825,9 @@ KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/ur
 w/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pf
 b><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on psych_embed.pdf (5 pages, 103700 bytes).
+Output written on psych_embed.pdf (7 pages, 116798 bytes).
 PDF statistics:
- 165 PDF objects out of 1000 (max. 8388607)
- 42 named destinations out of 1000 (max. 500000)
- 117 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 193 PDF objects out of 1000 (max. 8388607)
+ 50 named destinations out of 1000 (max. 500000)
+ 141 words of extra memory for PDF output out of 10000 (max. 10000000)
 

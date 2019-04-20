@@ -27,8 +27,8 @@ if __name__ == '__main__':
     
     ##print_choi_mrp(filenames) 
     ##print_yu_umnsrs_cor(filenames)
-    ##print_choi_mcsp(filenames) 
-    print_beam_bootstrap(filenames) 
+    print_choi_mcsp(filenames) 
+    #print_beam_bootstrap(filenames) 
     ##print_new_centroid(filenames)
     
     

@@ -160,11 +160,11 @@ Our work seeks to determine if embeddings for one medical system are worse or be
 
 For now, we will assume our results are normally distributed; this may not be unreasonable as the processes underlying the quality of embeddings - the use of words representing clinical concepts in texts - stem from a natural process (human writing word choice).
 
-To compare the embeddings from the different medical systems, for each evaluation method we calculate the mean score from each embedding. We then conducted a paired two-way t-test for five pairs of system's score with a given embedding vs the mean score across all systems for an embedding. We then observe the relative difference vs the mean, and whether this is significant at p \textless 0.05. 
+To compare the embeddings from the different medical systems, for each evaluation method we calculate the mean score from each embedding. We then conducted a paired two-tailed t-test for five pairs of system's score with a given embedding vs the mean score across all systems for an embedding. We then observe the relative difference vs the mean, and whether this is significant at p \textless 0.05. 
 
-We repeat the same steps to compare the embeddings themselves. 
+We repeat the same steps to compare the sets of embeddings. This time, we calculate the mean scores from each medical system for each evaluation method, and conduct the paired two-tailed t-tests on seventeen pairs for each medical system. The pairs are the mean score from all the embedding sets, against the score from the given embedding set. Again, we calculate the score relative to mean, and significance as above. 
 
-
+After observing that the embeddings from Beam et al well outperform the other embedding sets, we then evaluate the embeddings by medical system one last time using only MCSP. This is chosen as it resulted in the highest number of significant differences, and is able to calculate scores for all systems. Choosing one embedding set allows more embeddings to be compared, as scores can only be calculated for each method on embeddings shared by all embedding sets. Also choosing one evaluation method then allows statistical analysis to be performed on the individual embedding scores. As such, for each medical system we then perform a one-sided two-tailed t-test between its embeddings and the scores from all embeddings. We then repeated the same but only for the embeddings representing CUIs that were overlapping between the four embedding sets so that the effect of this restriction could be determined. 
 
 %TODO MORE
 
@@ -173,10 +173,6 @@ We repeat the same steps to compare the embeddings themselves.
 \section{Results}
 
 Comparing the embeddings from medical systems across the five evaluation methods reveals that some systems have scores significantly above the mean across multiple methods (Table \ref{tab:allsystemresults}). Embeddings related to cancers and muskoskeletal system are significantly above the mean in two methods, while those of mental disorders, the nervous system, and the cardiovascular system are significantly above in three methods. No systems have scores below the mean on more than one metric; those that do include those related to diseases of pregnancy, the perinatal period, and skin disorders. 
-
- Evaluating the sets of embeddings (Table \ref{tab:allsystemresults}) shows some stark differences. The \emph{cui2vec} embeddings from Beam et al are above the mean across all evaluation methods, significantly three times. Those from DeVine et al, and those from Choi et al based on the clinical narratives, do significantly worse. The remaining embeddings, those based on health insurance codes from Choi et al, are more middling. 
-
-
 
 \begin{table*}[]
 	\caption{Score of embeddings from a given medical system according to a given evaluation method expressed as relative to the mean score for that method. Significant (paired t-test p \textless 0.05) scores above are shown in orange, below blue. See Methods section for method abbreviations. Blank values represent no scores could be calculated for a given combo.}
@@ -203,6 +199,9 @@ Comparing the embeddings from medical systems across the five evaluation methods
 	\end{tabular}
 \end{table*}
 
+ Evaluating the sets of embeddings (Table \ref{tab:allsystemresults}) shows some stark differences. The \emph{cui2vec} embeddings from Beam et al are above the mean across all evaluation methods, significantly three times. Those from DeVine et al, and those from Choi et al based on the clinical narratives, do significantly worse. The remaining embeddings, those based on health insurance codes from Choi et al, are more middling. 
+
+
 \begin{table*}[]
 	\caption{Score of set of embeddings according to a given evaluation method expressed as relative to the mean score for that method. Significant (paired t-test p \textless 0.05) scores above are shown in orange, below blue. See Methods section for embedding set abbreviations.}
 	\label{tab:allembedresults}
@@ -215,35 +214,78 @@ Comparing the embeddings from medical systems across the five evaluation methods
 	\end{tabular}
 \end{table*}
 
-%\csvautotabular{css_by_system_results.csv}
+In Table \ref{tab:onlybeamonlymcsp} we focus on MCSP scores from the best performing set of embeddings, those from Beam et al. We observe results that are somewhat similiar to the joint analysis. Embeddings related to mental disorders, the nervous system, and the cardiovascular system again perform when all relevant embeddings are observed, in line with the general results. When only the overlapping embeddings are considered, muskoskeletal embeddings are below average, while genitourinary are above, though the other three are again better. Of note, these results do become weight on the number of examples found per system, unlike prior results. While these results descriptively seem to match, the mean MCSPs are not well correlated between those using all embeddings vs only the overlapping ones. Assuming normality, Pearson's coefficent is only 0.16, while not assuming this and using Spearman's we get only 0.01. 
 
-%\begin{table*}
-%	\begin{center}
-%		\caption{Medical Relatedness Property Across All ICD-9 Diagnoses Within Systems.}
-%		\label{table1}
-%		\pgfplotstabletypeset[
-%			col sep=comma,
-%			string type,
-%			columns/name/.style={column name=Name, column type={|l}},
-%			columns/surname/.style={column name=Surname, column type={|l}},
-%			columns/age/.style={column name=Age, column type={|c|}},
-%			every head row/.style={before row=\hline,after row=\hline},
-%			every last row/.style={after row=\hline},
-%			]{../results/css_by_system_results.csv}
-%  \end{center}
-%\end{table*}
 
-\section{!Discussion}
+\begin{table*}[]
+	\caption{Comparison of MCSP scores using the embeddings from Beam et al when considering all relevant embeddings, and only those that are overlapping with the other sets of embeddings. The MCSP column repersents the mean MCSP score, Examples the number of embeddings per medical system, Relative the relative performance against the mean for all systems, orange/blue if significantly above/below at p \textless 0.05. The final column is whether the scores for a system are significantly different all embeddings vs overlapping.}
+	\label{tab:onlybeamonlymcsp}
+	\begin{tabular}{llllllll}
+		& \multicolumn{3}{l}{All Relevent Embeddings} & \multicolumn{3}{l}{Overlapping Embeddings} &            \\
+		ICD9 Systems         & MCSP      & Examples     & Relative         & MCSP     & Examples     & Relative         & Different? \\
+		Infections           & 7.72      & 2261         & \blu{-0.043}     & 6.84     & 334          & 0.223            & Yes        \\
+		cancers              & 9.00      & 1194         & 0.116            & 4.47     & 116          & \blu{-0.202}     & Yes        \\
+		endocrine            & 5.64      & 545          & \blu{-0.301}     & 3.98     & 193          & \blu{-0.29}      & Yes        \\
+		blood diseases       & 4.36      & 199          & \blu{-0.459}     & 3.67     & 81           & \blu{-0.345}     & Yes        \\
+		mental disorders     & 9.34      & 662          & 0.158            & 7.67     & 165          & 0.371            & Yes        \\
+		nervous system       & 8.44      & 1787         & \ora{0.046}      & 7.27     & 434          & 0.298            & Yes        \\
+		cardiovascular       & 8.12      & 869          & \ora{0.007}      & 7.74     & 307          & 0.383            & No         \\
+		respiratory          & 5.85      & 405          & \blu{-0.274}     & 4.64     & 132          & \blu{-0.17}      & Yes        \\
+		digestive            & 7.93      & 852          & \blu{-0.016}     & 4.62     & 210          & \blu{-0.175}     & Yes        \\
+		genitourinary        & 6.82      & 606          & \blu{-0.154}     & 5.75     & 210          & \ora{0.027}      & Yes        \\
+		pregnancy            & 10.27     & 1325         & 0.273            & 2.47     & 10           & \blu{-0.559}     & Yes        \\
+		skin                 & 5.10      & 305          & \blu{-0.368}     & 4.01     & 102          & \blu{-0.283}     & Yes        \\
+		muskoskeletal        & 8.22      & 1041         & \ora{0.019}      & 5.24     & 168          & \blu{-0.064}     & Yes        \\
+		congenital           & 6.24      & 457          & \blu{-0.227}     & 5.05     & 101          & \blu{-0.098}     & Yes        \\
+		perinatal            & 9.84      & 310          & 0.22             & 2.49     & 11           & \blu{-0.555}     & Yes        \\
+		ill-defined          & 2.68      & 558          & \blu{-0.668}     & 2.81     & 224          & \blu{-0.498}     & No         \\
+		injury and poisoning & 9.09      & 2975         & 0.127            & 2.42     & 86           & \blu{-0.569}     & Yes       
+	\end{tabular}
+\end{table*}
+
+\section{Discussion}
+
+\subsection{Embedding Quality by Field of Medicine}
+In this project, we seek to determine whether embeddings for clinical concepts learned from general medical text well well for the various fields of medicine. We investigate this by using different metrics of embedding quality and different sets of embeddings, and use ICD9 systems to determine the relevant medical fields. Based on the methods used so far, our results suggest a consistent pattern the embeddings from certain medical systems perform better than others- namely, those of mental disorders, the nervous system, and those of the cardiovascular system, and possibly the muskoskeletal system. It is less clear if any systems perform particularly poorly, though some of the systems had few or no relevant embeddings to for some metrics. 
+
+Why some of these systems seem to perform better are unclear. If we take the numbers of compared embeddings as a proxy for frequency, the well performing systems do not stand out as either popular nor unpopular. The frequency of concepts found in the training data may be a cause, and presents an option to examine quantitatively in the future.
+
+Strengths of the project include an objective means to relate a clinical concept to a field of medicine, and the combination of multiple evaluation metrics and sets of embeddings to well survey relevant work. However, these also present weakness. First and foremost, the combination of metrics and embeddings and systems creates a daunting task for statistical analysis, and this could likely be improved by considering advanced techniques such as non-parametric equivalents to ANOVA and ensuring post-hoc analysis. 
+
+Additionally, we see that there is a difference in the results when fewer or greater numbers of embeddings are considered. The initial analysis only considered embeddings that were common to all embedding sets, significantly restrict the numbers of embeddings considered compared to what could be considered when only using the \emph{cui2vec} embeddings from Beam et al. This score difference may very well be due to whether less common medical terms are selected; the set of overlapping embeddings likely represent more common clinical concepts if all four training methods found them. 
+
+This last people is important to consider when assessing the project's results. The differences we find between medical systems could be largely due to how many rare clinical concepts a system has; these rare terms may have had fewer chances to be trained well due to seldomly coming up in the training data. This may or may not be a confounder. A future researcher using the embeddings in a particular field of medicine may be using embeddings from a variety of concepts in her field, including rare ones, in which case worse performance due to a field containing rare terms would be desired. Conversely, applications may only consider common terms in a field, in which case these rare terms would indeed be confounding. This limitation can be addressed, as will be discussed below. 
+
+\subsection{Evaluating Sets of Embeddings}
+
+Another goal of the project was to asses the quality of embeddings from each set. This can be difficult to truly asses, as there is no gold standard to compare ratings. However, we believe the results indicated that the various evaluation methods used did do a good job of comparing qualities. Namely, Beam et al's \emph{cui2vec} embeddings clearly come out ahead. This is expected, as these embeddings are the most modern, are trained on the largest amount of data, are trained on both journal articles and insurance data, and contain the largest number of embeddings. Our main contrbution in this line is the use of ICD9 systems as a new source of known relationships/clusters, which we then implemented in some of the methods. We believe these relations may be more clinically relevant than some used in the past, such as whether a clinical concept is a drug or symptom, though this is up for future work to decide. 
+
+ANY MORE IN THIS SECTION?
+
+\subsection{Comparing Evaluation Methods}
+Our work also allows us to observe differences between the evaluation metrics used. Again, this is difficult to concretely judge, as do we not know what the methods should result in. Yu et al's method of comparing correlation with similiarity as judged by resident physicians was hampered by having a small number of judged similarities (around 500) which led to few comparisons per system in our deployment. Our new method attempted, while simple, found smaller differences between both systems and sets of embeddings. Neither method finds the \emph{cui2vec} embeddings to be significantly better than the others. Taken together, this may suggest these two methods are inferior. However, our new method does find similar results to the other methods, for instance also finding the significantly better systems, so it may not be worse. The method from Yu et al could likely be slight improved; some of the human simiarlity comparisons are not used as the CUIs chosen are not found within our embeddings, but could be changed to very related ones that are, eg Diabetes --> Diabetes Mellitus.  
+
+The remaining methods are quite similar. The two methods from Choi et al use discounted cumulative gain to judge whether neighbouring vectors are part of known relations, while Beam et al's method evaluates these relationships compared to a bootstrapped sample. The three methods could all use different sets of relation metrics, further muddling their relative performance. For instance, Beam et al's method as implement in our project evaluates known relations between drugs and the diseases they treat or prevent, but it could instead be changed to evaluate whether two concepts are related to the same medical system. This represents yet another degree of freedom inherent in our results, which challenges the interpretability. THIS IS KINDA WEIRD. 
+
 \subsection{!Lessons Learned}
+The main lesson I learned from this project was to consider the evaluation ahead of time. The many variables - which set of embeddings, which system, which evaluation method, what the evaluation method uses for comparisons - make it a challenge to sort out definitive results. However, I am not sure what I would've changed retrospectively, and much of this lesson may simply be ``time to learn some more stats''. 
+
 \subsection{!Was Project Succesful?}
 \subsection{!Strengths and weaknesses}
 
 \section{!Future Work}
-Multiple avenues exist for improving this work. Currently, the dictionary between ULMS CUIs and ICD9CM codes only has around 40,000 entries. As such, many CUIs could not be used, despite representing concepts very related. Generating a larger dictionary automatically would be useful, and could possible be feasible given the requirement that they only be fit into large disease categories. 
+\paragraph{Improving the current project}: Multiple avenues exist for improving the current project. Multiple methods exist for further statistical analysis, including those that are non-parametric, and those that would be able to consider all raw scores, without needing to work on means and disregard some data such as counts. 
 
-In this work, all known CUIs repersenting an ICD9 code are used for the calculations. An idea initially proposed was to repeat these analysis only using a list of the most frequent diseases. This was not done due to the difficulty of quantifying such lists, as it would require access to sensitive health systems data which takes time to access. REWORD. 
+Currently, the dictionary between ULMS CUIs and ICD9CM codes only has around 40,000 entries. As such, many CUIs could not be used, despite representing concepts very related. Generating a larger dictionary automatically would be useful, and could possible be feasible given the requirement that they only be fit into large disease categories. 
 
-Evaluating Zhang et al's domain adaptation-trained embeddlings in this project would help quantify how much improvement this technique may lead, if their embeddings could be obtained. 
+Further consideration of the combination of variables could also be helpful. For instance, all of the evaluation methods could be adapted to use as their known-relation whether an embedding's CUI is within a system; this could reduce as a variable. 
+
+As discussed previously, a possible confounded is whether embeddings from a given medical system performance worse due to containing rare diseases. While not necessarily an unintended feature, this could be ameliorated by only using common CUIs. This was intended to be a part of this current project, but was deferred. Frequencies of ICD9 codes are not readily available except within public health databases which requires formal applications for, which likely could not be acquired in the timeframe of this project, though they represent an interesting avenue for future work. 
+ 
+\paragraph{Possible extension}
+
+Evaluating Zhang et al's domain adaptation-trained embeddings in this project would help quantify how much improvement this technique may lead, if their embeddings could be obtained. DA could be carried out on embeddings from a poorly performing medical system to see if it is improved. Or, for a larger project, medical-field-specific embeddings could be trained, and compared to the ones used in this project, in order to determine the scale of possible improvement. Finally, our methods for evaluation consider metrics for embedding quality. While a basic component of possible NLP applications, a more `real-world' evaluation could be attempted carrying out actual NLP tasks on documents from different medical systems to understand their relative performance from this perspective. For instance, NLP tasks using the embeddings could be carried out on articles on conditions from the various medical systems from UpToDate, a medical encyclopaedia, or Wikipedia. Or, even more applied, NLP tasks could be evaluated on medical documents produced by physicians of different specialities, an opportunity I may soon have with a personal project. 
+
 
 
 %If the proposed methodology is implemented easily and quickly, a possible extension will be determine the feasibility of training new embeddings based only on psychiatric data, such as using a subset of the matrix used by Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}; we could try only using the portion of the matrix with terms related to psychiatry. 
@@ -251,8 +293,6 @@ Evaluating Zhang et al's domain adaptation-trained embeddlings in this project w
 %Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so for psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in and outside of psychiatry, or a similar set of articles from the medical practice manual and learning resource UpToDate.
 %
 %In the longer term, this project may be applicable to a separate project applying NLP and ML techniques to a large BC Cancer clinical dataset consistency of the medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
-
-
 
 
 \bibliographystyle{acl}

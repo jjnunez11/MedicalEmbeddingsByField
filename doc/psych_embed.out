@@ -6,8 +6,11 @@
 \BOOKMARK [2][-]{subsection.3.1}{Obtaining Embeddings}{section.3}% 6
 \BOOKMARK [2][-]{subsection.3.2}{Evaluation Methods}{section.3}% 7
 \BOOKMARK [1][-]{section.4}{Results}{}% 8
-\BOOKMARK [1][-]{section.5}{!Discussion}{}% 9
-\BOOKMARK [2][-]{subsection.5.1}{!Lessons Learned}{section.5}% 10
-\BOOKMARK [2][-]{subsection.5.2}{!Was Project Succesful?}{section.5}% 11
-\BOOKMARK [2][-]{subsection.5.3}{!Strengths and weaknesses}{section.5}% 12
-\BOOKMARK [1][-]{section.6}{!Future Work}{}% 13
+\BOOKMARK [1][-]{section.5}{Discussion}{}% 9
+\BOOKMARK [2][-]{subsection.5.1}{Embedding Quality by Field of Medicine}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.2}{Evaluating Sets of Embeddings}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.3}{Comparing Evaluation Methods}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.4}{!Lessons Learned}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.5}{!Was Project Succesful?}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.6}{!Strengths and weaknesses}{section.5}% 15
+\BOOKMARK [1][-]{section.6}{!Future Work}{}% 16
