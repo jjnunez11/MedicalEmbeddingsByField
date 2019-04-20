@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  30 MAR 2019 14:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  20 APR 2019 11:28
 entering extended mode
 **./psych_embed.tex
 (psych_embed.tex
@@ -606,26 +606,26 @@ Package shellesc Info: Restricted shell escape enabled on input line 69.
 ) (psych_embed.aux)
 \openout1 = `psych_embed.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 23.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 34.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 \AtBeginShipoutBox=\box40
-Package hyperref Info: Link coloring OFF on input line 23.
+Package hyperref Info: Link coloring OFF on input line 34.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -635,9 +635,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count129
 )
-LaTeX Info: Redefining \ref on input line 23.
-LaTeX Info: Redefining \pageref on input line 23.
-LaTeX Info: Redefining \nameref on input line 23.
+LaTeX Info: Redefining \ref on input line 34.
+LaTeX Info: Redefining \pageref on input line 34.
+LaTeX Info: Redefining \nameref on input line 34.
 
 (psych_embed.out) (psych_embed.out)
 \@outlinefile=\write5
@@ -675,133 +675,158 @@ ABD: EveryShipout initializing macros
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.16} into 
 your preamble.
- on input line 23.
+ on input line 34.
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 27.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 38.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 27.
+(Font)              <12> on input line 38.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 27.
+(Font)              <8> on input line 38.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 27.
-LaTeX Font Info:    Try loading font information for U+lasy on input line 27.
+(Font)              <6> on input line 38.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 38.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 27.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 27.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 38.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 38.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 30.
- [1{C:/Users/jjnun/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 41.
+
+Underfull \hbox (badness 2790) in paragraph at lines 93--94
+\OT1/ptm/m/n/10 In or-der to de-ter-mine which psy-chi-atric and non-
+ []
+
+[1{C:/Users/jjnun/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 49--50
-[]\OT1/ptm/m/n/10 We will com-pare the fol-low-ing em-bed-
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 106.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 106.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 4266) in paragraph at lines 119--120
+\OT1/ptm/m/n/10 We ob-tained DeVine200 ([]De Vine et al., 2014[]),
  []
 
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 51.
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 51.
 
-Underfull \hbox (badness 1776) in paragraph at lines 70--71
-[]\OT1/ptm/m/n/10 Beam et al's ([]2018[]) sta-tis-ti-cal score based on
+Underfull \hbox (badness 10000) in paragraph at lines 129--130
+ []\OT1/ptm/b/n/10 Determining a Con-cept Em-bed-ding's Field of
+ []
+
+
+Underfull \hbox (badness 1789) in paragraph at lines 129--130
+\OT1/ptm/m/n/10 clas-si-fi-ca-tion, we uti-lized the ninth re-vi-sion of the
+ []
+
+
+Underfull \hbox (badness 2173) in paragraph at lines 139--140
+ []\OT1/ptm/b/n/10 Medical Con-cep-tual Sim-i-lar-ity Prop-erty[] \OT1/ptm/m/n/
+10 (MCSP)
+ []
+
+
+Underfull \hbox (badness 1383) in paragraph at lines 139--140
+\OT1/ptm/m/n/10 The other met-ric from Choi et al's work eval-u-ates
+ []
+
+
+Underfull \hbox (badness 1412) in paragraph at lines 148--150
+ []\OT1/ptm/b/n/10 Significance in Boot-strap Dis-tri-bu-tion[] \OT1/ptm/m/n/10
+ (Boot-strap)
  []
 
 [2]
+LaTeX Font Info:    Try loading font information for OML+ptm on input line 163.
 
-LaTeX Warning: Reference `table1able1' on page 3 undefined on input line 113.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omlptm.fd"
+File: omlptm.fd 
+)
+LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 163.
 
-PGFPlots: reading {../results/css_by_system_results.csv}
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 127.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 127.
 
-Overfull \hbox (112.66922pt too wide) in paragraph at lines 127--128
- [] 
- []
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 181.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 206.
 
 (psych_embed.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 21--26
-[]\OT1/ptm/m/n/10 Jorge E. Caviedes and
- []
+Underfull \vbox (badness 1571) has occurred while \output is active []
 
-
-Underfull \hbox (badness 7540) in paragraph at lines 67--72
+ [3]
+[4]
+Underfull \hbox (badness 7540) in paragraph at lines 49--54
 []\OT1/ptm/m/n/10 Hee-Jin Lee, Yaoyun Zhang, Kirk
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 92--98
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--80
 []\OT1/ptm/m/n/10 Jos[]e An-to-nio Minarro-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--98
+Underfull \hbox (badness 10000) in paragraph at lines 74--80
 \OT1/ptm/m/n/10 Gim[]enez, Os-car Mar[]n-Alonso, and Matthias
  []
 
 
-Underfull \hbox (badness 1635) in paragraph at lines 92--98
+Underfull \hbox (badness 1635) in paragraph at lines 74--80
 \OT1/ptm/m/n/10 Samwald.  2014.  Ex-plor-ing the ap-pli-ca-tion of
  []
 
 
-Underfull \hbox (badness 6708) in paragraph at lines 92--98
+Underfull \hbox (badness 6708) in paragraph at lines 74--80
 \OT1/ptm/m/it/10 Stud-ies In Health Tech-nol-ogy And In-for-mat-ics\OT1/ptm/m/n
 /10 ,
  []
 
 
-Underfull \hbox (badness 1874) in paragraph at lines 119--125
+Underfull \hbox (badness 1874) in paragraph at lines 98--104
 []\OT1/ptm/m/n/10 Yaoyun Zhang, Hee-Jin Li, Jingqi
  []
 
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 338.
- [4
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 338.
+) [5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 299.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 299.
  (psych_embed.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 338.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 338.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 299.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 299.
 Package rerunfilecheck Info: File `psych_embed.out' has not changed.
-(rerunfilecheck)             Checksum: 24BF3F8E06EC37699518D28F74EC4C16;678.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 338.
+(rerunfilecheck)             Checksum: ECB0AA74F7126966DC26E9B16B62D6F5;764.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 299.
  ) 
 Here is how much of TeX's memory you used:
- 26311 strings out of 492970
- 659193 string characters out of 3135854
+ 26232 strings out of 492970
+ 655279 string characters out of 3135854
  858515 words of memory out of 3000000
- 29728 multiletter control sequences out of 15000+200000
+ 29643 multiletter control sequences out of 15000+200000
  17766 words of font info for 44 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,10n,98p,1388b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/ur
 w/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pf
 b><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on psych_embed.pdf (4 pages, 100164 bytes).
+Output written on psych_embed.pdf (5 pages, 103700 bytes).
 PDF statistics:
- 152 PDF objects out of 1000 (max. 8388607)
- 32 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 165 PDF objects out of 1000 (max. 8388607)
+ 42 named destinations out of 1000 (max. 500000)
+ 117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

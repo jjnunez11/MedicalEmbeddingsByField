@@ -230,42 +230,6 @@ def get_cui_to_icd9_drug_or_diag(cui_to_icd9, cui_icd9_tr, cui_icd9_pr):
         
     return cui_to_icd9_drug_or_diag
 
-# =============================================================================
-#         
-#     
-#     #Merge the lists of which cuis treat or prevent which icd9s
-#     cui_to_icd9_may_treat_or_prevent = cui_to_icd9_may_treat
-#     for a_cui in cui_to_icd9_may_prevent.keys():
-#         if a_cui in cui_to_icd9_may_treat.keys():
-#             if a_cui == 'C0066685XXX':
-#                 print 'We found this cui in both: - ' + a_cui
-#                 print 'Len of cui icd9 may tr: ' + str(len(cui_to_icd9_may_treat))
-#                 print 'Len of cui icd9 may pr: ' + str(len(cui_to_icd9_may_prevent))
-#                 print cui_to_icd9_may_treat[a_cui]
-#                 print cui_to_icd9_may_prevent[a_cui]
-#                 print 'end of this stuff'
-#                 combined_tr_pr_diseases = combine_dicts(cui_to_icd9_may_treat[a_cui], cui_to_icd9_may_prevent[a_cui])
-#             combined_tr_pr_diseases = []
-#             cui_to_icd9_may_treat_or_prevent[a_cui] = combined_tr_pr_diseases
-#         else:
-#             cui_to_icd9_may_treat_or_prevent[a_cui] = cui_to_icd9_may_prevent[a_cui]
-#         
-#     elif cui in cui_to_icd9_may_treat_or_prevent:
-#         # This step done is unison to ensure position of cuis and icd9s are same
-#         # so they repersent the same disease being treated/prevented
-#         diseases_tr_or_pr = cui_to_icd9_may_treat_or_prevent[cui]
-#         ##print 'Length of diseases_tr_or_pr: ' + str(len(diseases_tr_or_pr))
-#         icd9s = []
-#         cuis = []
-#         for disease_tr_or_pr in diseases_tr_or_pr:
-#             cuis.append(disease_tr_or_pr['cui'])
-#             icd9s.append(disease_tr_or_pr['icd9'])
-#         assert len(icd9s) != 0, 'No icd9s found for: ' + cui
-#         return 'drug', icd9s, cuis  # Keep only uniques
-#     else: 
-#         return 'none', [], []
-# =============================================================================
-
 def combine_dicts(list_dicts_1, list_dicts_2):
     """ JJN: Quick helper function that takes in two lists of dicts and returns
     a list of dicts. If a dict is only in one list, is brought to new list. If 

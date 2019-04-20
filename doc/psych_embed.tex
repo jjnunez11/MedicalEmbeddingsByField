@@ -9,10 +9,21 @@
 \usepackage{pgfplotstable}
 \usepackage{csvsimple}
 \usepackage{pgfplotstable}
+\usepackage{color}
+
+\definecolor{blu}{rgb}{0,0,1}
+\def\blu#1{{\color{blu}#1}}
+
+\definecolor{red}{rgb}{1,0,0}
+\def\red#1{{\color{red}#1}}
+
+\definecolor{ora}{rgb}{1,0.6,0}
+\def\ora#1{{\color{ora}#1}}
+
 
 \setlength\titlebox{6.5cm}    % Expanding the titlebox
 
-\title{Project Proposal: Do Word Embeddings Trained on General Medical Data Work for Psychiatric Concepts?}
+\title{How does the Performance of Embeddings Trained on General Medical Text Vary by Field of Medicine?}
 
 \author{John-Jose Nunez\\
   Depts. of Psychiatry and Computer Science, UBC\\
@@ -25,51 +36,59 @@
 %\begin{abstract}
 %\end{abstract}
 
-\section{Introduction and Proposed Contribution}
+\section{Introduction}
 
 \subsection{Background}
+
+%%6-7 pages including max 1 page references
+
+%%DESCRIPTION OF PROBLEM EG NLP TASK, CORPUS
+%%RELATED WORK
 
 The application of natural language processing and machine learning to medicine presents an exciting opportunity for tasks requiring prediction and classification, such as predicting the risk of suicide after a patient is discharged from hospital \cite{mccoyImprovingPredictionSuicide2016}. A common approach is to convert the unstructured text produced by clinical interactions into low-dimension vector representations which can fed into these algorithms. These vectorizations are produced by training models on large unlabelled corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model, training a vector for a target word based on what words are found within a window near it. It was initially trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained medical embeddings using specific medical sources. 
 
 Recent approaches in this vein include De Vine et al \shortcite{devineMedicalSemanticSimilarity2014} which trained embeddings for medical concepts in the Unified Library Management System (ULMS) \cite{bodenreiderUnifiedMedicalLanguage2004} using journal abstracts from MEDLINE as well as with clinical patient records. They then used these embeddings to compare predicted word similarity against human-judgements. Minarro-Gimenez et al \shortcite{minarro-gimenezExploringApplicationDeep2014} trained embeddings using medical manuals, articles, and Wikipedia articles, comparing predicted vector similarity between medications against the National Drug File - Reference Terminology (NDF-RT) ontology. Choi et al \cite{choiLearningLowDimensionalRepresentations2016} improved on this work by learning on large-scale health record data consisting of raw text from clinical notes mapped to concepts from UMLS. In their yet unpublished work, Beam et al \cite{beamClinicalConceptEmbeddings2018} use an ``extremely large'' database of clinical notes, insurance claims, and full journal texts, and develop a new system termed ``cui2vec'', mapping concepts into a set of unique identifiers based on UMLS, and then training vectors for these identifiers based on the occurrences of other identifiers within a certain window length. 
 
-All of the above examples were both trained and evaluated on general medical data, from all fields of medicine. It is unclear how these models perform in specific fields of medicine. This may be especially true in the medical speciality of psychiatry, the field of medicine concerned with mental illness such as depression or schizophrenia. Prior work has shown that psychiatric symptoms are often described in a long, varied, and subjective manner \cite{forbushSittingPinsNeedles2013} which may present a particular challenge for NLP.
+All of the above examples were both trained and evaluated on general medical data, from all fields of medicine. It is unclear how these models perform in specific fields of medicine. For example, we can consider the medical speciality of psychiatry, the field of medicine concerned with mental illness such as depression or schizophrenia. Prior work has shown that psychiatric symptoms are often described in a long, varied, and subjective manner \cite{forbushSittingPinsNeedles2013} which may present a particular challenge for NLP.
 
 Prior work has explored whether domain adaptation (DA), techniques to adapt data from other domains to work on a target, can improve performance when applied to this sub-domain of psychiatry. Lee et al \cite{leeLeveragingExistingCorpora2018} used these techniques to improve the task of de-identifying psychiatric notes. Zhang et al \cite{zhangAdaptingWordEmbeddings2018} then applied DA to word embeddings trained from general language and medical sources, showing some improvements when targeting a psychiatric dataset. 
 
-\subsection{Contribution}
 
-This project aims to advance the application of word embedding techniques in psychiatry. Specifically, we will seek to  determine whether embeddings trained on general medical data perform as well on psychiatric content as they do on other domains within medicine. We are unaware of prior work investigating this. We will compare multiple techniques for embeddings and evaluation. This will help determine generally how well these performance on psychiatric concepts, and whether various attributes may help or hinder this applicability, such as embeddings trained on larger training sets, or the use of DA.  This may impact future work by suggesting if psychiatric applications should use general-medicine trained embeddings, or those trained only on domain-specific data.  
+%CHANGE ABOVE TO MORE GENERAL, BUT CAN STILL USE THOSE SPECIFIC EXAMPLES. 
+
+\subsection{!Contribution}
+
+%This project aims to advance the application of word embedding techniques in psychiatry. Specifically, we will seek to  determine whether embeddings trained on general medical data perform as well on psychiatric content as they do on other domains within medicine. We are unaware of prior work investigating this. We will compare multiple techniques for embeddings and evaluation. This will help determine generally how well these performance on psychiatric concepts, and whether various attributes may help or hinder this applicability, such as embeddings trained on larger training sets, or the use of DA.  This may impact future work by suggesting if psychiatric applications should use general-medicine trained embeddings, or those trained only on domain-specific data.  
+
+
+In this work, I seek to start understanding how NLP performance may vary when applied to the difference fields of medicine. Specifically, I compare the quality of embeddings trained on general medical data by the field of medicine they are related to, using a variety of metrics previously described in the literature. As NLP is applied to medicine, field-specific applications will become increasingly popular. If this work finds little difference between the fields, future will be assured that embeddings trained from general medical text will be sufficient. Conversely, if differences are found for specific fields, future work may want to address this shortfall by using techniques like DA, or even creating embeddings specifically trained for this field. 
 
 
 \section{Proposed Methodology}
 
-Generally, the project will deploy the embeddings of prior projects, using their evaluation methods to compare performance on psychiatric concepts with those from other fields of medicine. The comparison will be made with broader fields of medicine such as internal medicine, and those that are similarly specialized like ophthalmology. 
+%\begin{itemize}
+%	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014} embeddings trained on medical records and abstracts.  
+%	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014} embeddings trained on medical manuals and articles, Wikipedia.
+%	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}'s two sets of embeddings trained differently using raw data mapped to a matrix based on UMLS techniques.  
+%	\item Zhang et al's \shortcite{zhangAdaptingWordEmbeddings2018} best performing embeddings using domain-adaptation techniques. 
+%	\item Beam et al's cui2vec embeddings trained on health insurance claims and full journal texts. 
+%\end{itemize}
 
-We will compare the following embeddings/techniques, all of implement or are based upon word2vec:
-\begin{itemize}
-	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014} embeddings trained on medical records and abstracts.  
-	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014} embeddings trained on medical manuals and articles, Wikipedia.
-	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}'s two sets of embeddings trained differently using raw data mapped to a matrix based on UMLS techniques.  
-	\item Zhang et al's \shortcite{zhangAdaptingWordEmbeddings2018} best performing embeddings using domain-adaptation techniques. 
-	\item Beam et al's cui2vec embeddings trained on health insurance claims and full journal texts. 
-\end{itemize}
-
-The evaluation techniques to be replicated and used to determine psychatry-specific performance:
-\begin{itemize}
-	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014}'s evaluation framework, comparing predicted vector similarity against human judgements, using the evaluation from \cite{koopmanEvaluationCorpusdrivenMeasures2012} which compares predicted similarity against human judgements from \cite{pedersenMeasuresSemanticSimilarity2007} and \cite{caviedesDevelopmentConceptualDistance2004}.
-	\subitem I remember seeing these, where did we put them? Enough psych to matter?
-	\item Comparison against the UMNSRS benchmark per \cite{yuRetrofittingConceptVector2017}.
-	\subitem About 500 relations. However, include drugs, disorders, symptoms. Could do a cui2icd? Or hand annotate? Downloaded the file into data. Maybe use 'may treat into icd9's to figure out what system'? Or perhaps symptoms are related as well
-	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014}'s metric of predicting relationships between drugs based on the NDF-RT. 
-	\subitem Figure out if this is different enough from the first Choi one 
-	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Conceptual Similarity Property, comparing predicted vector similarity with whether concepts are neighbouring in UMLS. 
-	\subitem Look at more; weird performance and unsure how to consider vs others
-	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Medical Relatedness Property, comparing predicted vector similarity with relatedness according to NDF-RT and the ICD9 groupings, based on these database's item relations such as ``may-treat'' and ``may-prevent''. 
-	\item Done, still look at top 10 maybe
-	\item Beam et al's \shortcite{beamClinicalConceptEmbeddings2018} statistical score based on whether known similarities in UMLS, NDF-RT and other work are predicted correctly in at least 95\% of bootstrapped samples of pairs of concepts. 
-	\subitem No code yet, sigh. Work on others first. Will need way to systemize drugs, non-disorders.
-\end{itemize}
+%The evaluation techniques to be replicated and used to determine psychatry-specific performance:
+%\begin{itemize}
+%	\item De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014}'s evaluation framework, comparing predicted vector similarity against human judgements, using the evaluation from \cite{koopmanEvaluationCorpusdrivenMeasures2012} which compares predicted similarity against human judgements from \cite{pedersenMeasuresSemanticSimilarity2007} and \cite{caviedesDevelopmentConceptualDistance2004}.
+%	\subitem I remember seeing these, where did we put them? Enough psych to matter?
+%	\item Comparison against the UMNSRS benchmark per \cite{yuRetrofittingConceptVector2017}.
+%	\subitem About 500 relations. However, include drugs, disorders, symptoms. Could do a cui2icd? Or hand annotate? Downloaded the file into data. Maybe use 'may treat into icd9's to figure out what system'? Or perhaps symptoms are related as well
+%	\item Minarro-Gimenez et al's \shortcite{minarro-gimenezExploringApplicationDeep2014}'s metric of predicting relationships between drugs based on the NDF-RT. 
+%	\subitem Figure out if this is different enough from the first Choi one 
+%	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Conceptual Similarity Property, comparing predicted vector similarity with whether concepts are neighbouring in UMLS. 
+%	\subitem Look at more; weird performance and unsure how to consider vs others
+%	\item Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016} Medical Relatedness Property, comparing predicted vector similarity with relatedness according to NDF-RT and the ICD9 groupings, based on these database's item relations such as ``may-treat'' and ``may-prevent''. 
+%	\item Done, still look at top 10 maybe
+%	\item Beam et al's \shortcite{beamClinicalConceptEmbeddings2018} statistical score based on whether known similarities in UMLS, NDF-RT and other work are predicted correctly in at least 95\% of bootstrapped samples of pairs of concepts. 
+%	\subitem No code yet, sigh. Work on others first. Will need way to systemize drugs, non-disorders.
+%\end{itemize}
 
 In order to determine which psychiatric and non-psychiatric terms should be compared, the most common concepts shall be used. For instance, we will compare the most commonly prescribed psychiatric and non-psychiatric drugs, or the most common diagnoses, based on prior epidemiology, in order to compare common, well described concepts.
 
@@ -78,220 +97,162 @@ For top diagnoses: Could access fancy Canadian Data with a data request per emai
 
 \section{Methods}
 
-\subsection{Obtaining Data}
+\subsection{Obtaining Embeddings}
 
-The embeddings from De Vine et al's \shortcite{devineMedicalSemanticSimilarity2014} and both from Choi et al were obtained from the \href{https://github.com/clinicalml/embeddings}{later's website}. Beam et al's cui2vec embeddings were downloaded from \href{https://figshare.com/s/00d69861786cd0156d81}{this site}. The corresponding author for the remaining embeddings from Minarro-Gimenez and Zhang were contacted, but a response was not received. Miarro-Gimenez's project files are available at \href{https://code.google.com/archive/p/biomedical-text-exploring-tools/}{this code archive site} but lack documentation and could not be accessed. 
+\begin{table*}[h!]
+	\begin{center}
+		\caption{Charectoristics of the embeddings compared, including the name referred, the embedding dimensions, the number of embeddings in the dataset, and the type of data used to train them.}
+		\label{tab:embed}
+		\begin{tabular}{l|c|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+			\textbf{Name} & \textbf{Dimension} & \textbf{Number} & \textbf{Data Used to Train} \\
+			\hline
+			DeVine200 & 200 & 52,102 & clinical narratives\\
+			&&&journal abstracts\\
+			ChoiClaims300 & 300 & 14,852& health insurance claims\\
+			ChoiClinical300 & 300 & 22,705& clinical narratives\\
+			BeamCui2Vec500 & 500 & 109,053& health insurance claims\\
+			&&&full journal text\\
+		\end{tabular}
+	\end{center}
+\end{table*}
 
-TODO: Try to extract the embeddings. Probably accessed by TestClientThreadWord2vec.java, try opening it up in Eclipse, maybe can modify it and retrieve them. 
+Table \ref{tab:embed} contains details of the embeddings compared in this project, all of which are based on \emph{word2vec}. We obtained DeVine200 \cite{devineMedicalSemanticSimilarity2014}, ChoiClaims300, and ChoiClinical300 \cite{choiLearningLowDimensionalRepresentations2016} all from the \href{https://github.com/clinicalml/embeddings}{later's website}. We downloaded BeamCui2Vec \cite{beamClinicalConceptEmbeddings2018} from \href{https://figshare.com/s/00d69861786cd0156d81}{this site}. 
 
-\subsection{Evaluation}
+% CAN INCLUDE BELOW IF YOU WANT
+%The corresponding author for the remaining embeddings from Minarro-Gimenez and Zhang were contacted, but a response was not received. Miarro-Gimenez's project files are available at \href{https://code.google.com/archive/p/biomedical-text-exploring-tools/}{this code archive site} but lack documentation and could not be accessed by this time. 
 
-We reimplemented Choi et al's Medical Relatedness Property metric by extending their code to calculate this property for specific domains of medicine. First, we calculate this propertry for all concepts repersented by ICD-9 CM codes with each system. TODO: we then repeated this amongst the most popular diagnoses within each category. TODO ANOVA was performed to determine the significance of differences between systems and embeddings. 
+%TODO: Try to extract the embeddings. Probably accessed by TestClientThreadWord2vec.java, try opening it up in Eclipse, maybe can modify it and retrieve them. 
+
+\subsection{Evaluation Methods}
+
+\paragraph{Determining a Concept Embedding's Field of Medicine}
+A clinical concept could be understood to be a part of different medical fields depending on who is asked. In order to have an objective and unambiguous classification, we utilized the ninth revision of the International Statistical Classification of Diseases and Related Health Problems (ICD-9). This is a widely used system to classify medical diseases and disorders, and classifies such into seventeen chapters representing medical systems or other such clusters, such as mental disorders, or disease of the respiratory system.    
+
+\paragraph{Medical Relatedness Property}(MRP)
+
+This metric from \cite{choiLearningLowDimensionalRepresentations2016} is based on quantifying whether concepts with known relations are located near each other. They use, separately, known relationships between drugs and the diseases they treat or prevent, and the relations between diseases that are group together in the CCS hierarchical groupings, a classification from the Agency for Healthcare Research and Quality. The scoring utilizes Discounted Cumulative Gain, which attributes a diminishing score if a relationship is found within \emph{k} neighbours the further it is. 
+
+In our implantation, we calculate the MRP based on the `course' groupings from CCS drug hierarchies. Scores are calculated for CUIs that represent diseases with a known ICD9 code. The mean MRP is then calculated for all CUIs within a given ICD9 system. 
+
+DISCUSS THIS WAS IMPLEMNTED AND OTHERS FROM SCRATCH.
+
+\paragraph{Medical Conceptual Similarity Property}(MCSP) The other metric from Choi et al's work evaluates whether embeddings known to be of a particular set are clustered together. They use conceptual sets from the UMLS such as `pharmacologic substance' or 'disease or syndrome'.  Discounted cumulative gain is again used, based on whether a cui has other cuis of its set within \emph{k} neighbours. 
+
+We reimplement this method, but instead of using the UMLS conceptual sets, we create sets from the ICD9 systems. We consider CUIs that represent diseases with ICD9 codes, and CUIs that represent drugs which treat or prevent ICD9 diseases, and attribute score if drugs or diseases are near others of the same medical system. 
+
+\paragraph{Correlation with UMNSRS Similarity}(SimCor)
+\cite{yuRetrofittingConceptVector2017} investigate whether the cosine similarity of embedding vectors are correlated with human judgements of similarity. The UMNSRS-Similarity dataset \cite{pakhomovSemanticRelatednessSimilarity2018} contains around 500 similarity ratings between medical concepts as rated by eight medical residents. A Spearman rank correlation is then computer between the cosine similarities and the UMNSRS-Similarity ratings for pairs. 
+
+Our implementation repeats the above. A medical system's mean correlation is calculated from all pairs that contain at least one disease with an ICD9 code in its system, or a drug that treats or prevents a disease in the system.  Soearman rank correlation is again used. 
+
+\paragraph{Significance in Bootstrap Distribution}(Bootstrap)
+Beam et al \shortcite{beamClinicalConceptEmbeddings2018} also evaluate how well known relationships between concepts are observed between embeddings, such as whether diseases are co-morbid, or a drug treats a condition. For a given type of relation, they generate a bootstrap distribution by randomly calculating cosine similarities of embedding vectors of the same class (eg. a random drug and disease when evaluating drug may-treat disease relations). For a given known relation, they consider the embeddings producing an accurate prediction if their cosine similarity is within the top 5\%, the equivalent of p<0.05 for a one-sided t-test. 
+
+Our implementation considers the \emph{may-treat} or \emph{may-prevent} known relationships from the NDF-RT dataset. The percentage of known relations for drug-disease pair within each medical system is calculated. 
+
+\paragraph{Centroid Prediction}
+We implement a new method to compare against the others. A centroid is calculated for each medical system by averaging the normed embeddings for diseases with relevant ICD9 codes. We then calculate the percentage of drugs known to treat or prevent a disease in each system whose vectors are most similar (by cosine similarity) to the relevant centroid. For example, we would expect the CUI for `fluoxetine', an anti-depressant, to be most similar to the Mental Disorders centroid. 
+
+Some drugs treat or prevent diseases in \emph{n} multiple system. For a medical system, such a drug is considered being accurately predicted if it the system's centroid is amongst the \emph{n} most similar centroids.  
+
+\paragraph{Analysis}
+Our work seeks to determine if embeddings for one medical system are worse or better than others. Additionally, we week to determine whether there are similar differences between the different sets of embeddings. To do this, we must consider the scores generated using five different metrics, four different embeddings, and seventeen different medical systems. However, the scores from five metrics are not obviously convertible, at least not all together. 
+
+For now, we will assume our results are normally distributed; this may not be unreasonable as the processes underlying the quality of embeddings - the use of words representing clinical concepts in texts - stem from a natural process (human writing word choice).
+
+To compare the embeddings from the different medical systems, for each evaluation method we calculate the mean score from each embedding. We then conducted a paired two-way t-test for five pairs of system's score with a given embedding vs the mean score across all systems for an embedding. We then observe the relative difference vs the mean, and whether this is significant at p \textless 0.05. 
+
+We repeat the same steps to compare the embeddings themselves. 
 
 
- 
 
-\subsection{Current Data Availability}
+%TODO MORE
 
-Of the five works mentioned above, two have their data publicly available for download, one does not but has previously shared data with other authors, one is fully published so will likely share, and one is planning to share, but only when they are published. Relevant authors have been or will be contacted. 
 
-\subsection{Project Flexibility and Extensibility}
-
-At a minimum, this project will use the available embeddings, and implement the evaluation metrics whose code is available, or whose description is sufficient to allow replication. An extensible system will be used such that future embeddings, when available, can be easily incorporated and compared. It is expected that, even if not all embeddings are available by the project due data, the implementation of the embeddings and evaluation metrics available will be the majority of the work for the total project, and will yield a sizeable contribution. 
-
-If the proposed methodology is implemented easily and quickly, a possible extension will be determine the feasibility of training new embeddings based only on psychiatric data, such as using a subset of the matrix used by Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}; we could try only using the portion of the matrix with terms related to psychiatry. 
-
-Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so for psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in and outside of psychiatry, or a similar set of articles from the medical practice manual and learning resource UpToDate.
-
-In the longer term, this project may be applicable to a separate project applying NLP and ML techniques to a large BC Cancer clinical dataset consistency of the medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
 
 \section{Results}
 
+Comparing the embeddings from medical systems across the five evaluation methods reveals that some systems have scores significantly above the mean across multiple methods (Table \ref{tab:allsystemresults}). Embeddings related to cancers and muskoskeletal system are significantly above the mean in two methods, while those of mental disorders, the nervous system, and the cardiovascular system are significantly above in three methods. No systems have scores below the mean on more than one metric; those that do include those related to diseases of pregnancy, the perinatal period, and skin disorders. 
+
+ Evaluating the sets of embeddings (Table \ref{tab:allsystemresults}) shows some stark differences. The \emph{cui2vec} embeddings from Beam et al are above the mean across all evaluation methods, significantly three times. Those from DeVine et al, and those from Choi et al based on the clinical narratives, do significantly worse. The remaining embeddings, those based on health insurance codes from Choi et al, are more middling. 
+
+
+
+\begin{table*}[]
+	\caption{Score of embeddings from a given medical system according to a given evaluation method expressed as relative to the mean score for that method. Significant (paired t-test p \textless 0.05) scores above are shown in orange, below blue. See Methods section for method abbreviations. Blank values represent no scores could be calculated for a given combo.}
+	\label{tab:allsystemresults}
+	\begin{tabular}{lccccc}
+		& MRP                           & MCSP                          & SimCor                        & Bootstrap                    & Centroid                     \\
+		Infections           & -0.206                        & 0.408                         & \blu{-0.341} & \ora{0.348} & 0.119                        \\
+		Cancers              & \ora{0.194}  & 0.019                         & \ora{0.514}  & 0.382                        & -0.04                        \\
+		Cndocrine            & 0.029                         & \blu{-0.116} & \ora{0.199}  & 0.229                        & -0.1                         \\
+		Blood diseases       & -0.071                        & \blu{-0.285} & -0.02                         & -0.063                       & 0.097                        \\
+		Mental disorders     & \ora{0.23}   & \ora{0.666}  & -0.449                        & 0.25                         & \ora{0.325} \\
+		Nervous system       & \ora{0.61}   & \ora{0.638}  & -0.028                        & 0.174                        & \ora{0.406} \\
+		Cardiovascular       & \ora{0.117}  & \ora{0.641}  & 0.189                         & 0.218                        & \ora{0.384} \\
+		Respiratory          & -0.13                         & 0.066                         & \blu{-0.242} & \ora{0.402} & -0.07                        \\
+		Digestive            & 0.239                         & -0.072                        & \blu{-0.421} & -0.067                       & -0.385                       \\
+		Genitourinary        & 0.285                         & 0.08                          & -0.149                        & 0.073                        & \ora{0.178} \\
+		Pregnancy            & -0.219                        & \blu{-0.56}  &                               &                              &                              \\
+		Skin                 & \blu{-0.276} & -0.203                        & -0.312                        & 0.18                         & 0.075                        \\
+		Muskoskeletal        & 0.046                         & 0.13                          & \ora{0.467}  & 0.064                        & \ora{0.305} \\
+		Congenital           & -0.15                         & -0.128                        &                               & 0.106                        & \ora{0.524} \\
+		Perinatal            & -0.382                        & \blu{-0.567} &                               &                              &                              \\
+		Ill-defined          & -0.176                        & -0.281                        & -0.244                        & -0.183                       & 0.053                        \\
+		Injury and poisoning & -0.138                        & \blu{-0.437} & \ora{0.835}  & -0.115                       & 0.128                       
+	\end{tabular}
+\end{table*}
+
+\begin{table*}[]
+	\caption{Score of set of embeddings according to a given evaluation method expressed as relative to the mean score for that method. Significant (paired t-test p \textless 0.05) scores above are shown in orange, below blue. See Methods section for embedding set abbreviations.}
+	\label{tab:allembedresults}
+	\begin{tabular}{llllll}
+			            &MRP	        &MCSP	           &SimCor	    &Bootsrap	  &Centroid\\
+		DeVine200       &\blu{-0.345}   &\blu{-0.121}	   &0.065	    &\blu{-0.464} &	-0.042 \\
+		ChoiClaims300   &\ora{0.097}	&0.036	           &-0.055	    &-0.041	      &0.018   \\
+		ChoiClinical300	&\blu{-0.135}	&\blu{-0.155}	   &-0.047	    &-0.019	      &-0.005  \\
+		BeamCui2Vec500	&\ora{0.384}	&\ora{0.24}	       &0.037       &\ora{0.524}  &0.029   \\
+	\end{tabular}
+\end{table*}
 
 %\csvautotabular{css_by_system_results.csv}
 
-Using Choi et al's Medical Relatedness Property, we see the embeddings performance on all codes within each ICD-9 system in Table~\ref{table1able1}. TODO ANOVA. We then repeat this for the most common diagnoses, finding the following results in Table. In this case, ANOVA shows:
+%\begin{table*}
+%	\begin{center}
+%		\caption{Medical Relatedness Property Across All ICD-9 Diagnoses Within Systems.}
+%		\label{table1}
+%		\pgfplotstabletypeset[
+%			col sep=comma,
+%			string type,
+%			columns/name/.style={column name=Name, column type={|l}},
+%			columns/surname/.style={column name=Surname, column type={|l}},
+%			columns/age/.style={column name=Age, column type={|c|}},
+%			every head row/.style={before row=\hline,after row=\hline},
+%			every last row/.style={after row=\hline},
+%			]{../results/css_by_system_results.csv}
+%  \end{center}
+%\end{table*}
 
-\begin{table*}
-	\begin{center}
-		\caption{Medical Relatedness Property Across All ICD-9 Diagnoses Within Systems.}
-		\label{table1}
-		\pgfplotstabletypeset[
-			col sep=comma,
-			string type,
-			columns/name/.style={column name=Name, column type={|l}},
-			columns/surname/.style={column name=Surname, column type={|l}},
-			columns/age/.style={column name=Age, column type={|c|}},
-			every head row/.style={before row=\hline,after row=\hline},
-			every last row/.style={after row=\hline},
-			]{../results/css_by_system_results.csv}
-  \end{center}
-\end{table*}
+\section{!Discussion}
+\subsection{!Lessons Learned}
+\subsection{!Was Project Succesful?}
+\subsection{!Strengths and weaknesses}
+
+\section{!Future Work}
+Multiple avenues exist for improving this work. Currently, the dictionary between ULMS CUIs and ICD9CM codes only has around 40,000 entries. As such, many CUIs could not be used, despite representing concepts very related. Generating a larger dictionary automatically would be useful, and could possible be feasible given the requirement that they only be fit into large disease categories. 
+
+In this work, all known CUIs repersenting an ICD9 code are used for the calculations. An idea initially proposed was to repeat these analysis only using a list of the most frequent diseases. This was not done due to the difficulty of quantifying such lists, as it would require access to sensitive health systems data which takes time to access. REWORD. 
+
+Evaluating Zhang et al's domain adaptation-trained embeddlings in this project would help quantify how much improvement this technique may lead, if their embeddings could be obtained. 
 
 
+%If the proposed methodology is implemented easily and quickly, a possible extension will be determine the feasibility of training new embeddings based only on psychiatric data, such as using a subset of the matrix used by Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}; we could try only using the portion of the matrix with terms related to psychiatry. 
+%
+%Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so for psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in and outside of psychiatry, or a similar set of articles from the medical practice manual and learning resource UpToDate.
+%
+%In the longer term, this project may be applicable to a separate project applying NLP and ML techniques to a large BC Cancer clinical dataset consistency of the medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
 
 
-
-\section{Expected Results}
-
-Due to the uniqueness of psychiatry, we expect the various embeddings will generally perform worse when used for psychiatric concepts than those not in this speciality. We expected that the performance the various embeddings/techniques that work better generally will also work better for psychiatric content. However, it would not be overly surprising if the embeddings trained on larger dataset may perform worse for psychiatric terms, as the psychiatric-specific meaning of a word may get ``drowned-out'' more in larger datasets. 
-%
-%
-%\section{Format of Electronic Manuscript}
-%\label{sect:pdf}
-%
-%For the production of the electronic manuscript you must use Adobe's
-%Portable Document Format (PDF). This format can be generated from
-%postscript files: on Unix systems, you can use {\tt ps2pdf} for this
-%purpose; under Microsoft Windows, Adobe's Distiller can be used.  Note
-%that some word processing programs generate PDF which may not include
-%all the necessary fonts (esp. tree diagrams, symbols). When you print
-%or create the PDF file, there is usually an option in your printer
-%setup to include none, all or just non-standard fonts.  Please make
-%sure that you select of the option of including ALL the fonts.  {\em
-%  Before sending it, test your {\/\em PDF} by printing it from a
-%  computer different from the one where it was created}. Moreover,
-%some word processor may generate very large postscript/PDF files,
-%where each page is rendered as an image. Such images may reproduce
-%poorly.  In this case, try alternative ways to obtain the postscript
-%and/or PDF.  One way on some systems is to install a driver for a
-%postscript printer, send your document to the printer specifying
-%``Output to a file'', then convert the file to PDF.
-%
-%For reasons of uniformity, Adobe's {\bf Times Roman} font should be
-%used. In \LaTeX2e{} this is accomplished by putting
-%
-%\begin{quote}
-%\begin{verbatim}
-%\usepackage{times}
-%\usepackage{latexsym}
-%\end{verbatim}
-%\end{quote}
-%in the preamble.
-%
-%Additionally, it is of utmost importance to specify the US {\bf
-%  US-Letter format} (8.5in $\times$ 11in) when formatting the paper.
-%When working with {\tt dvips}, for instance, one should specify {\tt
-%  -t letter}.
-%
-%
-%\subsection{Layout}
-%\label{ssec:layout}
-%
-%Manuscripts should have two columns to a page, in the manner these
-%instructions are printed. The exact dimensions for a page on US-letter
-%paper are:
-%
-%\begin{itemize}
-%\item Left and right margins: 1in
-%\item Top margin:1in
-%\item Bottom margin: 1in
-%\item Columns width: 3.15in
-%\item Column height: 9in
-%\item Gap between columns: 0.2in
-%\end{itemize}
-%
-%
-%\subsection{The First Page}
-%\label{ssec:first}
-%
-%Center the title, (s) and affiliation(s) across both
-%columns. Do not use footnotes for affiliations.  Do not include the
-%paper ID number that was assigned during the submission process. 
-%Use the two-column format only when you begin the abstract.
-%
-%{\bf Title}: Place the title centered at the top of the first page, in
-%a 15-point bold font. Long title should be typed on two lines without
-%a blank line intervening. Approximately, put the title at 1in from the
-%top of the page, followed by a blank line, then the author's names(s),
-%and the affiliation on the following line.  Do not use only initials
-%for given names (middle initials are allowed). The affiliation should
-%contain the author's complete address, and if possible an electronic
-%mail address. Leave about 0.75in between the affiliation and the body
-%of the first page.
-%
-%{\bf Abstract}: Type the abstract at the beginning of the first
-%column.  The width of the abstract text should be smaller than the
-%width of the columns for the text in the body of the paper by about
-%0.25in on each side.  Center the word {\bf Abstract} in a 12 point
-%bold font above the body of the abstract. The abstract should be a
-%concise summary of the general thesis and conclusions of the paper.
-%It should be no longer than 200 words.
-%
-%{\bf Text}: Begin typing the main body of the text immediately after
-%the abstract, observing the two-column format as shown in 
-%the present document. Type single spaced. 
-%{\bf Indent} when starting a new paragraph. 
-%
-%{\bf Font:} 
-%For reasons of uniformity,
-%use Adobe's {\bf Times Roman} fonts, with 10 points for text and 
-%subsection headings, 12 points for section headings and 15 points for
-%the title. If Times Roman is unavailable, use {\bf Computer Modern
-%  Roman} (\LaTeX2e{}'s default; see section \ref{sect:pdf} above).
-%Note that the latter is about 10\% less dense than Adobe's Times Roman
-%font.  
-%
-%\subsection{Sections}
-%
-%{\bf Headings}: Type and label section and subsection headings in the
-%style shown on the present document.  Use numbered sections (Arabic
-%numerals) in order to facilitate cross references. Number subsections
-%with the section number and the subsection number separated by a dot,
-%in Arabic numerals. Do not number subsubsections.
-%
-%{\bf Citations}: Follow the ``Guidelines for Formatting Submissions''
-%to {\em Computational Linguistics\/} that appears in the first issue of
-%each volume, if possible.  That is, citations within the text appear
-%in parentheses as~\cite{Gusfield:97} or, if the author's name appears in
-%the text itself, as Gusfield~\shortcite{Gusfield:97}. 
-%Append lowercase letters to the year in cases of ambiguities.  
-%Treat double authors as in~\cite{Aho:72}, but write as 
-%in~\cite{Chandra:81} when more than two authors are involved. 
-%Collapse multiple citations as in~\cite{Gusfield:97,Aho:72}.
-%
-%\textbf{References}: Gather the full set of references together under
-%the heading {\bf References}; place the section before any Appendices,
-%unless they contain references. Arrange the references alphabetically
-%by first author, rather than by order of occurrence in the text.
-%Provide as complete a citation as possible, using a consistent format,
-%such as the one for {\em Computational Linguistics\/} or the one in the 
-%{\em Publication Manual of the American 
-%Psychological Association\/}~\cite{APA:83}.  Use of full names for
-%authors rather than initials is preferred.  A list of abbreviations
-%for common computer science journals can be found in the ACM 
-%{\em Computing Reviews\/}~\cite{ACM:83}.
-%
-%The provided \LaTeX{} and Bib\TeX{} style files roughly fit the
-%American Psychological Association format, allowing regular citations, 
-%short citations and multiple citations as described above.
-%
-%{\bf Appendices}: Appendices, if any, directly follow the text and the
-%references (but see above).  Letter them in sequence and provide an
-%informative title: {\bf Appendix A. Title of Appendix}.
-%
-%\textbf{Acknowledgements} sections should go as a last section immediately
-%before the references.  Do not number the acknowledgement section.
-%
-%\subsection{Footnotes}
-%
-%{\bf Footnotes}: Put footnotes at the bottom of the page. They may
-%be numbered or referred to by asterisks or other
-%symbols.\footnote{This is how a footnote should appear.} Footnotes
-%should be separated from the text by a line.\footnote{Note the
-%line separating the footnotes from the text.}
-%
-%\subsection{Graphics}
-%
-%{\bf Illustrations}: Place figures, tables, and photographs in the
-%paper near where they are first discussed, rather than at the end, if
-%possible.  Wide illustrations may run across both columns. Do not use
-%color illustrations as they may reproduce poorly.
-%
-%{\bf Captions}: Provide a caption for every illustration; number each one
-%sequentially in the form:  ``Figure 1. Caption of the Figure.'' ``Table 1.
-%Caption of the Table.''  Type the captions of the figures and 
-%tables below the body, using 10 point text.  
 
 
 \bibliographystyle{acl}

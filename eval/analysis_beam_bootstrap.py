@@ -87,7 +87,7 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
          # of cosine similiarities between random drug and disease pairs
          #drug_cuis = [idx_to_cui[x] for x in drug_idxs]
          #diag_cuis = [idx_to_cui[x] for x in diag_idxs]    
-         n_bootstrap = 1000
+         n_bootstrap = 10000
          null_cos_sims = []
          p_value = 0.05
          for j in range(n_bootstrap):

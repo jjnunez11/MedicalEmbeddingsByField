@@ -16,14 +16,6 @@ Olivier Bodenreider.
   biomedical terminology.
 \newblock {\em Nucleic Acids Research}, 32(Database issue):D267--D270, January.
 
-\bibitem[\protect\citename{Caviedes and
-  Cimino}2004]{caviedesDevelopmentConceptualDistance2004}
-Jorge~E. Caviedes and James~J. Cimino.
-\newblock 2004.
-\newblock Towards the development of a conceptual distance metric for the
-  {{UMLS}}.
-\newblock {\em Journal of Biomedical Informatics}, 37(2):77--85, April.
-
 \bibitem[\protect\citename{Choi \bgroup et al.\egroup
   }2016]{choiLearningLowDimensionalRepresentations2016}
 Youngduck Choi, Chill Yi-I Chiu, and David Sontag.
@@ -51,16 +43,6 @@ Tyler~B. Forbush, Adi~V. Gundlapalli, Miland~N. Palmer, Shuying Shen, Brett~R.
 \newblock ``{{Sitting}} on {{Pins}} and {{Needles}}'': {{Characterization}} of
   {{Symptom Descriptions}} in {{Clinical Notes}}''.
 \newblock {\em AMIA Summits on Translational Science Proceedings}, 2013:67--71.
-
-\bibitem[\protect\citename{Koopman \bgroup et al.\egroup
-  }2012]{koopmanEvaluationCorpusdrivenMeasures2012}
-Bevan Koopman, Guido Zuccon, Peter Bruza, Laurianne Sitbon, and Michael Lawley.
-\newblock 2012.
-\newblock An {{Evaluation}} of {{Corpus}}-driven {{Measures}} of {{Medical
-  Concept Similarity}} for {{Information Retrieval}}.
-\newblock In {\em Proceedings of the 21st {{ACM International Conference}} on
-  {{Information}} and {{Knowledge Management}}}, {{CIKM}} '12, pages
-  2439--2442, New York, NY, USA. {ACM}.
 
 \bibitem[\protect\citename{Lee \bgroup et al.\egroup
   }2018]{leeLeveragingExistingCorpora2018}
@@ -96,14 +78,11 @@ Jos\'e~Antonio {Minarro-Gim\'enez}, Oscar {Mar\'in-Alonso}, and Matthias
   corpora.
 \newblock {\em Studies In Health Technology And Informatics}, 205:584--588.
 
-\bibitem[\protect\citename{Pedersen \bgroup et al.\egroup
-  }2007]{pedersenMeasuresSemanticSimilarity2007}
-Ted Pedersen, Serguei V.~S. Pakhomov, Siddharth Patwardhan, and Christopher~G.
-  Chute.
-\newblock 2007.
-\newblock Measures of semantic similarity and relatedness in the biomedical
-  domain.
-\newblock {\em Journal of Biomedical Informatics}, 40(3):288--299, June.
+\bibitem[\protect\citename{Pakhomov}2018]{pakhomovSemanticRelatednessSimilarity2018}
+Serguei Pakhomov.
+\newblock 2018.
+\newblock Semantic {{Relatedness}} and {{Similarity Reference Standards}} for
+  {{Medical Terms}}, May.
 
 \bibitem[\protect\citename{Yu \bgroup et al.\egroup
   }2017]{yuRetrofittingConceptVector2017}
