@@ -27,7 +27,7 @@
 
 \author{John-Jose Nunez\\
   Depts. of Psychiatry and Computer Science, UBC\\
-  {\tt jjnunez11@gmail.com} 
+  {\tt jjnunez@cs.ubc.com} 
 }
 \date{}
 
@@ -45,24 +45,25 @@
 %%DESCRIPTION OF PROBLEM EG NLP TASK, CORPUS
 %%RELATED WORK
 
-The application of natural language processing and machine learning to medicine presents an exciting opportunity for tasks requiring prediction and classification, such as predicting the risk of suicide after a patient is discharged from hospital \cite{mccoyImprovingPredictionSuicide2016}. A common approach is to convert the unstructured text produced by clinical interactions into low-dimension vector representations which can fed into these algorithms. These vectorizations are produced by training models on large unlabelled corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model, training a vector for a target word based on what words are found within a window near it. It was initially trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained medical embeddings using specific medical sources. 
+The application of natural language processing and machine learning to medicine presents an exciting opportunity for tasks requiring prediction and classification, such as predicting the risk of suicide after a patient is discharged from hospital \cite{mccoyImprovingPredictionSuicide2016}. A common approach is to convert the unstructured text produced by clinical interactions into low-dimension vector representations which can then be fed into these algorithms. These vectorizations are produced by training models on large unlabelled corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model, producing a target word's vector based on what words surround it. It was initially trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained medical embeddings using specific medical sources. 
 
-Recent approaches in this vein include De Vine et al \shortcite{devineMedicalSemanticSimilarity2014} which trained embeddings for medical concepts in the Unified Library Management System (ULMS) \cite{bodenreiderUnifiedMedicalLanguage2004} using journal abstracts from MEDLINE as well as with clinical patient records. They then used these embeddings to compare predicted word similarity against human-judgements. Minarro-Gimenez et al \shortcite{minarro-gimenezExploringApplicationDeep2014} trained embeddings using medical manuals, articles, and Wikipedia articles, comparing predicted vector similarity between medications against the National Drug File - Reference Terminology (NDF-RT) ontology. Choi et al \cite{choiLearningLowDimensionalRepresentations2016} improved on this work by learning on large-scale health record data consisting of raw text from clinical notes mapped to concepts from UMLS. In their yet unpublished work, Beam et al \cite{beamClinicalConceptEmbeddings2018} use an ``extremely large'' database of clinical notes, insurance claims, and full journal texts, and develop a new system termed ``cui2vec'', mapping concepts into a set of unique identifiers based on UMLS, and then training vectors for these identifiers based on the occurrences of other identifiers within a certain window length. 
+Generally, these approaches have trained embeddings to represent medical concepts according to their `clinical unique identifiers' (CUIs) in the Unified Library Management System (ULMS) \cite{bodenreiderUnifiedMedicalLanguage2004}, which words in text can then be mapped to \cite{yuShortIntroductionNILE2013}. Examples include De Vine et al \shortcite{devineMedicalSemanticSimilarity2014} who trained embeddings using journal abstracts from MEDLINE as well as with clinical patient records. They evaluated these embeddings by comparing vector cosine similarity against human-judged similarity. Minarro-Gimenez et al \shortcite{minarro-gimenezExploringApplicationDeep2014} trained embeddings using medical manuals, articles, and Wikipedia articles, judging quality by their ability to predict drug-disease relations noted in the National Drug File - Reference Terminology (NDF-RT) ontology. Choi et al \cite{choiLearningLowDimensionalRepresentations2016} improved on this work by learning two sets of embeddings, from health insurance claims and clinical narratives. They evaluated their embeddings by determining their ability to predict known relations including those in the NDF-RT, disease hierarchies, and medical concept type. In their yet unpublished work, Beam et al \cite{beamClinicalConceptEmbeddings2018} learn embeddings on the largest dataset, combining health insurance claims, clinical narratives and full journal texts. They developed a new system termed ``cui2vec'', training CUI embeddings based on the occurrences of other identifiers within a certain window length. They use an assortment of aforementioned known relations to compare the quality of these embeddings. 
 
-All of the above examples were both trained and evaluated on general medical data, from all fields of medicine. It is unclear how these models perform in specific fields of medicine. For example, we can consider the medical speciality of psychiatry, the field of medicine concerned with mental illness such as depression or schizophrenia. Prior work has shown that psychiatric symptoms are often described in a long, varied, and subjective manner \cite{forbushSittingPinsNeedles2013} which may present a particular challenge for NLP.
+All of the above examples were both trained and evaluated on general medical data, from all fields of medicine. It is unclear how these models perform in specific fields of medicine. For example, we can consider the medical speciality of psychiatry, the field of medicine concerned with mental illness such as depression or schizophrenia. Prior work has shown that psychiatric symptoms are often described in a long, varied, and subjective manner \cite{forbushSittingPinsNeedles2013} which may present a particular challenge for training these embeddings and NLP tasks generally.
 
 Prior work has explored whether domain adaptation (DA), techniques to adapt data from other domains to work on a target, can improve performance when applied to this sub-domain of psychiatry. Lee et al \cite{leeLeveragingExistingCorpora2018} used these techniques to improve the task of de-identifying psychiatric notes. Zhang et al \cite{zhangAdaptingWordEmbeddings2018} then applied DA to word embeddings trained from general language and medical sources, showing some improvements when targeting a psychiatric dataset. 
 
-
-%CHANGE ABOVE TO MORE GENERAL, BUT CAN STILL USE THOSE SPECIFIC EXAMPLES. 
 
 \subsection{!Contribution}
 
 %This project aims to advance the application of word embedding techniques in psychiatry. Specifically, we will seek to  determine whether embeddings trained on general medical data perform as well on psychiatric content as they do on other domains within medicine. We are unaware of prior work investigating this. We will compare multiple techniques for embeddings and evaluation. This will help determine generally how well these performance on psychiatric concepts, and whether various attributes may help or hinder this applicability, such as embeddings trained on larger training sets, or the use of DA.  This may impact future work by suggesting if psychiatric applications should use general-medicine trained embeddings, or those trained only on domain-specific data.  
 
 
-In this work, I seek to start understanding how NLP performance may vary when applied to the difference fields of medicine. Specifically, I compare the quality of embeddings trained on general medical data by the field of medicine they are related to, using a variety of metrics previously described in the literature. As NLP is applied to medicine, field-specific applications will become increasingly popular. If this work finds little difference between the fields, future will be assured that embeddings trained from general medical text will be sufficient. Conversely, if differences are found for specific fields, future work may want to address this shortfall by using techniques like DA, or even creating embeddings specifically trained for this field. 
+In this work, we seek to start understanding how NLP performance may vary when applied to the difference fields of medicine. Specifically, we compare the quality of embeddings trained on general medical data by the field of medicine they are related to, using a variety of metrics previously described in the literature. As NLP is applied to medicine, field-specific applications will become increasingly popular. If this work finds little difference between the fields, future will be assured that embeddings trained from general medical text will be sufficient. Conversely, if differences are found for specific fields, future work may want to address this shortfall by using techniques like DA, or even creating embeddings specifically trained for this field. 
 
+Additionally, this project also contributes to the evaluation of medical embeddings. These methods generally evaluate whether the embedding vectors for a given concept are similar to other embeddings given a known relation. This work is the first to use concepts' related fields of medicine as such a relation, which we believe may be more clinically relevant than some prior relations. 
+
+Lastly, by comparing multiple sets of embeddings using different evaluation metrics, this work seeks to also evaluate the relative performance of embeddings trained with different methods. 
 
 \section{Proposed Methodology}
 
@@ -103,15 +104,13 @@ For top diagnoses: Could access fancy Canadian Data with a data request per emai
 	\begin{center}
 		\caption{Charectoristics of the embeddings compared, including the name referred, the embedding dimensions, the number of embeddings in the dataset, and the type of data used to train them.}
 		\label{tab:embed}
-		\begin{tabular}{l|c|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-			\textbf{Name} & \textbf{Dimension} & \textbf{Number} & \textbf{Data Used to Train} \\
+		\begin{tabular}{l|c|c|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+			\textbf{Name} & \textbf{Dimension} & \textbf{Number} & \textbf{Number of Training Data}& \textbf{Type of Training Data} \\
 			\hline
-			DeVine200 & 200 & 52,102 & clinical narratives\\
-			&&&journal abstracts\\
-			ChoiClaims300 & 300 & 14,852& health insurance claims\\
-			ChoiClinical300 & 300 & 22,705& clinical narratives\\
-			BeamCui2Vec500 & 500 & 109,053& health insurance claims\\
-			&&&full journal text\\
+			DeVine200 & 200 & 52,102 & 17k + 348k &clinical narratives, journal abstracts\\
+			ChoiClaims300 & 300 & 14,852& 4m&health insurance claims\\
+			ChoiClinical300 & 300 & 22,705&20m& clinical narratives\\
+			BeamCui2Vec500 & 500 & 109,053&60m + 20m + 1.7m& claims, narratives, full journal texts\\
 		\end{tabular}
 	\end{center}
 \end{table*}
