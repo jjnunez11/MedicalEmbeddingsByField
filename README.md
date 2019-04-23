@@ -15,6 +15,10 @@ The code for the analyses are located within [`eval`](https://github.com/jjnunez
 - `analysis_choi_mrp.py` calculates Medical Relatedness Property from Choi et al
 - `analysis_choi_mcsp.py` calculates Medical Conceptual Similiarity Property from Choi et al
 
+Additionally, I needed to write new functions shared by the difference analyses, in addition to adapting those from Choi et al's work. The functions I added or changed are alos located within `eval`:
+- `embed_helpers.py` which contain functions for reading and processing the embedding files
+- `cui_icd9_helpers.py` which contains function for flitering, converting, and other operations on the dictionaries between CUI and ICD9
+
 Raw results files are located within `results` folder
 
 The `data` folder conaints the various data used for the project, including embeddings, and the various dictionaries. Many come from Choi et al's implementation.
