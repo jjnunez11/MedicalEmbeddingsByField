@@ -4,15 +4,15 @@ Class project for CPSC 503 evaluating how the performance of clinical concept em
 
 The current implementation uses five different evaluation methods to judge embeddings from four different embedding sets. 
 
-The project report is located [here](med_embeddings_by_field.pdf)
+The project report is located [here](../doc/med_embeddings_by_field.pdf)
 
 Run all analyses by running [main.py](../eval/main.py)
 
-The code for the analyses are located within [/eval/](../eval/). The analyses from Choi were adapted, all others were written by me. Auxillary functions are located within the two helper files. Some functions are reused from Choi et al's implementation. The ones with docstrings indicating JJN were written or adapted by me. 
+The code for the analyses are located within [../eval](../eval/). The analyses from Choi were adapted, all others were written by me. Auxillary functions are located within the two helper files. Some functions are reused from Choi et al's implementation. The ones with docstrings indicating JJN were written or adapted by me. 
 
-Raw results files are located within [/results/][(../results/)
+Raw results files are located within [/results/][(../results)
 
-The [/data/](../data/) folder conaints the various data used for the project, including embeddings, and the various dictionaries. Many come from Choi et al's implementation.
+The [/data/](../data) folder conaints the various data used for the project, including embeddings, and the various dictionaries. Many come from Choi et al's implementation.
 
 ## Following data must be obtained prior to runnig: ##
 
