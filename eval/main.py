@@ -8,7 +8,7 @@ from analysis_new_sysvec import print_new_sysvec
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--filenames", default='orig_files_all.txt')
+    parser.add_argument("--filenames", default='config_embed_files.txt')
     args = parser.parse_args()
     filenames_file = args.filenames
 

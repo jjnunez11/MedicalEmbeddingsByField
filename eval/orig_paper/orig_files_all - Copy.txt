@@ -1,4 +1,0 @@
-DeVine_etal_200.txt,cui,DeVine200
-claims_codes_hs_300.txt,codes,ChoiClaims300
-stanford_cuis_svd_300.txt,cui,ChoiClinical300
-cui2vec_pretrained.csv,cui,BeamCui2Vec500

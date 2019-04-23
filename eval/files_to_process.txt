@@ -1,4 +1,0 @@
-../data/DeVine_etal_200.txt
-../data/claims_cuis_hs_300.txt
-../data/stanford_cuis_svd_300.txt
-../data/cui2vec_pretrained.csv
