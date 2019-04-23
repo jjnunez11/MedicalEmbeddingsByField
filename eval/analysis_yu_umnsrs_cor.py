@@ -5,7 +5,6 @@ Created on Fri Apr  5 15:06:34 2019
 @author: jjnun
 """
 from __future__ import division
-##from scipy.spatial.distance import cosine
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import spearmanr
 from icd9 import ICD9
@@ -18,17 +17,16 @@ tree = ICD9('codes.json')
 data_folder = Path("../data")
 results_folder = Path("../results")
 
-
-
-# JJN Calculates the Spearman Correlation Coefficient between UMNSRS ratings and vector cosines when a pair contains
-    # Either a diagnosis in the ICD 9 category, or treats or prevents a condition in that ICD 9 category
 def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9):
-    #filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets_cui(filenames_type)
+    """JJN: Calculates the Spearman Correlation Coefficient between UMNSRS ratings and vector cosines when a pair contains
+    Either a diagnosis in the ICD 9 category, or treats or prevents a condition in that ICD 9 category
+    """
     filename_to_embedding_matrix, idx_to_cui, cui_to_idx = generate_overlapping_sets_cui(filenames_type)
+    
     
     print 'Number of overlapping cuis between embeddings: ' + str(len(idx_to_cui))
         
-    #umnsrs_filename = 'UMNSRS_relatedness_mod458_word2vec.csv'
+    #umnsrs_filename = 'UMNSRS_relatedness_mod458_word2vec.csv' #Can use judged relatedness instead of similiarity if desired
     umnsrs_filename = 'UMNSRS_similarity_mod449_word2vec.csv'
     with open(str(data_folder / umnsrs_filename), 'rU') as f:
         umnsrs_rows = f.readlines()[1:]
@@ -40,12 +38,11 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
     filename_all = []
     value_all = []
     
-    ## TODO REMOVE THIS JUST FOR DEBUGGING
-    o = open(str(results_folder / 'overlappingcuis.txt' ), 'w')
-    for cui in cuis: o.write(str(cui)+'\n')
-    o.close()
-    ## -----------------------------------
-    
+    # Following code to output which cuis are overlapping between all sets 
+    ## o = open(str(results_folder / 'overlappingcuis.txt' ), 'w')
+    ## for cui in cuis: o.write(str(cui)+'\n')
+    ## o.close()
+
     # Use a dict to keep track of how many of the UMNSRS comparisons are used in this system
     # To avoid extra code, this will be reset with each file, but will all be the same
     compares = {}
@@ -85,22 +82,6 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
                     veccos_scores.append(cos_sim)
                     unmsrs_scores.append(float(umnsrs_rating))
                     
-# =============================================================================
-#                     ## Debugging/
-#                     if cui_1 == 'C0019270':
-#                         print 'This is cui_1: ' + cui_1
-#                         print 'This is cui_2: ' + cui_2
-#                         print 'This is the cos_sim: ' + str(cos_sim)
-#                         print 'This is umnsrs rating: ' + str(umnsrs_rating)
-#                         print 'Part of 1st vec' + str(vec_1[0:5])
-#                         print 'Part of 2nd vec' + str(vec_2[0:5])
-#                     # print 'This is the cui_to_idx ' + str(cui_to_idx[cui_1])
-#                     # print 'This is start of vector above: ' + str(embedding_matrix[cui_to_idx[cui_1],0:10])
-#                     
-#                     ## /Debugging----
-# =============================================================================
-                    
-                    
                     # Keep track of # of UMNSRS comparisons for this system
                     if files_processed == 0:
                         in_system_diag = in_system_diag_1 or in_system_diag_2
@@ -119,22 +100,19 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
                 missing_cuis.append(cui_2)
             else:
                 missing_cuis.append(cui_1)
-        ## print(set(missing_cuis))
         
-            
+        # Carryout and append Spearman Rank Correlation     
         rho, pval = spearmanr(unmsrs_scores,veccos_scores)
         filename_all.append((filename))
         value_all.append(rho)
         files_processed += 1
-    
-    ## print 'Here is value_all: ' + str(value_all)        
+   
     return filename_all, value_all, compares
     
 
-
-
-# JJN: Prints the Spearman Correlation with Relevant Comparisons in the UMNSRS database by ICD9 system
 def print_yu_umnsrs_cor(filenames):
+    """JJN: Prints the Spearman Correlation with Relevant Comparisons in the UMNSRS database by ICD9 system"""
+    
     # Cui_to_icd9 mappings will be used
     cui_to_icd9 = get_icd9_cui_mappings_rangeok()
     # Create dictionaries linking drug cuis to the icd9 conditions they prevent or treat

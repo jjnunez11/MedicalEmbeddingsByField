@@ -19,14 +19,17 @@ results_folder = Path("../results")
 
 
 def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'):
+    """ JJN: Calculates Choi et al's Medical Relatedness Property by ICD9 system.
+    Heavily based upon similiar code from this author's Github 
+    """
+    
     filename_to_embedding_matrix, idx_to_icd9, icd9_to_idx = generate_overlapping_sets_icd9(filenames_type)
-    #print len(icd9_to_idx.keys())
+
     if type == 'c':
         icd9_pairs = get_coarse_icd9_pairs(set(icd9_to_idx.keys()))
     else:
         icd9_pairs = get_icd9_pairs(set(icd9_to_idx.keys()))
 
-    #print len(icd9_pairs)
     icd9_to_check = set(icd9_pairs.keys())
     icd9_to_check.intersection_update(set(icd9_to_idx.keys()))
 
@@ -67,35 +70,22 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
             icd9_pairs[icd9].difference(icd9_to_remove)
 
             num_of_possible_hits = min(len(icd9_pairs[icd9]), num_of_neighbor)
-            #print icd9 + '(' + str(num_of_possible_hits) + ')',
-            #if icd9 in icd9_to_description:
-            #    print '(' + icd9_to_description[icd9] + ')',
-            #print ''
-            #print '-------------------------------------------'
+
             dcg = 0
             best_dcg = np.sum(np.reciprocal(np.log2(range(2, num_of_possible_hits+2))))
             for i in xrange(num_of_neighbor):
                 if idx_to_icd9[target[i]] in icd9_pairs[icd9]:
                     dcg += np.reciprocal(np.log2(i+2))
-                    #print 'hit: ',
-                #else:
-                    #print '     ',
-                #print idx_to_icd9[target[i]],
-                #if idx_to_icd9[target[i]] in icd9_to_description:
-                    #print icd9_to_description[idx_to_icd9[target[i]]],
-                #print ''
-            #print dcg/best_dcg
-            #print ''
+
             cumulative_ndcgs.append(dcg/best_dcg)
         filename_all.append((filename))
         value_all.append(np.mean(np.array(cumulative_ndcgs)))
     return filename_all, value_all, len(icd9_in_system)
 
 
-
-
-# JJN: Prints the Medical Relatedness Property by ICD9 system
 def print_choi_mrp(filenames, num_of_nn=40):
+    """ JJN: Prints and writes Choi's Medical Relatednes Property by ICD9 system
+    """
     # csv file to write results to
     choi_mrp_by_system = 'choi_mrp_by_system.csv'
     o = open(str(results_folder / choi_mrp_by_system ), 'w')
@@ -109,7 +99,7 @@ def print_choi_mrp(filenames, num_of_nn=40):
     icd9_systems_file = 'icd9_systems.txt'
     # Parse above file to get the system names, starts, ends
     icd9_systems = []
-    with open(icd9_systems_file, 'r') as infile:
+    with open(data_folder / icd9_systems_file, 'r') as infile:
         data = infile.readlines()
         for row in data:
             icd9_systems.append(row.strip().split('|'))

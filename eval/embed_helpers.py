@@ -5,14 +5,9 @@ Created on Fri Apr  5 15:08:59 2019
 @author: jjnun
 """
 from __future__ import division
-##import argparse
 import numpy as np
-##import scipy as sp
-##from scipy.spatial.distance import cdist, cosine
-##from scipy.stats import spearmanr
 from icd9 import ICD9
 from pathlib import Path
-##import re
 from cui_icd9_helpers import get_cui_concept_mappings, get_icd9_cui_mappings
 
 
@@ -22,6 +17,10 @@ results_folder = Path("../results")
 
 # JJN changed to support csv embedding files
 def read_embedding_cui(filename):
+    """ JJN: mostly unchanged from Choi et al, reads an embedding file into a usable matrix. 
+    Changed to support embedding files in a csv format
+    """
+    
     concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
     cui_to_icd9, icd9_to_cui = get_icd9_cui_mappings()
     
@@ -52,9 +51,7 @@ def read_embedding_cui(filename):
             if cui[0] != 'C':
                 if cui in concept_to_cui:
                     cui = concept_to_cui[cui].strip() # JJN Added to remove \n
-            ##print len(datum[1:]) TODO REMOVE
             embedding_matrix[idx,:] = np.array(map(float, datum[1:]))
-            # potential bug here
             if cui in cui_to_icd9:
                 idx_to_name[idx] = cui_to_icd9[cui]
                 name_to_idx[cui_to_icd9[cui]] = idx
@@ -193,8 +190,9 @@ def generate_overlapping_sets_cui(filenames_type, only_icd9_relevant=False,cui_t
     else:
         return filename_to_embedding_matrix, idx_to_cui, cui_to_idx
 
-# JJN changed to support csv embedding files
 def read_embedding_matrix_cui(filename):
+    """ JJN: Again mostly unchanged, now supports csv files
+    """
     concept_to_cui, cui_to_concept = get_cui_concept_mappings() # comment out this after fix input
     
     # Assume embedding files with .txt are deliminated with ' ' and ',' if .csv
