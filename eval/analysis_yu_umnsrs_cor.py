@@ -135,7 +135,7 @@ def print_yu_umnsrs_cor(filenames):
     icd9_systems_file = 'icd9_systems.txt'
     # Parse above file to get the system names, starts, ends
     icd9_systems = []
-    with open(icd9_systems_file, 'r') as infile:
+    with open(str(data_folder / icd9_systems_file), 'r') as infile:
         data = infile.readlines()
         for row in data:
             icd9_systems.append(row.strip().split('|'))

@@ -10,6 +10,7 @@
 \usepackage{csvsimple}
 \usepackage{pgfplotstable}
 \usepackage{color}
+\usepackage{listings}
 
 \definecolor{blu}{rgb}{0,0,1}
 \def\blu#1{{\textbf{\color{blu}#1}}}
@@ -279,6 +280,7 @@ Finally, in this project we quantify embedding quality by their geometric qualit
 
 
 
+
 %If the proposed methodology is implemented easily and quickly, a possible extension will be determine the feasibility of training new embeddings based only on psychiatric data, such as using a subset of the matrix used by Choi et al's \shortcite{choiLearningLowDimensionalRepresentations2016}; we could try only using the portion of the matrix with terms related to psychiatry. 
 %
 %Alternatively, it may be interesting to use the embeddings from prior work to carry out various document-level summarization techniques, and compare doing so for psychiatric vs non-psychiatric documents. For instance, this could be done on articles from Wikipedia describing popular illnesses in and outside of psychiatry, or a similar set of articles from the medical practice manual and learning resource UpToDate.
@@ -289,42 +291,21 @@ Finally, in this project we quantify embedding quality by their geometric qualit
 \bibliographystyle{acl}
 \bibliography{my_library}{}
 
-%
-%\begin{thebibliography}{}
-%	
-%
-%	
-%
-%\bibitem[\protect\citename{Aho and Ullman}1972]{Aho:72}
-%Alfred~V. Aho and Jeffrey~D. Ullman.
-%\newblock 1972.
-%\newblock {\em The Theory of Parsing, Translation and Compiling}, volume~1.
-%\newblock Prentice-{Hall}, Englewood Cliffs, NJ.
-%
-%\bibitem[\protect\citename{{American Psychological Association}}1983]{APA:83}
-%{American Psychological Association}.
-%\newblock 1983.
-%\newblock {\em Publications Manual}.
-%\newblock American Psychological Association, Washington, DC.
-%
-%\bibitem[\protect\citename{{Association for Computing Machinery}}1983]{ACM:83}
-%{Association for Computing Machinery}.
-%\newblock 1983.
-%\newblock {\em Computing Reviews}, 24(11):503--512.
-%
-%\bibitem[\protect\citename{Chandra \bgroup et al.\egroup }1981]{Chandra:81}
-%Ashok~K. Chandra, Dexter~C. Kozen, and Larry~J. Stockmeyer.
-%\newblock 1981.
-%\newblock Alternation.
-%\newblock {\em Journal of the Association for Computing Machinery},
-%  28(1):114--133.
-%
-%\bibitem[\protect\citename{Gusfield}1997]{Gusfield:97}
-%Dan Gusfield.
-%\newblock 1997.
-%\newblock {\em Algorithms on Strings, Trees and Sequences}.
-%\newblock Cambridge University Press, Cambridge, UK.
-%
-%\end{thebibliography}
+\newpage
+\onecolumn
+\section{Appendix}
+This project relies on around 1000 lines of code, which seems infeasible to print out. 
+
+As such, over the following pages, I will include code from the three analyses I wrote from scratch. However, this is by no means the extent of the new programming required for the project. 
+
+Full code of the project is available on my \href{https://github.com/jjnunez11/MedicalEmbeddingsByField}{Github}. However, I would rather not make it public. I'm happy to add Giuseppe or Linzi as collaborates so they can view it. In my email of the report to Giuseppe, I'll also attach a zip of the repo with the code. 
+
+\lstset{language=Python}
+\lstset{frame=lines}
+\lstset{caption={Code implementing Yu et al's Analysis}}
+\lstset{label={lst:code_direct}}
+\lstset{basicstyle=\small}
+
+\lstinputlisting[language=Python]{code_examples.py}
 
 \end{document}
