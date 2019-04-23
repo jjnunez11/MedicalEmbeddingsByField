@@ -4,15 +4,20 @@ Class project for CPSC 503 evaluating how the performance of clinical concept em
 
 The current implementation uses five different evaluation methods to judge embeddings from four different embedding sets. 
 
-The project report is located [here](../doc/med_embeddings_by_field.pdf)
+The project report is located [here](https://github.com/jjnunez11/MedicalEmbeddingsByField/blob/master/doc/med_embeddings_by_field.pdf)
 
-Run all analyses by running [main.py](../eval/main.py)
+Run all analyses by running [main.py](https://github.com/jjnunez11/MedicalEmbeddingsByField/blob/master/eval/main.py)
 
-The code for the analyses are located within [../eval](../eval/). The analyses from Choi were adapted, all others were written by me. Auxillary functions are located within the two helper files. Some functions are reused from Choi et al's implementation. The ones with docstrings indicating JJN were written or adapted by me. 
+The code for the analyses are located within [`eval`](https://github.com/jjnunez11/MedicalEmbeddingsByField/tree/master/eval). The first three were written from scratch, the last two adapted from [Choi et al's Github](https://github.com/clinicalml/embeddings)
+- `analysis_beam_boostrap.py` runs an analysis based on the method in Beam et al's paper 
+- `analysis_new_sysvec.py`  runs a new analysis using a medical system's repersentative vector 
+- `analysis_yu_umnsrs_cor.py` runs an analysis from Yu et al comparing vector similiarity vs human judgements. 
+- `analysis_choi_mrp.py` calculates Medical Relatedness Property from Choi et al
+- `analysis_choi_mcsp.py` calculates Medical Conceptual Similiarity Property from Choi et al
 
-Raw results files are located within [/results/][(../results)
+Raw results files are located within `results` folder
 
-The [/data/](../data) folder conaints the various data used for the project, including embeddings, and the various dictionaries. Many come from Choi et al's implementation.
+The `data` folder conaints the various data used for the project, including embeddings, and the various dictionaries. Many come from Choi et al's implementation.
 
 ## Following data must be obtained prior to runnig: ##
 
