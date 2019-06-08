@@ -1,16 +1,16 @@
-%
-% Based on File hlt-naacl2004.tex
-%
-\documentclass[10pt]{article}
-\usepackage{hltnaacl04}
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{emnlp-ijcnlp-2019}
 \usepackage{times}
 \usepackage{latexsym}
-\usepackage{hyperref}
+
+\usepackage{url}
+%\usepackage{hltnaacl04}
+%\usepackage{hyperref}
 \usepackage{pgfplotstable}
 \usepackage{csvsimple}
 \usepackage{pgfplotstable}
 \usepackage{color}
-\usepackage{listings}
+%\usepackage{listings}
 
 \definecolor{blu}{rgb}{0,0,1}
 \def\blu#1{{\textbf{\color{blu}#1}}}
@@ -46,7 +46,7 @@
 %%DESCRIPTION OF PROBLEM EG NLP TASK, CORPUS
 %%RELATED WORK
 
-The application of natural language processing and machine learning to medicine presents an exciting opportunity for tasks requiring prediction and classification, such as predicting the risk of suicide after a patient is discharged from hospital \cite{mccoyImprovingPredictionSuicide2016}. A common approach is to convert the unstructured text produced by clinical interactions into low-dimension vector representations which can then be fed into these algorithms. These vectorizations are produced by training models on large unlabelled corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model, producing a target word's vector based on what words surround it. It was initially trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained medical embeddings using specific medical sources. 
+The application of natural language processing and machine learning to medicine presents an exciting opportunity for tasks requiring prediction and classification, such as predicting the risk of suicide after a patient is discharged from hospital ~\cite{mccoyImprovingPredictionSuicide2016}. A common approach is to convert the unstructured text produced by clinical interactions into low-dimension vector representations which can then be fed into these algorithms. These vectorizations are produced by training models on large unlabelled corpora. For example, the popular \emph{word2vec} system \cite{mikolovEfficientEstimationWord2013} initially trained embeddings using a skip-gram model, producing a target word's vector based on what words surround it. It was initially trained on a Google News corpus containing around six billion tokens. Due to considerable differences between the language of medical text and general English writing, prior work has trained medical embeddings using specific medical sources. 
 
 Generally, these approaches have trained embeddings to represent medical concepts according to their `clinical unique identifiers' (CUIs) in the Unified Library Management System (ULMS) \cite{bodenreiderUnifiedMedicalLanguage2004}. Words in a text can then be mapped to these CUIs \cite{yuShortIntroductionNILE2013}. Examples include De Vine et al \shortcite{devineMedicalSemanticSimilarity2014} who trained embeddings using journal abstracts from MEDLINE as well as with clinical patient records. They evaluated these embeddings by comparing vector cosine similarity against human-judged similarity. Minarro-Gimenez et al \shortcite{minarro-gimenezExploringApplicationDeep2014} trained embeddings using medical manuals, articles, and Wikipedia articles, judging quality by their ability to predict drug-disease relations noted in the National Drug File - Reference Terminology (NDF-RT) ontology. Choi et al \cite{choiLearningLowDimensionalRepresentations2016} built on this work by learning two sets of embeddings, from health insurance claims and clinical narratives. They evaluated their embeddings by their ability to predict known relations including those in the NDF-RT, disease hierarchies, and medical concept type. In their yet unpublished work, Beam et al \cite{beamClinicalConceptEmbeddings2018} learn embeddings on the largest dataset yet, combining health insurance claims, clinical narratives and full journal texts. They developed a new system termed ``cui2vec'', training CUI embeddings based on the occurrences of other identifiers within a certain window length. They use an assortment of aforementioned known relations to compare the quality of these embeddings. 
 
@@ -287,25 +287,26 @@ Finally, in this project we quantify embedding quality by their geometric qualit
 %
 %In the longer term, this project may be applicable to a separate project applying NLP and ML techniques to a large BC Cancer clinical dataset consistency of the medical records of around 50,000 patients and their free text medical documents, numbering in the 100,000's. This dataset may allow both evaluation or training when available in the future. 
 
+\bibliographystyle{acl_natbib}
+\bibliography{my_library}
 
-\bibliographystyle{acl}
-\bibliography{my_library}{}
 
-\newpage
-\onecolumn
-\section{Appendix}
-This project relies on around 1000 lines of code, which seems infeasible to print out. 
 
-As such, over the following pages, I will include code from the three analyses I wrote from scratch. However, this is by no means the extent of the new programming required for the project. 
-
-Full code of the project is available on my \href{https://github.com/jjnunez11/MedicalEmbeddingsByField}{Github}. However, I would rather not make it public. I'm happy to add Giuseppe or Linzi as collaborates so they can view it. In my email of the report to Giuseppe, I'll also attach a zip of the repo with the code. 
-
-\lstset{language=Python}
-\lstset{frame=lines}
-\lstset{caption={Code implementing Yu et al's Analysis}}
-\lstset{label={lst:code_direct}}
-\lstset{basicstyle=\small}
-
-\lstinputlisting[language=Python]{code_examples.py}
+%\newpage
+%\onecolumn
+%\section{Appendix}
+%This project relies on around 1000 lines of code, which seems infeasible to print out. 
+%
+%As such, over the following pages, I will include code from the three analyses I wrote from scratch. However, this is by no means the extent of the new programming required for the project. 
+%
+%Full code of the project is available on my \href{https://github.com/jjnunez11/MedicalEmbeddingsByField}{Github}. However, I would rather not make it public. I'm happy to add Giuseppe or Linzi as collaborates so they can view it. In my email of the report to Giuseppe, I'll also attach a zip of the repo with the code. 
+%
+%\lstset{language=Python}
+%\lstset{frame=lines}
+%\lstset{caption={Code implementing Yu et al's Analysis}}
+%\lstset{label={lst:code_direct}}
+%\lstset{basicstyle=\small}
+%
+%\lstinputlisting[language=Python]{code_examples.py}
 
 \end{document}

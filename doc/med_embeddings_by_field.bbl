@@ -1,118 +1,114 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{14}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
-\bibitem[\protect\citename{Beam \bgroup et al.\egroup
-  }2018]{beamClinicalConceptEmbeddings2018}
+\bibitem[{Beam et~al.(2018)Beam, Kompa, Fried, Palmer, Shi, Cai, and
+  Kohane}]{beamClinicalConceptEmbeddings2018}
 Andrew~L. Beam, Benjamin Kompa, Inbar Fried, Nathan~P. Palmer, Xu~Shi, Tianxi
-  Cai, and Isaac~S. Kohane.
-\newblock 2018.
-\newblock Clinical {{Concept Embeddings Learned}} from {{Massive Sources}} of
-  {{Multimodal Medical Data}}.
-\newblock {\em arXiv:1804.01486 [cs, stat]}, April.
+  Cai, and Isaac~S. Kohane. 2018.
+\newblock \href {http://arxiv.org/abs/1804.01486} {Clinical {{Concept
+  Embeddings Learned}} from {{Massive Sources}} of {{Multimodal Medical
+  Data}}}.
+\newblock \emph{arXiv:1804.01486 [cs, stat]}.
 
-\bibitem[\protect\citename{Bodenreider}2004]{bodenreiderUnifiedMedicalLanguage2004}
-Olivier Bodenreider.
-\newblock 2004.
-\newblock The {{Unified Medical Language System}} ({{UMLS}}): Integrating
-  biomedical terminology.
-\newblock {\em Nucleic Acids Research}, 32(Database issue):D267--D270, January.
+\bibitem[{Bodenreider(2004)}]{bodenreiderUnifiedMedicalLanguage2004}
+Olivier Bodenreider. 2004.
+\newblock \href {https://doi.org/10.1093/nar/gkh061} {The {{Unified Medical
+  Language System}} ({{UMLS}}): Integrating biomedical terminology}.
+\newblock \emph{Nucleic Acids Research}, 32(Database issue):D267--D270.
 
-\bibitem[\protect\citename{Choi \bgroup et al.\egroup
-  }2016]{choiLearningLowDimensionalRepresentations2016}
-Youngduck Choi, Chill Yi-I Chiu, and David Sontag.
-\newblock 2016.
+\bibitem[{Choi et~al.(2016)Choi, Chiu, and
+  Sontag}]{choiLearningLowDimensionalRepresentations2016}
+Youngduck Choi, Chill Yi-I Chiu, and David Sontag. 2016.
 \newblock Learning {{Low}}-{{Dimensional Representations}} of {{Medical
   Concepts}}.
-\newblock {\em AMIA Summits on Translational Science Proceedings}, 2016:41--50,
-  July.
+\newblock \emph{AMIA Summits on Translational Science Proceedings},
+  2016:41--50.
 
-\bibitem[\protect\citename{De~Vine \bgroup et al.\egroup
-  }2014]{devineMedicalSemanticSimilarity2014}
+\bibitem[{De~Vine et~al.(2014)De~Vine, Zuccon, Koopman, Sitbon, and
+  Bruza}]{devineMedicalSemanticSimilarity2014}
 Lance De~Vine, Guido Zuccon, Bevan Koopman, Laurianne Sitbon, and Peter Bruza.
-\newblock 2014.
-\newblock Medical {{Semantic Similarity}} with a {{Neural Language Model}}.
-\newblock In {\em Proceedings of the 23rd {{ACM International Conference}} on
+  2014.
+\newblock \href {https://doi.org/10.1145/2661829.2661974} {Medical {{Semantic
+  Similarity}} with a {{Neural Language Model}}}.
+\newblock In \emph{Proceedings of the 23rd {{ACM International Conference}} on
   {{Conference}} on {{Information}} and {{Knowledge Management}}}, {{CIKM}}
   '14, pages 1819--1822, New York, NY, USA. {ACM}.
 
-\bibitem[\protect\citename{Forbush \bgroup et al.\egroup }2013  3
-  18]{forbushSittingPinsNeedles2013}
+\bibitem[{Forbush et~al.(2013 -3- 18)Forbush, Gundlapalli, Palmer, Shen, South,
+  Divita, Carter, Redd, Butler, and Samore}]{forbushSittingPinsNeedles2013}
 Tyler~B. Forbush, Adi~V. Gundlapalli, Miland~N. Palmer, Shuying Shen, Brett~R.
   South, Guy Divita, Marjorie Carter, Andrew Redd, Jorie~M. Butler, and Matthew
-  Samore.
-\newblock 2013 -3- 18.
+  Samore. 2013 -3- 18.
 \newblock ``{{Sitting}} on {{Pins}} and {{Needles}}'': {{Characterization}} of
   {{Symptom Descriptions}} in {{Clinical Notes}}''.
-\newblock {\em AMIA Summits on Translational Science Proceedings}, 2013:67--71.
+\newblock \emph{AMIA Summits on Translational Science Proceedings},
+  2013:67--71.
 
-\bibitem[\protect\citename{Lee \bgroup et al.\egroup
-  }2018]{leeLeveragingExistingCorpora2018}
-Hee-Jin Lee, Yaoyun Zhang, Kirk Roberts, and Hua Xu.
-\newblock 2018.
+\bibitem[{Lee et~al.(2018)Lee, Zhang, Roberts, and
+  Xu}]{leeLeveragingExistingCorpora2018}
+Hee-Jin Lee, Yaoyun Zhang, Kirk Roberts, and Hua Xu. 2018.
 \newblock Leveraging existing corpora for de-identification of psychiatric
   notes using domain adaptation.
-\newblock {\em AMIA Annual Symposium Proceedings}, 2017:1070--1079, April.
+\newblock \emph{AMIA Annual Symposium Proceedings}, 2017:1070--1079.
 
-\bibitem[\protect\citename{McCoy \bgroup et al.\egroup
-  }2016]{mccoyImprovingPredictionSuicide2016}
+\bibitem[{McCoy et~al.(2016)McCoy, Castro, Roberson, Snapper, and
+  Perlis}]{mccoyImprovingPredictionSuicide2016}
 Thomas~H. McCoy, Victor~M. Castro, Ashlee~M. Roberson, Leslie~A. Snapper, and
-  Roy~H. Perlis.
-\newblock 2016.
-\newblock Improving {{Prediction}} of {{Suicide}} and {{Accidental Death After
-  Discharge From General Hospitals With Natural Language Processing}}.
-\newblock {\em JAMA psychiatry}, 73(10):1064--1071, October.
+  Roy~H. Perlis. 2016.
+\newblock \href {https://doi.org/10.1001/jamapsychiatry.2016.2172} {Improving
+  {{Prediction}} of {{Suicide}} and {{Accidental Death After Discharge From
+  General Hospitals With Natural Language Processing}}}.
+\newblock \emph{JAMA psychiatry}, 73(10):1064--1071.
 
-\bibitem[\protect\citename{Mikolov \bgroup et al.\egroup
-  }2013]{mikolovEfficientEstimationWord2013}
-Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean.
-\newblock 2013.
-\newblock Efficient {{Estimation}} of {{Word Representations}} in {{Vector
-  Space}}.
-\newblock {\em arXiv:1301.3781 [cs]}, January.
+\bibitem[{Mikolov et~al.(2013)Mikolov, Chen, Corrado, and
+  Dean}]{mikolovEfficientEstimationWord2013}
+Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean. 2013.
+\newblock \href {http://arxiv.org/abs/1301.3781} {Efficient {{Estimation}} of
+  {{Word Representations}} in {{Vector Space}}}.
+\newblock \emph{arXiv:1301.3781 [cs]}.
 
-\bibitem[\protect\citename{{Minarro-Gim\'enez} \bgroup et al.\egroup
-  }2014]{minarro-gimenezExploringApplicationDeep2014}
+\bibitem[{{Minarro-Gim\'enez} et~al.(2014){Minarro-Gim\'enez},
+  {Mar\'in-Alonso}, and Samwald}]{minarro-gimenezExploringApplicationDeep2014}
 Jos\'e~Antonio {Minarro-Gim\'enez}, Oscar {Mar\'in-Alonso}, and Matthias
-  Samwald.
-\newblock 2014.
+  Samwald. 2014.
 \newblock Exploring the application of deep learning techniques on medical text
   corpora.
-\newblock {\em Studies In Health Technology And Informatics}, 205:584--588.
+\newblock \emph{Studies In Health Technology And Informatics}, 205:584--588.
 
-\bibitem[\protect\citename{Pakhomov}2018]{pakhomovSemanticRelatednessSimilarity2018}
-Serguei Pakhomov.
-\newblock 2018.
-\newblock Semantic {{Relatedness}} and {{Similarity Reference Standards}} for
-  {{Medical Terms}}, May.
+\bibitem[{Pakhomov(2018)}]{pakhomovSemanticRelatednessSimilarity2018}
+Serguei Pakhomov. 2018.
+\newblock \href {https://doi.org/https://doi.org/10.13020/D6CX04} {Semantic
+  {{Relatedness}} and {{Similarity Reference Standards}} for {{Medical
+  Terms}}}.
 
-\bibitem[\protect\citename{Slee}1978]{sleeInternationalClassificationDiseases1978}
-Vergil~N. Slee.
-\newblock 1978.
-\newblock The {{International Classification}} of {{Diseases}}: {{Ninth
-  Revision}} ({{ICD}}-9).
-\newblock {\em Annals of Internal Medicine}, 88(3):424, March.
+\bibitem[{Slee(1978)}]{sleeInternationalClassificationDiseases1978}
+Vergil~N. Slee. 1978.
+\newblock \href {https://doi.org/10.7326/0003-4819-88-3-424} {The
+  {{International Classification}} of {{Diseases}}: {{Ninth Revision}}
+  ({{ICD}}-9)}.
+\newblock \emph{Annals of Internal Medicine}, 88(3):424.
 
-\bibitem[\protect\citename{Yu and Cai}2013]{yuShortIntroductionNILE2013}
-Sheng Yu and Tianxi Cai.
-\newblock 2013.
-\newblock A {{Short Introduction}} to {{NILE}}.
-\newblock {\em arXiv:1311.6063 [cs]}, November.
+\bibitem[{Yu and Cai(2013)}]{yuShortIntroductionNILE2013}
+Sheng Yu and Tianxi Cai. 2013.
+\newblock \href {http://arxiv.org/abs/1311.6063} {A {{Short Introduction}} to
+  {{NILE}}}.
+\newblock \emph{arXiv:1311.6063 [cs]}.
 
-\bibitem[\protect\citename{Yu \bgroup et al.\egroup
-  }2017]{yuRetrofittingConceptVector2017}
-Zhiguo Yu, Byron~C. Wallace, Todd Johnson, and Trevor Cohen.
-\newblock 2017.
-\newblock Retrofitting {{Concept Vector Representations}} of {{Medical
-  Concepts}} to {{Improve Estimates}} of {{Semantic Similarity}} and
-  {{Relatedness}}.
-\newblock {\em arXiv:1709.07357 [cs]}, September.
+\bibitem[{Yu et~al.(2017)Yu, Wallace, Johnson, and
+  Cohen}]{yuRetrofittingConceptVector2017}
+Zhiguo Yu, Byron~C. Wallace, Todd Johnson, and Trevor Cohen. 2017.
+\newblock \href {http://arxiv.org/abs/1709.07357} {Retrofitting {{Concept
+  Vector Representations}} of {{Medical Concepts}} to {{Improve Estimates}} of
+  {{Semantic Similarity}} and {{Relatedness}}}.
+\newblock \emph{arXiv:1709.07357 [cs]}.
 
-\bibitem[\protect\citename{Zhang \bgroup et al.\egroup
-  }2018]{zhangAdaptingWordEmbeddings2018}
+\bibitem[{Zhang et~al.(2018)Zhang, Li, Wang, Cohen, Roberts, and
+  Xu}]{zhangAdaptingWordEmbeddings2018}
 Yaoyun Zhang, Hee-Jin Li, Jingqi Wang, Trevor Cohen, Kirk Roberts, and Hua Xu.
-\newblock 2018.
+  2018.
 \newblock Adapting {{Word Embeddings}} from {{Multiple Domains}} to {{Symptom
   Recognition}} from {{Psychiatric Notes}}.
-\newblock {\em AMIA Summits on Translational Science Proceedings},
-  2017:281--289, May.
+\newblock \emph{AMIA Summits on Translational Science Proceedings},
+  2017:281--289.
 
 \end{thebibliography}

@@ -51,6 +51,7 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
 
     filename_all = [] 
     value_all = []
+    raw_all = [] # Store the raw scores for each filename
     for filename, embedding_type, _ in filenames_type:
         icd9_embeddings = filename_to_embedding_matrix[filename]
         Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')
@@ -79,13 +80,15 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
 
             cumulative_ndcgs.append(dcg/best_dcg)
         filename_all.append((filename))
+        raw_all.append(cumulative_ndcgs)
         value_all.append(np.mean(np.array(cumulative_ndcgs)))
-    return filename_all, value_all, len(icd9_in_system)
+    return filename_all, value_all, len(icd9_in_system), raw_all
 
 
 def print_choi_mrp(filenames, num_of_nn=40):
     """ JJN: Prints and writes Choi's Medical Relatednes Property by ICD9 system
     """
+    
     # csv file to write results to
     choi_mrp_by_system = 'choi_mrp_by_system.csv'
     o = open(str(results_folder / choi_mrp_by_system ), 'w')
@@ -94,6 +97,9 @@ def print_choi_mrp(filenames, num_of_nn=40):
     o.write(",".join(list(map(lambda x: x[2], filenames))))
     # Write Examples per System
     o.write(", Examples in System")
+    
+    
+    
     
     # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
     icd9_systems_file = 'icd9_systems.txt'
@@ -104,13 +110,19 @@ def print_choi_mrp(filenames, num_of_nn=40):
         for row in data:
             icd9_systems.append(row.strip().split('|'))
     
+    
+    ## TODO: DELETE THIS, ONLY FOR "ALL" SYSTEM
+    ##icd9_systems_just_all = []
+    ##icd9_systems_just_all.append(icd9_systems[0])
+    ##icd9_systems = icd9_systems_just_all
+    
     print 'Choi Medical Relatedness Property by ICD9 system'
     for system in icd9_systems:
         system_name = system[0]
         start = float(system[1])
         end = float(system[2])
         
-        filename_to_print, ndcgs_to_print, comparisons_in_cuis = get_choi_mrp_by_system(filenames, num_of_nn, start, end, 'c')
+        filename_to_print, ndcgs_to_print, comparisons_in_cuis, raw_all = get_choi_mrp_by_system(filenames, num_of_nn, start, end, 'c')
         # Write ncdgs to file
         ndcgs_rounded = [round(x*100,2) for x in ndcgs_to_print]
         ncdgs_str = ','.join(map(str, ndcgs_rounded))
@@ -119,6 +131,24 @@ def print_choi_mrp(filenames, num_of_nn=40):
         o.write(", " + str(comparisons_in_cuis))
         # Print ncdfs 
         print '\n' + system_name
-        for file_name, ndcg in zip(filename_to_print, ndcgs_to_print):
-            print '%s & %.2f \\\\' %(file_name.split('/')[-1], ndcg*100)
+        for filename, ndcg in zip(filename_to_print, ndcgs_to_print):
+            print '%s & %.2f \\\\' %(filename.split('/')[-1], ndcg*100)
         print "Number of examples: " + str(comparisons_in_cuis)
+        
+        
+        # New addition: Print raw scores
+        # csv file to write raw results to
+        system_name_compact = re.sub(",", "", system_name)
+        choi_mrp_raw_system = 'choi_mrp_raw_' + system_name_compact + '.csv'
+        o_raw = open(str(results_folder / choi_mrp_raw_system ), 'w')
+        
+        # Print raw scores
+        for filename, raw_scores in zip(filename_to_print, raw_all):
+            o_raw.write(filename + ",")
+            o_raw.write( ','.join(map(str, raw_scores)))
+            o_raw.write('\n')
+            
+        o_raw.close()
+            
+    o.close()
+    

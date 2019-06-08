@@ -83,8 +83,9 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
                 systems_err[system].append(err)
         
         # Folowing to output the actual dcgs for further statistical analysis. Similiar could be used for stats on raw schools in other methods
-        ## dcg_filename = 'choi_mcsp_dcg_' + filename + '.csv' 
-        ##o2 = open(str(results_folder / dcg_filename), 'w')
+        choi_csp_raw_filename = 'choi_mcsp_raw_' + filename + '.csv'
+        o_raw = open(str(results_folder / choi_csp_raw_filename ), 'w')
+
         ## array_dcg = []
         
         system_index = 0
@@ -92,12 +93,15 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
             results[system_index + 1][0] = re.sub(",", " ", system)
             results[system_index + 1][filename_index + 1] = '%2.5f +/-  %2.5f' %(np.mean(np.array(systems_dcg[system])), np.std(np.array(systems_dcg[system])))
             results[system_index + 1][-1] = str(systems_n[system]) # Number of examples used for this calculation. Will be re-written by each file but that's okay as always same
+            # Write raw results
+            o_raw.write(re.sub(",", " ", system) + ",")
+            o_raw.write( ','.join(map(str, systems_dcg[system])))
+            o_raw.write('\n')
             ## array_dcg.append([str(x) for x in systems_dcg[system]])
             system_index += 1
         filename_index += 1
         
-        ## write_results_to_file(array_dcg,o2)
-        ##o2.close()  
+        o_raw.close()  
         
     return results
 
