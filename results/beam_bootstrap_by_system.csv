@@ -1,18 +1,18 @@
-ICD9 Systems,DeVine200,ChoiClaims300,ChoiClinical300,BeamCui2Vec500,Examples in System
-infectious and parasitic disease,0.44118,0.47794,0.44853,0.69853,136.0000001
-neoplasms,0.16279,0.55814,0.51163,0.88372,43.0000001
-endocrine  nutritional and metabolic diseases  and immunity disorders,0.31461,0.33708,0.53933,0.73034,89.0000001
-diseases of the blood and blood-forming organs,0.20690,0.17241,0.51724,0.58621,29.0000001
-mental disorders,0.17241,0.65517,0.43678,0.68966,87.0000001
-diseases of the nervous system and sense organs,0.17582,0.54945,0.40659,0.70330,91.0000001
-diseases of the circulatory system,0.33898,0.27684,0.43503,0.83616,177.0000001
-diseases of the respiratory system,0.36957,0.54348,0.45652,0.80435,46.0000001
-diseases of the digestive system,0.26829,0.28049,0.32927,0.56098,82.0000001
-diseases of the genitourinary system,0.27907,0.43023,0.22093,0.69767,86.0000001
-complications of pregnancy  childbirth  and the puerperium,0.00000,0.00000,0.00000,0.00000,1e-07
-diseases of the skin and subcutanous tissue,0.28889,0.53333,0.48889,0.53333,45.0000001
-diseases of the musculoskeletal system and connective tissue,0.18333,0.41667,0.43333,0.60000,60.0000001
-congenital anomalies,0.00000,0.00000,0.87500,0.75000,8.0000001
-certain conditions originating in the perinatal period,0.00000,0.00000,0.00000,0.00000,1e-07
-symptoms  signs  and ill-defined conditions,0.06742,0.33708,0.41573,0.47191,89.0000001
-injury and poisoning,0.28000,0.28000,0.20000,0.64000,25.0000001
+ICD9 Systems,DeVine200,ChoiClaims300,ChoiClinical300,BeamCui2Vec500,NegControl500,Examples in System
+infectious and parasitic disease,0.44118,0.49265,0.44853,0.69118,0.03676,136.0000001
+neoplasms,0.16279,0.55814,0.51163,0.88372,0.02326,43.0000001
+endocrine  nutritional and metabolic diseases  and immunity disorders,0.31461,0.33708,0.53933,0.73034,0.01124,89.0000001
+diseases of the blood and blood-forming organs,0.20690,0.17241,0.51724,0.55172,0.06897,29.0000001
+mental disorders,0.17241,0.66667,0.43678,0.67816,0.09195,87.0000001
+diseases of the nervous system and sense organs,0.17582,0.54945,0.40659,0.69231,0.05495,91.0000001
+diseases of the circulatory system,0.33898,0.28249,0.42938,0.82486,0.04520,177.0000001
+diseases of the respiratory system,0.36957,0.58696,0.45652,0.78261,0.10870,46.0000001
+diseases of the digestive system,0.26829,0.29268,0.32927,0.52439,0.01220,82.0000001
+diseases of the genitourinary system,0.27907,0.44186,0.22093,0.66279,0.06977,86.0000001
+complications of pregnancy  childbirth  and the puerperium,0.00000,0.00000,0.00000,0.00000,0.00000,1e-07
+diseases of the skin and subcutanous tissue,0.28889,0.53333,0.48889,0.51111,0.08889,45.0000001
+diseases of the musculoskeletal system and connective tissue,0.18333,0.43333,0.43333,0.58333,0.01667,60.0000001
+congenital anomalies,0.00000,0.00000,0.87500,0.62500,0.00000,8.0000001
+certain conditions originating in the perinatal period,0.00000,0.00000,0.00000,0.00000,0.00000,1e-07
+symptoms  signs  and ill-defined conditions,0.06742,0.33708,0.41573,0.44944,0.05618,89.0000001
+injury and poisoning,0.28000,0.28000,0.20000,0.64000,0.16000,25.0000001

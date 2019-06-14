@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  4 JUN 2019 14:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  14 JUN 2019 15:11
 entering extended mode
 **./med_embeddings_by_field.tex
 (med_embeddings_by_field.tex
@@ -735,15 +735,15 @@ File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 36.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 42.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 56.
+(Font)              <10.95> on input line 59.
  [1{C:/Users/jjnun/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
 
 ]
-Overfull \hbox (36.45575pt too wide) in paragraph at lines 82--90
+Overfull \hbox (36.45575pt too wide) in paragraph at lines 84--92
  [] 
  []
 
@@ -751,115 +751,115 @@ Overfull \hbox (36.45575pt too wide) in paragraph at lines 82--90
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Package caption Warning: \label without proper reference on input line 81.
+Package caption Warning: \label without proper reference on input line 83.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `tab:embed' on page 2 undefined on input line 94.
+LaTeX Warning: Reference `tab:embed' on page 2 undefined on input line 96.
 
 
-Underfull \hbox (badness 1377) in paragraph at lines 94--95
+Underfull \hbox (badness 1377) in paragraph at lines 96--97
 \OT1/ptm/m/n/10.95 et al.[][], [][]2014[][]), ChoiClaims300, and ChoiClin-i-
  []
 
 
-Underfull \hbox (badness 2865) in paragraph at lines 104--105
+Underfull \hbox (badness 2865) in paragraph at lines 108--109
  []\OT1/ptm/b/n/10.95 Determining a Clin-i-cal Con-cept's Field of
  []
 
 
-Underfull \hbox (badness 1668) in paragraph at lines 104--105
+Underfull \hbox (badness 1668) in paragraph at lines 108--109
 \OT1/ptm/b/n/10.95 Medicine \OT1/ptm/m/n/10.95 A clin-i-cal con-cept's cor-re-s
 pond-ing
  []
 
 
-Underfull \hbox (badness 1810) in paragraph at lines 104--105
+Underfull \hbox (badness 1810) in paragraph at lines 108--109
 \OT1/ptm/m/n/10.95 or-der to have an ob-jec-tive and un-am-bigu-ous
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--107
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
 []\OT1/ptm/m/n/10.95 We con-sider CUIs rep-re-sent-ing dis-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--107
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
 \OT1/ptm/m/n/10.95 eases/conditions which have known ICD9
  []
 
 
-Underfull \hbox (badness 2512) in paragraph at lines 106--107
+Underfull \hbox (badness 2512) in paragraph at lines 110--111
 \OT1/ptm/m/n/10.95 We also con-sider phar-ma-co-log-i-cal sub-stances
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 115--116
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 119--120
  []\OT1/ptm/b/n/10.95 Medical Con-cep-tual Sim-i-lar-ity Prop-erty
  []
 
-[2]
-Underfull \hbox (badness 5050) in paragraph at lines 124--126
+
+Underfull \hbox (badness 5050) in paragraph at lines 128--130
  []\OT1/ptm/b/n/10.95 Significance against Boot-strap Dis-tri-bu-tion
  []
 
 
-Underfull \hbox (badness 2302) in paragraph at lines 129--131
+Underfull \hbox (badness 2302) in paragraph at lines 133--135
  []\OT1/ptm/b/n/10.95 System Vec-tor Pre-dic-tion \OT1/ptm/m/n/10.95 Mean-Vec(S
 ysVec)
  []
 
-LaTeX Font Info:    Try loading font information for OML+ptm on input line 139.
+[3]
+LaTeX Font Info:    Try loading font information for OML+ptm on input line 144.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omlptm.fd"
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\omlptm.fd"
 File: omlptm.fd 
 )
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 139.
- [3]
-Underfull \hbox (badness 2538) in paragraph at lines 143--144
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 144.
+
+Underfull \hbox (badness 2538) in paragraph at lines 148--149
 []\OT1/ptm/m/n/10.95 After ob-serv-ing that the em-bed-dings from
  []
 
 
-Package caption Warning: \label without proper reference on input line 155.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package caption Warning: \label without proper reference on input line 162.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `tab:allsystemresults' on page 4 undefined on input li
-ne 151.
+ne 158.
 
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 177.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 184.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Package caption Warning: \label without proper reference on input line 155.
+Package caption Warning: \label without proper reference on input line 162.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `tab:allsystemresults' on page 4 undefined on input li
-ne 182.
-
-
-Underfull \hbox (badness 1014) in paragraph at lines 182--183
-\OT1/ptm/m/n/10.95 Evaluating the sets of em-bed-dings (Ta-ble [][][][][])
- []
+ne 191.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Package caption Warning: \label without proper reference on input line 207.
+Package caption Warning: \label without proper reference on input line 217.
 See the caption package documentation for explanation.
 
 
 LaTeX Warning: Reference `tab:onlybeamonlymcsp' on page 4 undefined on input li
-ne 203.
+ne 213.
 
 
-Overfull \hbox (63.30797pt too wide) in paragraph at lines 208--232
+Overfull \hbox (63.30797pt too wide) in paragraph at lines 218--242
 [][] 
  []
 
@@ -867,7 +867,7 @@ Overfull \hbox (63.30797pt too wide) in paragraph at lines 208--232
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [4]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1112) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -876,14 +876,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 1721) has occurred while \output is active []
 
  [6]
-Underfull \vbox (badness 4328) has occurred while \output is active []
-
-
-Underfull \hbox (badness 2173) in paragraph at lines 277--278
+[7]
+Underfull \hbox (badness 2173) in paragraph at lines 287--288
 \OT1/ptm/m/n/10.95 do-main adaptation-trained em-bed-dings in this
  []
 
-[7] (med_embeddings_by_field.bbl
+(med_embeddings_by_field.bbl
 Underfull \hbox (badness 1226) in paragraph at lines 6--12
 []\OT1/ptm/m/n/10 Andrew L. Beam, Ben-jamin Kompa, In-bar Fried,
  []
@@ -908,12 +906,19 @@ Underfull \hbox (badness 2158) in paragraph at lines 107--113
 \OT1/ptm/m/n/10 ing Word Em-bed-dings from Mul-ti-ple Do-mains
  []
 
-) [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 312.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 312.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 114.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 114.
+[8])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 322.
+ [9
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 322.
  (med_embeddings_by_field.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 312.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 312.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 322.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 322.
 Package rerunfilecheck Info: File `med_embeddings_by_field.out' has not changed
 .
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -921,15 +926,15 @@ Package rerunfilecheck Info: File `med_embeddings_by_field.out' has not changed
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 312.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 322.
  )
 (\end occurred when \iffalse on line 351 was incomplete) 
 Here is how much of TeX's memory you used:
- 27689 strings out of 492970
- 680724 string characters out of 3135854
- 904427 words of memory out of 3000000
- 31083 multiletter control sequences out of 15000+200000
- 21794 words of font info for 48 fonts, out of 3000000 for 9000
+ 27697 strings out of 492970
+ 680805 string characters out of 3135854
+ 905427 words of memory out of 3000000
+ 31088 multiletter control sequences out of 15000+200000
+ 22112 words of font info for 51 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  69i,10n,98p,1761b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTe
@@ -938,9 +943,9 @@ ic/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic
 /uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/P
 rogram Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on med_embeddings_by_field.pdf (8 pages, 132674 bytes).
+Output written on med_embeddings_by_field.pdf (9 pages, 134402 bytes).
 PDF statistics:
- 189 PDF objects out of 1000 (max. 8388607)
- 53 named destinations out of 1000 (max. 500000)
+ 193 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

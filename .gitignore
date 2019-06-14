@@ -13,3 +13,4 @@ data/claims_codes_hs_300.txt.gz
 data/UMNSRS_relatedness_mod458_word2vec.csv
 data/DeVine_etal_200.txt.gz
 data/UMNSRS_similarity_mod449_word2vec.csv
+data/cui2vec_scrambled.csv

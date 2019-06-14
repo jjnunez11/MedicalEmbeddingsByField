@@ -1,18 +1,18 @@
-ICD9 Systems,DeVine200,ChoiClaims300,ChoiClinical300,BeamCui2Vec500,Examples in System
-infectious and parasitic disease,6.91868 +/-  3.26246,4.31606 +/-  1.94904,3.59651 +/-  1.94403,6.84303 +/-  2.75807,334
-neoplasms,4.25981 +/-  2.42552,3.69102 +/-  2.25629,3.26570 +/-  1.71683,4.46774 +/-  2.03908,116
-endocrine  nutritional and metabolic diseases  and immunity disorders,3.08106 +/-  1.97869,3.60540 +/-  2.05536,2.94176 +/-  2.11152,3.97589 +/-  2.07019,193
-diseases of the blood and blood-forming organs,1.95752 +/-  1.50909,2.75066 +/-  1.90743,2.62426 +/-  1.98329,3.66693 +/-  2.29741,81
-mental disorders,5.47882 +/-  2.64197,6.94852 +/-  2.92893,5.54603 +/-  3.47235,7.67204 +/-  2.50370,165
-diseases of the nervous system and sense organs,5.08607 +/-  2.42359,6.89099 +/-  3.01128,5.96344 +/-  3.24063,7.26646 +/-  3.00717,434
-diseases of the circulatory system,6.15787 +/-  3.45184,6.44519 +/-  3.08854,4.90534 +/-  3.06373,7.74033 +/-  3.27122,307
-diseases of the respiratory system,3.53151 +/-  2.27470,4.49894 +/-  1.97270,3.73459 +/-  2.32765,4.64433 +/-  2.07038,132
-diseases of the digestive system,2.45173 +/-  1.87885,4.24824 +/-  1.83717,2.96475 +/-  2.18223,4.61569 +/-  2.45556,210
-diseases of the genitourinary system,3.33841 +/-  2.06495,4.29958 +/-  2.27065,3.23648 +/-  2.06544,5.74703 +/-  2.44577,210
-complications of pregnancy  childbirth  and the puerperium,1.68913 +/-  1.12963,1.10737 +/-  0.53107,1.50536 +/-  0.90030,2.46678 +/-  0.91297,10
-diseases of the skin and subcutanous tissue,1.73008 +/-  1.30414,3.92307 +/-  2.59091,2.59308 +/-  2.06537,4.01364 +/-  2.85024,102
-diseases of the musculoskeletal system and connective tissue,2.78133 +/-  1.99859,4.90170 +/-  2.56281,4.47197 +/-  2.95206,5.24142 +/-  2.52616,168
-congenital anomalies,2.90360 +/-  2.10577,3.05097 +/-  2.73433,2.41804 +/-  1.79936,5.04977 +/-  3.29938,101
-certain conditions originating in the perinatal period,1.76423 +/-  1.15720,1.52800 +/-  1.28249,0.87197 +/-  0.53977,2.49316 +/-  1.08751,11
-symptoms  signs  and ill-defined conditions,3.10211 +/-  2.04736,3.11747 +/-  1.28761,2.03669 +/-  1.23474,2.81034 +/-  1.50361,224
-injury and poisoning,1.27662 +/-  1.18749,2.40730 +/-  1.83161,2.56961 +/-  2.65013,2.41522 +/-  2.08669,86
+ICD9 Systems,DeVine200,ChoiClaims300,ChoiClinical300,BeamCui2Vec500,NegControl500,Examples in System
+infectious and parasitic disease,6.91868 +/-  3.26246,4.31324 +/-  1.94664,3.59380 +/-  1.94786,6.84303 +/-  2.75807,0.96379 +/-  0.47387,334
+neoplasms,4.25981 +/-  2.42552,3.69964 +/-  2.24405,3.26570 +/-  1.71683,4.46774 +/-  2.03908,0.54745 +/-  0.43987,116
+endocrine  nutritional and metabolic diseases  and immunity disorders,3.08106 +/-  1.97869,3.61613 +/-  2.05282,2.94621 +/-  2.10739,3.97589 +/-  2.07019,0.84981 +/-  0.46587,193
+diseases of the blood and blood-forming organs,1.95752 +/-  1.50909,2.75066 +/-  1.90743,2.62547 +/-  1.98189,3.66693 +/-  2.29741,0.48500 +/-  0.50003,81
+mental disorders,5.47882 +/-  2.64197,6.94852 +/-  2.92893,5.54602 +/-  3.47236,7.67204 +/-  2.50370,0.66836 +/-  0.39910,165
+diseases of the nervous system and sense organs,5.08607 +/-  2.42359,6.89099 +/-  3.01128,5.96463 +/-  3.23990,7.26646 +/-  3.00717,2.23349 +/-  0.79372,434
+diseases of the circulatory system,6.15787 +/-  3.45184,6.44193 +/-  3.09389,4.90534 +/-  3.06373,7.74033 +/-  3.27122,1.08737 +/-  0.56396,307
+diseases of the respiratory system,3.53151 +/-  2.27470,4.49894 +/-  1.97270,3.73459 +/-  2.32765,4.64433 +/-  2.07038,0.60526 +/-  0.39864,132
+diseases of the digestive system,2.45173 +/-  1.87885,4.23866 +/-  1.84740,2.96475 +/-  2.18223,4.61569 +/-  2.45556,1.00681 +/-  0.58690,210
+diseases of the genitourinary system,3.33841 +/-  2.06495,4.29009 +/-  2.28175,3.23648 +/-  2.06544,5.74703 +/-  2.44577,0.96167 +/-  0.46957,210
+complications of pregnancy  childbirth  and the puerperium,1.68913 +/-  1.12963,1.10737 +/-  0.53107,1.50536 +/-  0.90030,2.46678 +/-  0.91297,0.00000 +/-  0.00000,10
+diseases of the skin and subcutanous tissue,1.73008 +/-  1.30414,3.93287 +/-  2.57989,2.59308 +/-  2.06537,4.01364 +/-  2.85024,0.60072 +/-  0.44090,102
+diseases of the musculoskeletal system and connective tissue,2.78133 +/-  1.99859,4.90170 +/-  2.56281,4.47829 +/-  2.94481,5.24142 +/-  2.52616,0.85209 +/-  0.51914,168
+congenital anomalies,2.90360 +/-  2.10577,3.05097 +/-  2.73433,2.41804 +/-  1.79936,5.04977 +/-  3.29938,0.55710 +/-  0.46003,101
+certain conditions originating in the perinatal period,1.76423 +/-  1.15720,1.52800 +/-  1.28249,0.87197 +/-  0.53977,2.49316 +/-  1.08751,0.12183 +/-  0.15504,11
+symptoms  signs  and ill-defined conditions,3.10211 +/-  2.04736,3.11747 +/-  1.28761,2.05105 +/-  1.24572,2.81034 +/-  1.50361,1.12043 +/-  0.52913,224
+injury and poisoning,1.27662 +/-  1.18749,2.41792 +/-  1.83594,2.56481 +/-  2.65221,2.41522 +/-  2.08669,0.51452 +/-  0.48703,86

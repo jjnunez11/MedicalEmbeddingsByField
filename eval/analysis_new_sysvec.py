@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 from embed_helpers import generate_overlapping_sets_cui
 from cui_icd9_helpers import get_cui_to_systems, get_icd9_cui_mappings_rangeok, get_cui_may_treat_prevent_icd9, get_cui_to_icd9_drug_or_diag
-#import random 
+import random 
 
 tree = ICD9('codes.json')
 data_folder = Path("../data")
@@ -78,21 +78,28 @@ def get_new_sysvec_by_system(filenames_type, icd9_systems, cui_to_icd9_dicts, re
                  #cui_vec = cui_vec/np.linalg.norm(cui_vec) #Normalize
                  cui_vec = normalize(cui_vec.reshape(1, -1))[0]
                  true_systems = cui_to_systems[cui]
-             
+                 #print true_systems
                  cos_sims = np.zeros(n_of_systems)
              
                 # Generate list of cos similarities with the system vectors
                  for i in range(n_of_systems):
-                    system = systems_sysvec.keys()[i]
+                    #system = systems_sysvec.keys()[i]
+                    system = icd9_systems_names[i] 
                     system_vec = systems_sysvec[system]
                     cos_sim = cosine_similarity([cui_vec], [system_vec])[0,0]
                     cos_sims[i] = cos_sim
              
                  n = len(true_systems) # Number of systems this cui treats or prevents or 1 if diagnosis
-                 pred_systems = [icd9_systems_names[i] for i in np.argsort(cos_sims)[n:]]
+                 pred_systems = [icd9_systems_names[i] for i in np.argsort(cos_sims)[-n:]]
+                 assert len(pred_systems) == n, 'wrong number of systems predicted: ' + str(n) + 'vs ' + str(len(pred_systems))
+                
                 
                  for system in true_systems:
                     systems_n[system] += 1
+                    #print 'Here is the system: ' + str(system)
+                    #print 'Here is the pred_systems: ' + str(pred_systems)
+                    #print 'Here is the true_systems: ' + str(true_systems)
+                    #if system in pred_systems: print 'pred correct!'
                     if system in pred_systems: systems_correct[system] += 1
                     #rand_system = random.choice(icd9_systems_names)
                     #if rand_system in pred_systems: systems_correct[system] += 1

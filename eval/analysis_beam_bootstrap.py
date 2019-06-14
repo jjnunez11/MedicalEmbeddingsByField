@@ -163,7 +163,7 @@ def print_beam_bootstrap(filenames):
     results = get_beam_bootstrap_by_systems(filenames, icd9_systems, cui_to_icd9_dicts, empty_results)
     for line in results: print line
     
-    beam_bootstrap_by_system = 'beam_bootstrap_by_system_test.csv'
+    beam_bootstrap_by_system = 'beam_bootstrap_by_system.csv'
     o = open(str(results_folder / beam_bootstrap_by_system ), 'w')
-    ## write_results_to_file(results,o) STOP THIS FOR NOW
+    write_results_to_file(results,o)
     o.close()    
