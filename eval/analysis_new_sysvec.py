@@ -153,7 +153,7 @@ def print_new_sysvec(filenames):
     results = get_new_sysvec_by_system(filenames, icd9_systems, cui_to_icd9_dicts, empty_results)
     for line in results: print line
     
-    out_filename = 'new_sysvec_by_system_diag_to_drug.csv'
+    out_filename = 'new_sysvec_by_system_diag_to_drug_beamonly.csv'
     o = open(str(results_folder / out_filename ), 'w')
     write_results_to_file(results,o)
     o.close()    

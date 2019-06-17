@@ -18,8 +18,8 @@ if __name__ == '__main__':
         for row in data:
             filenames.append(row.strip().split(','))
     
-    #print_choi_mrp(filenames) 
+    print_choi_mrp(filenames) 
     #print_yu_umnsrs_cor(filenames)
     #print_choi_mcsp(filenames) 
     #print_beam_bootstrap(filenames) 
-    print_new_sysvec(filenames)
+    #print_new_sysvec(filenames)

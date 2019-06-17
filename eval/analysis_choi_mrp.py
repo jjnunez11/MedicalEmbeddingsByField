@@ -7,15 +7,36 @@ Created on Fri Apr  5 15:04:31 2019
 from __future__ import division
 import numpy as np
 from scipy.spatial.distance import cdist
+from sklearn.metrics.pairwise import cosine_similarity
 from icd9 import ICD9
 from pathlib import Path
 import re
 from embed_helpers import generate_overlapping_sets_icd9
 from cui_icd9_helpers import get_coarse_icd9_pairs, get_icd9_pairs, get_icd9_to_description
+from alt_cosdist import cosine_vectorized_v2
+
 
 tree = ICD9('codes.json')
 data_folder = Path("../data")
 results_folder = Path("../results")
+
+#def mem_sav_cdist_rank(array, num_of_neighbor):
+#    """JJN: When embedding set is large, original code will not work as call to cdist
+#    creates too large a matrix (eg 100,000^2). This function is slower but will save memory.
+#    Calculates cosine distance one row at a time, and only saves the top num_of_neighbor + 1
+#    entries per row, so the rank matrix will only contain embeddings*(num_of_neighbor + 1) entries
+#    """
+#    
+#    r, c = array.shape
+#    
+#    ranks = np.zeros((r,num_of_neighbor + 1))
+#
+#    for i in range(r):
+#        row_cdist = cdist(array[i].reshape((1,c)),array,'cosine')[0]
+#        row_ranks = np.argsort(row_cdist)[0:num_of_neighbor + 1]
+#        ranks[i] = row_ranks
+#        if i % 1000 == 0: print i
+#    return ranks
 
 
 def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'):
@@ -54,13 +75,25 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
     raw_all = [] # Store the raw scores for each filename
     for filename, embedding_type, _ in filenames_type:
         icd9_embeddings = filename_to_embedding_matrix[filename]
-        Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')
-        ranks = np.argsort(Y)
-    
+        r,c = icd9_embeddings.shape
+        
+        print "about to go through icd9s"
+        # Following replaced as won't work with large embeddings. Is faster though
+        ##Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')        
+        ##ranks = np.argsort(Y) 
+        ##ranks = mem_sav_cdist_rank(icd9_embeddings, num_of_neighbor)
+        # End of what was replace
         cumulative_ndcgs = []
 
         for icd9 in icd9_in_system:
-            target = ranks[icd9_to_idx[icd9], 1:num_of_neighbor+1]
+            # Changed for neighbours to be found "as needed" to memory cost, though is slower
+            a_idx = icd9_to_idx[icd9]
+            a_cdist = cdist(icd9_embeddings[a_idx].reshape((1,c)),icd9_embeddings,'cosine')[0]
+            target = np.argsort(a_cdist)[1:num_of_neighbor + 1]
+            # end of change to allow larger embeddings to be used
+
+            # Uncomment following and block before for loop to return to faster but memory-needing version
+            ##target = ranks[icd9_to_idx[icd9], 1:num_of_neighbor+1]
             num_of_possible_hits = 0
             
             icd9_to_remove = set()
@@ -90,7 +123,7 @@ def print_choi_mrp(filenames, num_of_nn=40):
     """
     
     # csv file to write results to
-    choi_mrp_by_system = 'choi_mrp_by_system.csv'
+    choi_mrp_by_system = 'choi_mrp_by_system_beamonly.csv'
     o = open(str(results_folder / choi_mrp_by_system ), 'w')
     o.write('ICD9 System,')
     # Write headers from 3rd entry in orig_files_all.txt
@@ -139,7 +172,7 @@ def print_choi_mrp(filenames, num_of_nn=40):
         # New addition: Print raw scores
         # csv file to write raw results to
         system_name_compact = re.sub(",", "", system_name)
-        choi_mrp_raw_system = 'choi_mrp_raw_' + system_name_compact + '.csv'
+        choi_mrp_raw_system = 'choi_mrp_raw_' + system_name_compact + '_beamonly.csv'
         o_raw = open(str(results_folder / choi_mrp_raw_system ), 'w')
         
         # Print raw scores

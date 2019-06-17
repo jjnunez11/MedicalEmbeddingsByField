@@ -10,6 +10,7 @@
 \usepackage{csvsimple}
 \usepackage{pgfplotstable}
 \usepackage{color}
+\usepackage{boldline}
 %\usepackage{listings}
 
 \definecolor{blu}{rgb}{0,0,1}
@@ -81,12 +82,15 @@ Lastly, by comparing multiple sets of embeddings using different evaluation metr
 \begin{table*}[h!]
 	\begin{center}
 		\label{tab:embed}
-		\begin{tabular}{l|c|c|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+		\begin{tabular}{lcccl} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
 			Name & Dimension & Number & Number of Training Data& Type of Training Data \\
-			\hline
+			\hlineB{4}
 			DeVine200 & 200 & 52,102 & 17k + 348k &clinical narratives, journal abstracts\\
+			\hline
 			ChoiClaims300 & 300 & 14,852& 4m&health insurance claims\\
+			\hline
 			ChoiClinical300 & 300 & 22,705&20m& clinical narratives\\
+			\hline
 			BeamCui2Vec500 & 500 & 109,053&60m + 20m + 1.7m& claims, narratives, full journal texts\\
 		\end{tabular}
 	\end{center}
@@ -158,32 +162,88 @@ Choosing one embedding set allows more embeddings to be compared, as previous sc
 Comparing the embeddings from medical systems across the five evaluation methods reveals that some systems have scores significantly above the mean across multiple methods (Table \ref{tab:allsystemresults}). Embeddings related to cancers and musculoskeletal system are significantly above the mean in two methods, while those of mental disorders, the nervous system, and the cardiovascular system are significantly above in three methods. No systems have scores significantly below the mean more than once. Embeddings related to diseases of pregnancy, the perinatal period, and skin disorders appear to perform worst.  
 
 \begin{table*}[h]
-	\begin{center}
 	\label{tab:allsystemresults}
-	\begin{tabular}{l|c|c|c|c|c}
-		ICD9 Medical System& MRP (\%)                           & MCSP (\%)                         & SimCor (\%)                        & Bootstrap (\%)                    & SysVec (\%)                     \\
+	\begin{tabular}{lccccc}
+		ICD-9 Systen                                                                                                          & MRP           & MCSP           & Bootstrap     & SysVec        & 	Net Score \\
+		\hlineB{4}
+		All Systems (Negative Control)                                                                                        & 0             & 1.08           & 0.04          & 0.25          & -                                \\
 		\hline
-		Infections           & -21                       & +41                         & \blu{-34} & \ora{+35} & +12                        \\
-		Cancers              & \ora{+19}  & +2                         & \ora{+51}  & +38                        & -4                        \\
-		Endocrine            & +3                         & \blu{-12} & \ora{+20}  & +23                        & -10                         \\
-		Blood diseases       & -7                        & \blu{-29} & -2                         & -6                       & +10                        \\
-		Mental disorders     & \ora{+23}   & \ora{+67}  & -45                        & +25                         & \ora{+33} \\
-		Nervous system       & \ora{+61}   & \ora{+64}  & -3                        & +17                        & \ora{+41} \\
-		Cardiovascular       & \ora{+12}  & \ora{+64}  & +19                         & +22                        & \ora{+38} \\
-		Respiratory          & -13                         & +7                         & \blu{-24} & \ora{+40} & -7                        \\
-		Digestive            & +24                         & -7                        & \blu{-42} & -7                       & -39                       \\
-		Genitourinary        & +29                         & +8                          & -15                        & +7                        & \ora{+18} \\
-		Pregnancy            & -22                        & \blu{-56}  &                               &                              &                              \\
-		Skin                 & \blu{-28} & -20                        & -31                        & +18                         & +8                        \\
-		Musculoskeletal        & +5                         & +13                          & \ora{+47}  & +6                        & \ora{+31} \\
-		Congenital           & -15                         & -13                        &                               & +11                        & \ora{+52} \\
-		Perinatal            & -38                        & \blu{-57} &                               &                              &                              \\
-		Ill-defined          & -18                        & -28                        & -24                        & -18                       & +5                        \\
-		Injury and poisoning & -14                        & \blu{-44} & \ora{+84}  & -12                       & +13                       
+		All Systems                                                                                                           & 0.55          & 8.07           & 0.89          & 0.63          & -                                \\
+		\hline
+		Infectious and Parasitic Diseases       & \textbf{0.45} & \textbf{7.72}  & \textbf{0.93} & \textbf{0.92} & +4                               \\
+		\hline
+		Neoplasms                                                                                                             & \textbf{0.62} & \textbf{9}     & 0.94          & 0.55          & +2                               \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Endocrine, Nutritional and Metabolic \\Diseases,  and Immunity Disorders\end{tabular} & \textbf{0.44} & \textbf{5.64}  & 0.89          & 0.53          & -2                               \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Blood \\ and Blood-forming Organs\end{tabular}                            & \textbf{0.31} & \textbf{4.36}  & 0.82          & 0.79          & -2                               \\
+		\hline
+		Mental Disorders                                                                                                      & 0.53          & \textbf{9.34}  & 0.96          & \textbf{0.83} & +2                               \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Nervous System \\ and Sense Organs\end{tabular}                           & \textbf{0.76} & \textbf{8.44}  & 0.87          & \textbf{0.33} & +1                               \\
+		\hline
+		Diseases of the Circulatory System                                                                                    & 0.59          & 8.12           & \textbf{0.96} & \textbf{0.72} & +2                               \\
+		\hline
+		Diseases of the Respiratory System                                                                                    & \textbf{0.36} & \textbf{5.85}  & 0.94          & \textbf{0.82} & +1                               \\
+		\hline
+		Diseases of the Digestive System                                                                                      & \textbf{0.61} & 7.93           & \textbf{0.77} & 0.62          & 0                                \\
+		\hline
+		Diseases of the Genitourinary System                                                                                  & \textbf{0.61} & \textbf{6.82}  & 0.86          & 0.58          & 0                                \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Complications of Pregnancy, \\ Childbirth, and the Puerperium\end{tabular}                & \textbf{0.51} & \textbf{10.27} & -             & -             & 0                                \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Skin \\ and Subcutanous Tissue\end{tabular}                               & \textbf{0.37} & \textbf{5.1}   & 0.81          & 0.58          & -2                               \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Musculoskeletal \\System and Connective Tissue\end{tabular}              & \textbf{0.47} & 8.22           & 0.88          & \textbf{0.29} & -2                               \\
+		\hline
+		Congenital Anomalies                                                                                                  & 0.5           & \textbf{6.24}  & 0.73          & 0.73          & -1                               \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Certain Conditions Originating\\ in the Perinatal Period\end{tabular}                    & \textbf{0.48} & \textbf{9.84}  & -             & -             & 0                                \\
+		\hline
+		\begin{tabular}[c]{@{}l@{}}Symptoms, Signs,  and \\ Ill-defined   Conditions\end{tabular}                           & \textbf{0.26} & \textbf{2.68}  & \textbf{0.77} & 0.56          & -3                               \\
+		\hline
+		Injury and Poisoning                                                                                                  & \textbf{0.59} & \textbf{9.09}  & \textbf{0.75} & \textbf{0}    & 0                               
 	\end{tabular}
 	\caption{Percentage difference of a medical system's embeddings vs the mean score for all considered embeddings. Significant (paired t-test p \textless 0.05) scores are in orange (above mean) and blue (below). See Methods section for method abbreviations. Blank values represent no scores could be calculated for a system with that method.}
-\end{center}
 \end{table*}
+
+
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%\begin{table*}[h]
+%	\begin{center}
+%	\label{tab:allsystemresults}
+%	\begin{tabular}{l|c|c|c|c|c}
+%		ICD9 Medical System& MRP (\%)                           & MCSP (\%)                         & SimCor (\%)                        & Bootstrap (\%)                    & SysVec (\%)                     \\
+%		\hline
+%		Infections           & -21                       & +41                         & \blu{-34} & \ora{+35} & +12                        \\
+%		Cancers              & \ora{+19}  & +2                         & \ora{+51}  & +38                        & -4                        \\
+%		Endocrine            & +3                         & \blu{-12} & \ora{+20}  & +23                        & -10                         \\
+%		Blood diseases       & -7                        & \blu{-29} & -2                         & -6                       & +10                        \\
+%		Mental disorders     & \ora{+23}   & \ora{+67}  & -45                        & +25                         & \ora{+33} \\
+%		Nervous system       & \ora{+61}   & \ora{+64}  & -3                        & +17                        & \ora{+41} \\
+%		Cardiovascular       & \ora{+12}  & \ora{+64}  & +19                         & +22                        & \ora{+38} \\
+%		Respiratory          & -13                         & +7                         & \blu{-24} & \ora{+40} & -7                        \\
+%		Digestive            & +24                         & -7                        & \blu{-42} & -7                       & -39                       \\
+%		Genitourinary        & +29                         & +8                          & -15                        & +7                        & \ora{+18} \\
+%		Pregnancy            & -22                        & \blu{-56}  &                               &                              &                              \\
+%		Skin                 & \blu{-28} & -20                        & -31                        & +18                         & +8                        \\
+%		Musculoskeletal        & +5                         & +13                          & \ora{+47}  & +6                        & \ora{+31} \\
+%		Congenital           & -15                         & -13                        &                               & +11                        & \ora{+52} \\
+%		Perinatal            & -38                        & \blu{-57} &                               &                              &                              \\
+%		Ill-defined          & -18                        & -28                        & -24                        & -18                       & +5                        \\
+%		Injury and poisoning & -14                        & \blu{-44} & \ora{+84}  & -12                       & +13                       
+%	\end{tabular}
+%	\caption{Percentage difference of a medical system's embeddings vs the mean score for all considered embeddings. Significant (paired t-test p \textless 0.05) scores are in orange (above mean) and blue (below). See Methods section for method abbreviations. Blank values represent no scores could be calculated for a system with that method.}
+%\end{center}
+%\end{table*}
 
 \subsection{Differences Between Sets of Embeddings}
 \red{Put this first. Use raw scores. Take out SimCor}
@@ -213,34 +273,34 @@ Comparing the embeddings from medical systems across the five evaluation methods
 In Table \ref{tab:onlybeamonlymcsp} we focus on MCSP scores from the best performing set of embeddings, those from Beam et al. We observe results that are somewhat similar to the main  analysis. Embeddings related to mental disorders and the nervous system again perform well. Cardiovascular embeddings are better only when the more restrictive set of overlapping embeddings are considered. We note large differences for systems that had few overlapping embeddings but many only in the Beam et al embeddings, such as those related to pregnancy and injury and poisonings.  While these results descriptively seem to match for many systems, metrics indicate poor correlation. Assuming normality, Pearson's coefficient is only 0.16, while not assuming normality and using Spearman's we get only 0.01. 
 
 
-\begin{table*}[h]
-	\label{tab:onlybeamonlymcsp}
-	\begin{tabular}{l|c|c|c|c|c|c|c}
-		& \multicolumn{3}{c|}{All Relevent Embeddings} & \multicolumn{3}{c|}{Overlapping Embeddings} &            \\
-		\hline
-		ICD9 System          & MCSP  & Examples & Difference (\%) & MCSP & Examples & Difference (\%) & Different? \\
-		\hline
-		All                  & 8.07  & 16351    & 0               & 5.60 & 2884     & 0               & Yes        \\
-		Infections           & 7.72  & 2261     & \blu{-4}       & 6.84 & 334      & \ora{+22}        & Yes        \\
-		Cancers              & 9.00  & 1194     & \ora{+12}        & 4.47 & 116      & \blu{-20}       & Yes        \\
-		Endocrine            & 5.64  & 545      & \blu{-30}       & 3.98 & 193      & \blu{-29}       & Yes        \\
-		Blood Diseases       & 4.36  & 199      & \blu{-46}       & 3.67 & 81       & \blu{-34}       & Yes        \\
-		Mental Disorders     & 9.34  & 662      & \ora{+16}        & 7.67 & 165      & \ora{+37}        & Yes        \\
-		Nervous              & 8.44  & 1787     & \ora{+5}         & 7.27 & 434      & \ora{+30}        & Yes        \\
-		Cardiovascular       & 8.12  & 869      & +1               & 7.74 & 307      & \ora{+38}        & No         \\
-		Respiratory          & 5.85  & 405      & \blu{-27}       & 4.64 & 132      & \blu{-17}       & Yes        \\
-		Digestive            & 7.93  & 852      & -2              & 4.62 & 210      & \blu{-18}       & Yes        \\
-		Genitourinary        & 6.82  & 606      & \blu{-15}       & 5.75 & 210      & +3               & Yes        \\
-		Pregnancy            & 10.27 & 1325     & \ora{+27}        & 2.47 & 10       & \blu{-56}       & Yes        \\
-		Skin                 & 5.10  & 305      & \blu{-37}       & 4.01 & 102      & \blu{-28}       & Yes        \\
-		Musculoskeletal        & 8.22  & 1041     & +2               & 5.24 & 168      & -6              & Yes        \\
-		Congenital Anomolies & 6.24  & 457      & \blu{-23}       & 5.05 & 101      & -10             & Yes        \\
-		Perinatal            & 9.84  & 310      & \ora{+22}        & 2.49 & 11       & \blu{-55}       & Yes        \\
-		Ill-defined          & 2.68  & 558      & \blu{-67}       & 2.81 & 224      & \blu{-50}       & No         \\
-		Injury and Poisoning & 9.09  & 2975     & \ora{+13}        & 2.42 & 86       & \blu{-57}       & Yes             
-	\end{tabular}
-\caption{Comparison of MCSP scores using the embeddings from Beam et al when considering all relevant embeddings, and only those that are overlapping with the other sets of embeddings. Includes the mean MCSP score for a system, number of examples per system, and the percentage difference vs mean. Significant differences are shown in orange/blue for above/below at p \textless 0.05. The final column is whether the scores of all embeddings vs overlapping embeddings are expected to be from a different population with p\textless 0.05.}
-\end{table*}
+%\begin{table*}[h]
+%	\label{tab:onlybeamonlymcsp}
+%	\begin{tabular}{l|c|c|c|c|c|c|c}
+%		& \multicolumn{3}{c|}{All Relevent Embeddings} & \multicolumn{3}{c|}{Overlapping Embeddings} &            \\
+%		\hline
+%		ICD9 System          & MCSP  & Examples & Difference (\%) & MCSP & Examples & Difference (\%) & Different? \\
+%		\hline
+%		All                  & 8.07  & 16351    & 0               & 5.60 & 2884     & 0               & Yes        \\
+%		Infections           & 7.72  & 2261     & \blu{-4}       & 6.84 & 334      & \ora{+22}        & Yes        \\
+%		Cancers              & 9.00  & 1194     & \ora{+12}        & 4.47 & 116      & \blu{-20}       & Yes        \\
+%		Endocrine            & 5.64  & 545      & \blu{-30}       & 3.98 & 193      & \blu{-29}       & Yes        \\
+%		Blood Diseases       & 4.36  & 199      & \blu{-46}       & 3.67 & 81       & \blu{-34}       & Yes        \\
+%		Mental Disorders     & 9.34  & 662      & \ora{+16}        & 7.67 & 165      & \ora{+37}        & Yes        \\
+%		Nervous              & 8.44  & 1787     & \ora{+5}         & 7.27 & 434      & \ora{+30}        & Yes        \\
+%		Cardiovascular       & 8.12  & 869      & +1               & 7.74 & 307      & \ora{+38}        & No         \\
+%		Respiratory          & 5.85  & 405      & \blu{-27}       & 4.64 & 132      & \blu{-17}       & Yes        \\
+%		Digestive            & 7.93  & 852      & -2              & 4.62 & 210      & \blu{-18}       & Yes        \\
+%		Genitourinary        & 6.82  & 606      & \blu{-15}       & 5.75 & 210      & +3               & Yes        \\
+%		Pregnancy            & 10.27 & 1325     & \ora{+27}        & 2.47 & 10       & \blu{-56}       & Yes        \\
+%		Skin                 & 5.10  & 305      & \blu{-37}       & 4.01 & 102      & \blu{-28}       & Yes        \\
+%		Musculoskeletal        & 8.22  & 1041     & +2               & 5.24 & 168      & -6              & Yes        \\
+%		Congenital Anomolies & 6.24  & 457      & \blu{-23}       & 5.05 & 101      & -10             & Yes        \\
+%		Perinatal            & 9.84  & 310      & \ora{+22}        & 2.49 & 11       & \blu{-55}       & Yes        \\
+%		Ill-defined          & 2.68  & 558      & \blu{-67}       & 2.81 & 224      & \blu{-50}       & No         \\
+%		Injury and Poisoning & 9.09  & 2975     & \ora{+13}        & 2.42 & 86       & \blu{-57}       & Yes             
+%	\end{tabular}
+%\caption{Comparison of MCSP scores using the embeddings from Beam et al when considering all relevant embeddings, and only those that are overlapping with the other sets of embeddings. Includes the mean MCSP score for a system, number of examples per system, and the percentage difference vs mean. Significant differences are shown in orange/blue for above/below at p \textless 0.05. The final column is whether the scores of all embeddings vs overlapping embeddings are expected to be from a different population with p\textless 0.05.}
+%\end{table*}
 
 \section{Discussion}
 \red{Obvioulsy this is going to need work, cutting down, and to take into consideration the new results. For future work we can talk about deploying on actual clinical notes, that will be important. }

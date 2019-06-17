@@ -51,6 +51,7 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
     for filename, embedding_type, _ in filenames_type:
         # Matrix to convert cui to positions in the relevant filename
         embedding_matrix = filename_to_embedding_matrix[filename]
+        print embedding_matrix.shape
         Y = cdist(embedding_matrix, embedding_matrix, 'cosine')
         ranks = np.argsort(Y)
         systems_idx_dcg_err = {}
@@ -83,7 +84,7 @@ def get_choi_mcsp_by_systems(filenames_type, num_of_neighbor, icd9_systems, cui_
                 systems_err[system].append(err)
         
         # Folowing to output the actual dcgs for further statistical analysis. Similiar could be used for stats on raw schools in other methods
-        choi_csp_raw_filename = 'choi_mcsp_raw_' + filename + '.csv'
+        choi_csp_raw_filename = 'choi_mcsp_raw_' + filename + '_beamonly.csv'
         o_raw = open(str(results_folder / choi_csp_raw_filename ), 'w')
 
         ## array_dcg = []
@@ -143,7 +144,7 @@ def print_choi_mcsp(filenames, num_of_nn=40):
     results = get_choi_mcsp_by_systems(filenames, num_of_nn, icd9_systems, cui_to_icd9_dicts, empty_results)
     for line in results: print line
     
-    choi_mrp_by_system = 'choi_mcsp_by_system.csv'
+    choi_mrp_by_system = 'choi_mcsp_by_system_beamonly.csv'
     o = open(str(results_folder / choi_mrp_by_system ), 'w')
     write_results_to_file(results,o)
     o.close()    
