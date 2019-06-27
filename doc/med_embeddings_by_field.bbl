@@ -1,5 +1,10 @@
-\begin{thebibliography}{14}
+\begin{thebibliography}{16}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Cli()}]{ClinicalClassificationsSoftware}
+
+\newblock Clinical {{Classifications Software}} ({{CCS}}), 2003.
+\newblock page~54.
 
 \bibitem[{Beam et~al.(2018)Beam, Kompa, Fried, Palmer, Shi, Cai, and
   Kohane}]{beamClinicalConceptEmbeddings2018}
@@ -32,24 +37,17 @@ Lance De~Vine, Guido Zuccon, Bevan Koopman, Laurianne Sitbon, and Peter Bruza.
   Similarity}} with a {{Neural Language Model}}}.
 \newblock In \emph{Proceedings of the 23rd {{ACM International Conference}} on
   {{Conference}} on {{Information}} and {{Knowledge Management}}}, {{CIKM}}
-  '14, pages 1819--1822, New York, NY, USA. {ACM}.
+  '14, pages 1819--1822, {New York, NY, USA}. {ACM}.
 
-\bibitem[{Forbush et~al.(2013 -3- 18)Forbush, Gundlapalli, Palmer, Shen, South,
+\bibitem[{Forbush et~al.(2013)Forbush, Gundlapalli, Palmer, Shen, South,
   Divita, Carter, Redd, Butler, and Samore}]{forbushSittingPinsNeedles2013}
 Tyler~B. Forbush, Adi~V. Gundlapalli, Miland~N. Palmer, Shuying Shen, Brett~R.
   South, Guy Divita, Marjorie Carter, Andrew Redd, Jorie~M. Butler, and Matthew
-  Samore. 2013 -3- 18.
+  Samore. 2013.
 \newblock ``{{Sitting}} on {{Pins}} and {{Needles}}'': {{Characterization}} of
   {{Symptom Descriptions}} in {{Clinical Notes}}''.
 \newblock \emph{AMIA Summits on Translational Science Proceedings},
   2013:67--71.
-
-\bibitem[{Lee et~al.(2018)Lee, Zhang, Roberts, and
-  Xu}]{leeLeveragingExistingCorpora2018}
-Hee-Jin Lee, Yaoyun Zhang, Kirk Roberts, and Hua Xu. 2018.
-\newblock Leveraging existing corpora for de-identification of psychiatric
-  notes using domain adaptation.
-\newblock \emph{AMIA Annual Symposium Proceedings}, 2017:1070--1079.
 
 \bibitem[{McCoy et~al.(2016)McCoy, Castro, Roberson, Snapper, and
   Perlis}]{mccoyImprovingPredictionSuicide2016}
@@ -67,9 +65,10 @@ Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean. 2013.
   {{Word Representations}} in {{Vector Space}}}.
 \newblock \emph{arXiv:1301.3781 [cs]}.
 
-\bibitem[{{Minarro-Gim\'enez} et~al.(2014){Minarro-Gim\'enez},
-  {Mar\'in-Alonso}, and Samwald}]{minarro-gimenezExploringApplicationDeep2014}
-Jos\'e~Antonio {Minarro-Gim\'enez}, Oscar {Mar\'in-Alonso}, and Matthias
+\bibitem[{{Minarro-Gim{\'e}nez} et~al.(2014){Minarro-Gim{\'e}nez},
+  {Mar{\'i}n-Alonso}, and
+  Samwald}]{minarro-gimenezExploringApplicationDeep2014}
+Jos{\'e}~Antonio {Minarro-Gim{\'e}nez}, Oscar {Mar{\'i}n-Alonso}, and Matthias
   Samwald. 2014.
 \newblock Exploring the application of deep learning techniques on medical text
   corpora.
@@ -81,12 +80,30 @@ Serguei Pakhomov. 2018.
   {{Relatedness}} and {{Similarity Reference Standards}} for {{Medical
   Terms}}}.
 
+\bibitem[{Rasmy et~al.(2018)Rasmy, Wu, Wang, Geng, Zheng, Wang, Wu, Xu, and
+  Zhi}]{rasmyStudyGeneralizabilityRecurrent2018}
+Laila Rasmy, Yonghui Wu, Ningtao Wang, Xin Geng, W.~Jim Zheng, Fei Wang, Hulin
+  Wu, Hua Xu, and Degui Zhi. 2018.
+\newblock \href {https://doi.org/10.1016/j.jbi.2018.06.011} {A study of
+  generalizability of recurrent neural network-based predictive models for
+  heart failure onset risk using a large and heterogeneous {{EHR}} data set}.
+\newblock \emph{Journal of Biomedical Informatics}, 84:11--16.
+
 \bibitem[{Slee(1978)}]{sleeInternationalClassificationDiseases1978}
 Vergil~N. Slee. 1978.
 \newblock \href {https://doi.org/10.7326/0003-4819-88-3-424} {The
   {{International Classification}} of {{Diseases}}: {{Ninth Revision}}
   ({{ICD}}-9)}.
 \newblock \emph{Annals of Internal Medicine}, 88(3):424.
+
+\bibitem[{Xiang et~al.(2019)Xiang, Xu, Si, Li, Rasmy, Zhou, Tiryaki, Li, Zhang,
+  Wu, Jiang, Zheng, Zhi, Tao, and Xu}]{xiangTimesensitiveClinicalConcept2019}
+Yang Xiang, Jun Xu, Yuqi Si, Zhiheng Li, Laila Rasmy, Yujia Zhou, Firat
+  Tiryaki, Fang Li, Yaoyun Zhang, Yonghui Wu, Xiaoqian Jiang, Wenjin~Jim Zheng,
+  Degui Zhi, Cui Tao, and Hua Xu. 2019.
+\newblock \href {https://doi.org/10.1186/s12911-019-0766-3} {Time-sensitive
+  clinical concept embeddings learned from large electronic health records}.
+\newblock \emph{BMC Medical Informatics and Decision Making}, 19(2):58.
 
 \bibitem[{Yu and Cai(2013)}]{yuShortIntroductionNILE2013}
 Sheng Yu and Tianxi Cai. 2013.

@@ -77,23 +77,21 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
         icd9_embeddings = filename_to_embedding_matrix[filename]
         r,c = icd9_embeddings.shape
         
-        print "about to go through icd9s"
         # Following replaced as won't work with large embeddings. Is faster though
-        ##Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')        
-        ##ranks = np.argsort(Y) 
-        ##ranks = mem_sav_cdist_rank(icd9_embeddings, num_of_neighbor)
+        Y = cdist(icd9_embeddings, icd9_embeddings, 'cosine')        
+        ranks = np.argsort(Y) 
         # End of what was replace
         cumulative_ndcgs = []
 
         for icd9 in icd9_in_system:
             # Changed for neighbours to be found "as needed" to memory cost, though is slower
-            a_idx = icd9_to_idx[icd9]
-            a_cdist = cdist(icd9_embeddings[a_idx].reshape((1,c)),icd9_embeddings,'cosine')[0]
-            target = np.argsort(a_cdist)[1:num_of_neighbor + 1]
+            ##a_idx = icd9_to_idx[icd9]
+            ##a_cdist = cdist(icd9_embeddings[a_idx].reshape((1,c)),icd9_embeddings,'cosine')[0]
+            ##target = np.argsort(a_cdist)[1:num_of_neighbor + 1]
             # end of change to allow larger embeddings to be used
 
             # Uncomment following and block before for loop to return to faster but memory-needing version
-            ##target = ranks[icd9_to_idx[icd9], 1:num_of_neighbor+1]
+            target = ranks[icd9_to_idx[icd9], 1:num_of_neighbor+1]
             num_of_possible_hits = 0
             
             icd9_to_remove = set()
@@ -123,7 +121,7 @@ def print_choi_mrp(filenames, num_of_nn=40):
     """
     
     # csv file to write results to
-    choi_mrp_by_system = 'choi_mrp_by_system_beamonly.csv'
+    choi_mrp_by_system = 'choi_mrp_by_system_withoutfix.csv'
     o = open(str(results_folder / choi_mrp_by_system ), 'w')
     o.write('ICD9 System,')
     # Write headers from 3rd entry in orig_files_all.txt
@@ -172,7 +170,7 @@ def print_choi_mrp(filenames, num_of_nn=40):
         # New addition: Print raw scores
         # csv file to write raw results to
         system_name_compact = re.sub(",", "", system_name)
-        choi_mrp_raw_system = 'choi_mrp_raw_' + system_name_compact + '_beamonly.csv'
+        choi_mrp_raw_system = 'choi_mrp_raw_' + system_name_compact + '.csv'
         o_raw = open(str(results_folder / choi_mrp_raw_system ), 'w')
         
         # Print raw scores
