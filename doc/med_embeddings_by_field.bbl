@@ -1,10 +1,19 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{17}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Cli()}]{ClinicalClassificationsSoftware}
 
 \newblock Clinical {{Classifications Software}} ({{CCS}}), 2003.
 \newblock page~54.
+
+\bibitem[{Afzal et~al.(2017)Afzal, Sohn, Abram, Scott, Chaudhry, Liu, Kullo,
+  and {Arruda-Olson}}]{afzalMiningPeripheralArterial2017}
+Naveed Afzal, Sunghwan Sohn, Sara Abram, Christopher~G. Scott, Rajeev Chaudhry,
+  Hongfang Liu, Iftikhar~J. Kullo, and Adelaide~M. {Arruda-Olson}. 2017.
+\newblock \href {https://doi.org/10.1016/j.jvs.2016.11.031} {Mining peripheral
+  arterial disease cases from narrative clinical notes using natural language
+  processing}.
+\newblock \emph{Journal of Vascular Surgery}, 65(6):1753--1761.
 
 \bibitem[{Beam et~al.(2018)Beam, Kompa, Fried, Palmer, Shi, Cai, and
   Kohane}]{beamClinicalConceptEmbeddings2018}
