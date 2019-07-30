@@ -130,30 +130,23 @@ The code for all implemented methods will be publicly available upon publication
 
 This method from Choi et al \shortcite{choiLearningLowDimensionalRepresentations2016} is based on quantifying whether concepts with known relations are neighbours of each other.  They use known relationships between drugs and the diseases they treat or prevent, and also the relations between diseases that are grouped together in the CCS hierarchical groupings, a classification from the Agency for Healthcare Research and Quality \cite{ClinicalClassificationsSoftware}. The scoring utilizes Discounted Cumulative Gain, which attributes a diminishing score the further away a known relationship is found if within \emph{k} neighbours. 
 
-In our implantation, we calculate the MRM based on the `coarse' groupings from the CCS hierarchies. Scores are calculated for CUIs that represent diseases with a known ICD9 code. The mean MRM is then calculated for all CUIs within a given ICD9 system. The implementation was adapted from Python 2.7 code available from the original author's \href{https://github.com/clinicalml/embeddings}{Github}. Our implementation calculates MRM as:
+In our implantation, we calculate the MRM based on the `coarse' groupings from the CCS hierarchies. Scores are calculated for CUIs that represent diseases with a known ICD9 code. The mean MRM is then calculated for all CUIs within a given ICD9 system. The implementation was adapted from Python 2.7 code available from the original author's \href{https://github.com/clinicalml/embeddings}{Github}. As in the original work, we calculates MRM as:
 
+MRM$(V,G,k) = \frac{1}{|V(G)|}\sum\limits_{v\in V}\sum\limits_{i=i}^k \frac{1_G(v(i))}{log_2(i+1)}$
 
-PUT IN THAT EQUATION. GIVE EXAMPLES AS EXPLANATION OF POSSIBLE VALUES
+Where $G$ is a CCS group, $V(G)$ is the subset of all medical conditions $V$ found in a group. $1_G$ is 0 or 1 depending on whether $v(i)$, the $ith$ closest neighbour to a condition $v$, is in the same CCS group.  
 
-Where blah blah blah
-
-To illustrate this, consider calculating the MRM for the condition hypertensive kidney disease with $k=40$. 
-and hypertensive heart disease, which  are in the same CCS group. If hypertensive kidney disease is the third closest neighbour  hypertensive heart disease, a greater MRM results than if it was the thirteenth closest neighbour. 
-
-
-
+To illustrate this, consider the medical condition ($v$) \emph{Rheumatoid arthritis}. It is part of the CCS-coarse grouping ($G$), ``Rheumatoid arthritis and related disease". It contains twelve conditions, such as \emph{Felty's syndrome} and \emph{Rheumatoid lung}. With Choi et al's choice of $k=40$, the MRN score for \emph{rheaumatoid arthritis} would depend on how many of the eleven other conditions in this group are within the 40 nearest neighbours ($v(i)$) to \emph{rheaumatoid arthritis}, and would give a higher score the nearer they are, the highest being if they are the eleven nearest neighbours. 
 
 \paragraph{Medical Conceptual Similarity Measure}(MCSM) The other method used by Choi et al's work evaluates whether embeddings known to be of a particular set are clustered together. They use conceptual sets from the UMLS such as `pharmacologic substance' or `disease or syndrome'.  Discounted Cumulative Gain is again used, based on whether a CUI has other CUIs of its set within \emph{k} neighbours. 
 
 We reimplement this method, but instead of using the UMLS conceptual sets, we create sets from the ICD9 systems, again giving a score to neighbours that are diseases or drugs from the same field of medicine/ICD9 system. Again, this was adapted from code from Choi et al's Github. Similiar to the MRM calculation, the MCSM can then be repersented as:
 
-blah blah blah
+MCSM$(V,S,k) = \frac{1}{|V(S)|}\sum\limits_{v\in V}\sum\limits_{i=i}^k \frac{1_S(v(i))}{log_2(i+1)}$
 
-Wheree blah blah, example. To illustrate this, consider calculating the MRM for the condition hypertensive kidney disease with $k=40$. 
+Similarly to above, $S$ is a medical field/ICD9 system, $V(S)$ the medical conditions within a field, and $1_S$ 0 or 1 depending on whether neighbour $v(i)$ is also in this system. 
 
-
-
-and hypertensive heart disease, which  are in the same CCS group. If hypertensive kidney disease is the third closest neighbour to hypertensive heart disease, a greater MRM results than if it was the thirteenth closest neighbour.  
+For illustration, consider an example calculating the MCSM for the medical condition, $v$, $primary tuberculous infection$. A bacterial infection it is within the medical field/system ($S$) ``Infectious and Parasitic Diseases". If $rifampin$, an antibiotics, was found to be nearby, it would contribute to the MCSM, as it treats conditions in ``Infectious and Parasitic Diseases" and so would be classified as being part of this system. On the other hand, if the respiratory illness \emph{asthma} was one of the $k$ nearest neighbours, it would add nothing to the MCSM score, as it is a disease in a different system, ``Diseases of the Respiratory System". 
 
 
 
@@ -175,6 +168,26 @@ We implement a new, simple method to evaluate a medical field's embeddings. A re
 For example, a system vector for Mental Disorders would be calculated from the embeddings for diseases such as schizophrenia and major depressive disorder. Mental Disorder's \emph{System Vector Accuracy} is the percentage of its medications (e.g. fluoxetine, risperidone, paroxetine) whose embedding vectors are more similar to the Mental Disorders system vector than all others. Fluoxetine is an anti-depressant medication solely used to treat Mental Disorders, so we would expect its vector to be more similar to this system vector than, say, the system vector representing Diseases of the Skin and Subcutaneous Tissue. 
 
 Some drugs treat or prevent diseases in \emph{n} multiple medical field. For a field, such a drug is classified as being accurately predicted if the field's system vector is amongst the \emph{n} most similar system vectors. For instance, valproic acid is an anti-convulsant used to treat both mental disorders and those of the nervous system. Mental Disorder's \emph{System Vector Accuracy} would take into account whether its system vector was one of the \emph{n=2} most similar system vectors.  We implemented this method in Python. 
+
+\begin{table*}[h!]
+	
+	\begin{center}
+		\begin{tabular}{lcccl} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+			Drug & Actual Medical Field & Predicted Medical Field & Correct?\\
+			\hlineB{4}
+			Fluoxetine & Mental Disorders & Mental Disorders & 17k + 348k \\
+			Sertraline & Mental Disorders & Mental Disorders& 4m \\
+			Risperidone & Mental Disorders & Mental Disorders & \\
+			Olanzapine & Mental Disorders & Mental Disorders & 60m + 20ms\\
+			Valproic Acid & Mental Disorders & Mental Disorders & \\
+			Lamotragine & Mental Disorders & Mental Disorders & \\
+			\hline
+			 &  & SysVec Score:& 6/8 = 0.75
+		\end{tabular}
+	\end{center}
+	\caption{Toy examples.}
+	\label{tab:sysvectoy}
+\end{table*}
 
 \subsection{Comparing Scores}
 
