@@ -156,7 +156,7 @@ This method from Choi et al \shortcite{choiLearningLowDimensionalRepresentations
 
 In our implementation, we calculate the Medical Relatedness Measure (MRM) based on the `coarse' groupings from the CCS hierarchies. Scores are calculated for CUIs that represent diseases with a known ICD9 code. The mean MRM is then calculated for all CUIs within a given ICD9 system. The implementation was adapted from Python 2.7 code available from the original author's \href{https://github.com/clinicalml/embeddings}{Github}. We calculate MRM as:
 
-MRM$(V,F,k) = \sum\limits_{v\in V(F)}\frac{1}{|V(G)|}\sum\limits_{i=1}^k \frac{1_G(v(i))}{log_2(i+1)}$
+MRM${(V,F,k)=\frac{1}{|V(F)|}\sum\limits_{v\in V(F)}\frac{1}{|V(G)|}\sum\limits_{i=1}^k \frac{1_G(v(i))}{log_2(i+1)}}$
 
 Where $V$ are medical conditions, $F$ a field of medicine, $V(F)$ the medical conditions within an ICD-9 system/field of medicine, $G$ the CCS group that medical condition $v\in V(F)$ is part of,  and $V(G)$ the subset of medical conditions found in this group. $1_G$ is 0 or 1 depending on whether $v(i)$, the $ith$ closest neighbour to a condition $v$, is in the same group. $k$ neighbours are considered. 
 

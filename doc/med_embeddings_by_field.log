@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  7 AUG 2019 12:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.29)  10 AUG 2019 11:58
 entering extended mode
 **./med_embeddings_by_field.tex
 (med_embeddings_by_field.tex
@@ -792,6 +792,11 @@ Underfull \hbox (badness 1484) in paragraph at lines 157--158
 \OT1/ptm/m/n/10.95 `coarse' group-ings from the CCS hi-er-ar-chies.
  []
 
+
+Overfull \hbox (15.07732pt too wide) in paragraph at lines 159--160
+[]\OT1/ptm/m/n/10.95 MRM$[]$ 
+ []
+
 [2]
 Underfull \hbox (badness 10000) in paragraph at lines 165--166
  []\OT1/ptm/b/n/10.95 Medical Con-cep-tual Sim-i-lar-ity Mea-sure
@@ -895,7 +900,7 @@ pe1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/h
 elvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pf
 b><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Fil
 es/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on med_embeddings_by_field.pdf (7 pages, 202849 bytes).
+Output written on med_embeddings_by_field.pdf (7 pages, 202888 bytes).
 PDF statistics:
  241 PDF objects out of 1000 (max. 8388607)
  46 named destinations out of 1000 (max. 500000)
