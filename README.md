@@ -1,12 +1,12 @@
 # MedicalEmbeddingsByField 
 
-Class project for CPSC 503 evaluating how the performance of clinical concept embedding vary by the field of medicine they're related to. 
+Project presented at LOUHI 2019 as "Comparing the Intrinsic Performance of CLinical Concept Embeddings by Their Field of Medicine"
 
 The current implementation uses five different evaluation methods to judge embeddings from four different embedding sets. 
 
 The project report is located [here](https://github.com/jjnunez11/MedicalEmbeddingsByField/blob/master/doc/med_embeddings_by_field.pdf)
 
-Run all analyses by running [main.py](https://github.com/jjnunez11/MedicalEmbeddingsByField/blob/master/eval/main.py)
+Run all analyses by running [main.py](https://github.com/jjnunez11/MedicalEmbeddingsByField/blob/master/eval/main.py). Comment out the "print_XX" lines to only run certain evaluation methods. To change what embedding sets are used (including adding new ones), edit [config_embed_files.txt](https://github.com/jjnunez11/MedicalEmbeddingsByField/tree/master/eval/config_embed_files.txt).
 
 The code for the analyses are located within [`eval`](https://github.com/jjnunez11/MedicalEmbeddingsByField/tree/master/eval). The first three were written from scratch, the last two adapted from [Choi et al's Github](https://github.com/clinicalml/embeddings)
 - `analysis_beam_boostrap.py` runs an analysis based on the method in Beam et al's paper 
@@ -15,13 +15,15 @@ The code for the analyses are located within [`eval`](https://github.com/jjnunez
 - `analysis_choi_mrp.py` calculates Medical Relatedness Property from Choi et al
 - `analysis_choi_mcsp.py` calculates Medical Conceptual Similiarity Property from Choi et al
 
-Additionally, I needed to write new functions shared by the difference analyses, in addition to adapting those from Choi et al's work. The functions I added or changed are alos located within `eval`:
+Additionally, I needed to write new functions shared by the difference analyses, in addition to adapting those from Choi et al's work. The functions I added or changed are also located within `eval`:
 - `embed_helpers.py` which contain functions for reading and processing the embedding files
 - `cui_icd9_helpers.py` which contains function for flitering, converting, and other operations on the dictionaries between CUI and ICD9
 
-Raw results files are located within `results` folder
-
 The `data` folder conaints the various data used for the project, including embeddings, and the various dictionaries. Many come from Choi et al's implementation.
+
+Raw results files are located within `results` folder. Of particular note:
+- `/table_embed_sets/table_embed_sets.xlsx' contains the data used for comparing the embedding sets (Table 1)
+- `/table_systems/table_systens.xlsx' contains the data used for comparing the embeddings of systems (Table 4)
 
 ## Following data must be obtained prior to runnig: ##
 
