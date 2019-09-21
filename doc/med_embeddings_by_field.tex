@@ -170,7 +170,7 @@ MCSM$(V,F,k) = \frac{1}{|V(F)|}\sum\limits_{v\in V(F)}\sum\limits_{i=1}^k \frac{
 
 Similar to MRM, $F$ is a medical field/ICD9 system, $V(F)$ the medical conditions within a system, and $1_F$ 0 or 1 depending on whether neighbour $v(i)$ is also in this medical field.
 
-For illustration, consider an example calculating the MCSM for the medical field/system ($F$) ``Infectious and Parasitic Diseases". This involves calculating the score for the medical condition ($v$) \emph{primary tuberculous infection} . If \emph{rifampin}, an antibiotic, was found to be nearby, it would contribute to the MCSM, as it treats conditions in ``Infectious and Parasitic Diseases" and so would be classified as being part of this system. On the other hand, if the respiratory illness \emph{asthma} was one of the $k$ nearest neighbours, it would add nothing to the MCSM score, as it is a disease in a different system, ``Diseases of the Respiratory System". 
+For illustration, consider an example calculating the MCSM for the medical field/system ($F$) ``Infectious and Parasitic Diseases". This involves calculating the score for the medical condition ($v$) \emph{primary tuberculous infection}. If \emph{rifampin}, an antibiotic, was found to be nearby, it would contribute to the MCSM, as it treats conditions in ``Infectious and Parasitic Diseases" and so would be classified as being part of this system. On the other hand, if the respiratory illness \emph{asthma} was one of the $k$ nearest neighbours, it would add nothing to the MCSM score, as it is a disease in a different system, ``Diseases of the Respiratory System". 
 
 %\paragraph{Correlation with UMNSRS Similarity}(SimCor)
 %\cite{yuRetrofittingConceptVector2017} investigate whether the cosine similarity of embedding vectors are correlated with human judgements of similarity.  contains around 500 similarity ratings between medical concepts as rated by eight medical residents. Yu et all then compute a Spearman rank correlation between the cosine similarities and the UMNSRS-Similarity ratings.
@@ -199,9 +199,9 @@ A negative control set of embeddings was constructed by taking the embeddings fr
 
 \paragraph{Comparing Fields of Medicine} As the embeddings from Beam et al \shortcite{beamClinicalConceptEmbeddings2018} are most recent, trained on the most data, and have significantly higher scores than the other embeddings compared, we used these embeddings to compare scores from the different fields of medicine. This set also contained the most embeddings, allowing more embeddings from each field to be compared. 
 
-We sought to determine whether a field of medicine's embeddings were significantly worse or better than the average. As such, for each field of medicine we calculated the mean score from each evaluation method. We then used statistical tests to compare a field's scores from a given evaluation method with the same scores from all other fields. For MCSM and MRM scores we used two-tailed t-tests, and for Bootstrap and Sysvec, z-scores, all corrected with the Bonferroni correction. 
+We sought to determine whether a field of medicine's embeddings were significantly worse or better than the average. As such, for each field of medicine we calculated the mean score from each evaluation method. We then used statistical tests to compare a field's scores from a given evaluation method with the same scores from all other fields. For MCSM and MRM scores we used two-tailed t-tests, and for Bootstrap and SysVec, z-scores, all corrected with the Bonferroni correction. 
 
-To aggregate a medical field's results, we calculated a `net score' by taking how many of the four method's scores were significantly above the mean, minus how many were significantly below. We found this more interpretable than other methods such as aggregating normalized scores. 
+To aggregate a medical field's results, we calculated a `Net Significance' metric by taking how many of the four method's scores were significantly above the mean, minus how many were significantly below. We found this more interpretable than other methods such as aggregating normalized scores. 
 
 %
 %
@@ -248,51 +248,51 @@ Comparing the sets of embeddings (Table ~\ref{tab:allembedresults}) shows consis
 
 \subsection{Differences Between Medical Systems}
 
-Differences are also observed between embeddings from the various fields of medicine as represented by the ICD-9 systems (Table ~\ref{tab:allsystemresults}). For instance, embeddings related to the medical field Infections and Parasitic Disease have scores significantly above the mean for all four evaluation methods, while those of the field Symptoms, Signs, and Ill-defined Conditions are significantly below for three. Due to a smaller number of documented drug-disease relationships across two medical fields, scores were not calculated with those methods using these relationships.  
+Differences are also observed between embeddings from the various fields of medicine as represented by the ICD-9 systems (Table ~\ref{tab:allsystemresults}). For instance, embeddings related to the medical field Mental Disorders have scores significantly above the mean score across all systems for two evaluation methods, while those of the field Symptoms, Signs, and Ill-defined Conditions are significantly below for three. Due to a smaller number of documented drug-disease relationships across two medical fields, scores were not calculated with those methods using these relationships. 
 
 \begin{table*}[!h]
 	\begin{tabular}{lccccc}
-		ICD-9 Systen                                                                                                          & MRM           & MCSM           & Bootstrap     & SysVec        & 	Net Score \\
+		ICD-9 Systen                                                                                                          & MRM           & MCSM           & Bootstrap     & SysVec        & 	Net Significances \\
 		\hlineB{4}
-		All Systems (Negative Control)                                                                                        & 0             & 1.08           & 0.04          & 0.25          & -                                \\
+		All Systems (Negative Control)                                                                                        & \emph{0}             & \emph{1.08}           & \emph{0.04}          & \emph{0.25}          & -                                \\
 		\hline
 		All Systems                                                                                                           & 0.55          & 8.07           & 0.89          & 0.63          & -                                \\
 		\hline
-		Infectious and Parasitic Diseases       & \textbf{0.45} & \textbf{7.72}  & \textbf{0.93} & \textbf{0.92} & +4                               \\
+		Infectious and Parasitic Diseases       & \emph{0.45} & \emph{7.72}  & \textbf{0.93} & \textbf{0.92} & 0                               \\
 		\hline
 		Neoplasms                                                                                                             & \textbf{0.62} & \textbf{9}     & 0.94          & 0.55          & +2                               \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Endocrine, Nutritional and Metabolic \\Diseases,  and Immunity Disorders\end{tabular} & \textbf{0.44} & \textbf{5.64}  & 0.89          & 0.53          & -2                               \\
+		\begin{tabular}[c]{@{}l@{}}Endocrine, Nutritional and Metabolic \\Diseases,  and Immunity Disorders\end{tabular} & \emph{0.44} & \emph{5.64}  & 0.89          & 0.53          & -2                               \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Diseases of the Blood \\ and Blood-forming Organs\end{tabular}                            & \textbf{0.31} & \textbf{4.36}  & 0.82          & 0.79          & -2                               \\
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Blood \\ and Blood-forming Organs\end{tabular}                            & \emph{0.31} & \emph{4.36}  & 0.82          & 0.79          & -2                               \\
 		\hline
 		Mental Disorders                                                                                                      & 0.53          & \textbf{9.34}  & 0.96          & \textbf{0.83} & +2                               \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Diseases of the Nervous System \\ and Sense Organs\end{tabular}                           & \textbf{0.76} & \textbf{8.44}  & 0.87          & \textbf{0.33} & +1                               \\
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Nervous System \\ and Sense Organs\end{tabular}                           & \textbf{0.76} & \textbf{8.44}  & 0.87          & \emph{0.33} & +1                               \\
 		\hline
 		Diseases of the Circulatory System                                                                                    & 0.59          & 8.12           & \textbf{0.96} & \textbf{0.72} & +2                               \\
 		\hline
-		Diseases of the Respiratory System                                                                                    & \textbf{0.36} & \textbf{5.85}  & 0.94          & \textbf{0.82} & +1                               \\
+		Diseases of the Respiratory System                                                                                    & \emph{0.36} & \emph{5.85}  & 0.94          & \textbf{0.82} & +1                               \\
 		\hline
-		Diseases of the Digestive System                                                                                      & \textbf{0.61} & 7.93           & \textbf{0.77} & 0.62          & 0                                \\
+		Diseases of the Digestive System                                                                                      & \textbf{0.61} & 7.93           & \emph{0.77} & 0.62          & 0                                \\
 		\hline
-		Diseases of the Genitourinary System                                                                                  & \textbf{0.61} & \textbf{6.82}  & 0.86          & 0.58          & 0                                \\
+		Diseases of the Genitourinary System                                                                                  & \textbf{0.61} & \emph{6.82}  & 0.86          & 0.58          & 0                                \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Complications of Pregnancy, \\ Childbirth, and the Puerperium\end{tabular}                & \textbf{0.51} & \textbf{10.27} & -             & -             & 0                                \\
+		\begin{tabular}[c]{@{}l@{}}Complications of Pregnancy, \\ Childbirth, and the Puerperium\end{tabular}                & \emph{0.51} & \textbf{10.27} & -             & -             & 0                                \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Diseases of the Skin \\ and Subcutanous Tissue\end{tabular}                               & \textbf{0.37} & \textbf{5.1}   & 0.81          & 0.58          & -2                               \\
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Skin \\ and Subcutanous Tissue\end{tabular}                               & \emph{0.37} & \emph{5.1}   & 0.81          & 0.58          & -2                               \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Diseases of the Musculoskeletal \\System and Connective Tissue\end{tabular}              & \textbf{0.47} & 8.22           & 0.88          & \textbf{0.29} & -2                               \\
+		\begin{tabular}[c]{@{}l@{}}Diseases of the Musculoskeletal \\System and Connective Tissue\end{tabular}              & \emph{0.47} & 8.22           & 0.88          & \emph{0.29} & -2                               \\
 		\hline
-		Congenital Anomalies                                                                                                  & 0.5           & \textbf{6.24}  & 0.73          & 0.73          & -1                               \\
+		Congenital Anomalies                                                                                                  & 0.5           & \emph{6.24}  & 0.73          & 0.73          & -1                               \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Certain Conditions Originating\\ in the Perinatal Period\end{tabular}                    & \textbf{0.48} & \textbf{9.84}  & -             & -             & 0                                \\
+		\begin{tabular}[c]{@{}l@{}}Certain Conditions Originating\\ in the Perinatal Period\end{tabular}                    & \emph{0.48} & \textbf{9.84}  & -             & -             & 0                                \\
 		\hline
-		\begin{tabular}[c]{@{}l@{}}Symptoms, Signs,  and \\ Ill-defined   Conditions\end{tabular}                           & \textbf{0.26} & \textbf{2.68}  & \textbf{0.77} & 0.56          & -3                               \\
+		\begin{tabular}[c]{@{}l@{}}Symptoms, Signs,  and \\ Ill-defined   Conditions\end{tabular}                           & \emph{0.26} & \emph{2.68}  & \emph{0.77} & 0.56          & -3                               \\
 		\hline
-		Injury and Poisoning                                                                                                  & \textbf{0.59} & \textbf{9.09}  & \textbf{0.75} & \textbf{0}    & 0                               
+		Injury and Poisoning                                                                                                  & \textbf{0.59} & \textbf{9.09}  & \emph{0.75} & \emph{0}    & 0                               
 	\end{tabular}
-	\caption{Comparison of mean scores using different evaluation methods for the fields of medicine as represented by their ICD-9 system. Significant differences below or above the mean of all other systems are bold (p-value \textless 0.05 after Bonferroni correction). Net score is the number of these significant differences above that mean minus the number below. A system's  score is not calculated if there are fewer than ten examples for a method. See Methods section for evaluation method abbreviations}
+	\caption{Comparison of mean scores using different evaluation methods for the fields of medicine as represented by their ICD-9 system. The row All Systems shows the mean score for each method across embeddings from all systems. A \textbf{bold} score indicates that a system's score was significantly above the All Systems score, while an \emph{italic} score indicates it was below. Significance is judged by having a p-value \textless 0.05 after Bonferroni correction. Net Significances is the number of these significant differences above the All Systems score minus the number below. A system's  score is not calculated if there are fewer than ten examples for a method. See Methods section for evaluation method abbreviations. All scores in this table are calculated using the embeddings from Beam et al.}
 	\label{tab:allsystemresults}
 \end{table*}
 
@@ -371,11 +371,11 @@ Differences are also observed between embeddings from the various fields of medi
 \section{Discussion and Future Direction}
 To our knowledge, this is the first investigation into whether clinical concept embeddings from a given field of medicine perform relatively well or poorly compared to others. We conducted this investigation comparing available sets of such embeddings, using a variety of previously described intrinsic evaluation methods in addition to a new one. Given that one set of embeddings performed better than others, we used this set to compare the different fields of medicine, and found significant results between various fields. 
 
-The superior performance of one set of embeddings - those from Beam et al \shortcite{beamClinicalConceptEmbeddings2018} - are consistent with the depth and breadth of data used to train these embeddings. Training used three different types of data, including that from health insurance claims, clinical narratives, and full texts from medical journals. The size of the dataset was also much larger than that of the others . Our work validates their findings that their embeddings offer the best performance. However, it would be interesting to also consider the recent clinical concept embeddings developed by \cite{xiangTimesensitiveClinicalConcept2019}. They use a similar amount of data (50 million) as Beam et al, using a large dataset from electronic health records, and apply a novel method to incorporate time-sensitive information. At the time of submission, we were unable to obtain their embeddings, and so leave this comparison to future work.
+The superior performance of one set of embeddings - those from Beam et al \shortcite{beamClinicalConceptEmbeddings2018} - are consistent with the depth and breadth of data used to train these embeddings. Training used three different types of data, including that from health insurance claims, clinical narratives, and full texts from medical journals. The size of the dataset was also much larger than that of the others. Our work validates their findings that their embeddings offer the best performance. However, it would be interesting to also consider the recent clinical concept embeddings developed by \cite{xiangTimesensitiveClinicalConcept2019}. They use a similar amount of data (50 million) as Beam et al, using a large dataset from electronic health records, and apply a novel method to incorporate time-sensitive information. At the time of submission, we were unable to obtain their embeddings, and so leave this comparison to future work.
 
 Examining the differences between fields of medicine, we note that the poor performance of embeddings from the system ``Symptoms, Signs, and Ill-defined Conditions" may support validity of the results. This collection of miscellaneous medical conditions would not be expected to have the intrinsic vector similarity and cohesion evaluated by our evaluation methods.   
 
-Further work may explore why the other systems have varied performance. We wonder if the observed results correlate with possible distinctiveness of the various medical fields. For example, the best performing system was ``Infectious and Parasitic Diseases". The conditions in this field are often unambiguous - a pathogen like \emph{influenza virus} has little other meaning - and the drugs used for these diseases tend to be similarly specific. On the other hand,  poorly performing systems such as ``Diseases of the Skin and Subcutaneous Tissue" and "Diseases of the Musculoskeletal Systems and Connective Tissue" often utilize immunosuppressant medications that are used across many fields of medicine. Future work could investigate this conjecture by comparing scores when restricting what clinical concepts are compared, such as only common or distinct medications. 
+Further work may explore why the other systems have varied performance. We wonder if the observed results correlate with possible distinctiveness of the various medical fields. For example, one of the best performing systems was ``Neoplasms". The conditions in this field are often unambiguous - a cancer like \emph{non-small cell lung cancer} has little other meaning - and the drugs used for these diseases tend to be similarly specific. On the other hand,  poorly performing systems such as ``Diseases of the Skin and Subcutaneous Tissue" and "Diseases of the Musculoskeletal Systems and Connective Tissue" often utilize immunosuppressant medications that are used across many fields of medicine. Future work could investigate this conjecture by comparing scores when restricting what clinical concepts are compared, such as only common or distinct medications. 
 
 This work evaluated embeddings using intrinsic measures of embedding quality. This presents some advantages, but also the most obvious limitation and direction for future work. These intrinsic methods allowed a consistent evaluation to be carried out between medical fields, and allowed a wide variety of embedding sets to be compared. The methods all evaluate qualities that well-trained embeddings should have, though still represent artificial use-cases. Evaluating these embeddings on extrinsic, down-stream tasks may provide more practically relevant comparisons. However, these tasks will need to be comparable and available for multiple medical fields. For instance, the recent work by Xiang et al \shortcite{xiangTimesensitiveClinicalConcept2019} compared embeddings trained by different methodologies on a task predicting the onset of heart failure \cite{rasmyStudyGeneralizabilityRecurrent2018}. This would be an appropriate task to judge embeddings from ``Diseases of the Circulatory System";  others would be needed for other systems. We also plan to investigate the validity of these intrinsic evaluation methods by comparing them to extrinsic results. 
 
