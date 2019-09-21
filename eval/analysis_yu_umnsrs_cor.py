@@ -18,7 +18,7 @@ data_folder = Path("../data")
 results_folder = Path("../results")
 
 def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd9_pr, cui_to_icd9):
-    """JJN: Calculates the Spearman Correlation Coefficient between UMNSRS ratings and vector cosines when a pair contains
+    """Calculates the Spearman Correlation Coefficient between UMNSRS ratings and vector cosines when a pair contains
     Either a diagnosis in the ICD 9 category, or treats or prevents a condition in that ICD 9 category
     """
     filename_to_embedding_matrix, idx_to_cui, cui_to_idx = generate_overlapping_sets_cui(filenames_type)
@@ -111,7 +111,7 @@ def get_yu_umnsrs_cor_by_system(filenames_type, start, end, cui_icd9_tr, cui_icd
     
 
 def print_yu_umnsrs_cor(filenames):
-    """JJN: Prints the Spearman Correlation with Relevant Comparisons in the UMNSRS database by ICD9 system"""
+    """Prints the Spearman Correlation with Relevant Comparisons in the UMNSRS database by ICD9 system"""
     
     # Cui_to_icd9 mappings will be used
     cui_to_icd9 = get_icd9_cui_mappings_rangeok()

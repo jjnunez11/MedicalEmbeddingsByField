@@ -23,7 +23,7 @@ def write_results_to_file(results,f):
         f.write(','.join(row) + '\n')
 
 def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dicts, results):
-    """JJN: Using Beam et al's boostrap method, calculates the percentage of known drug-disease relations for a given system
+    """Using Beam et al's boostrap method, calculates the percentage of known drug-disease relations for a given system
     are within the top 5% of relations in a null distribution
     """
     filename_to_embedding_matrix, idx_to_cui, cui_to_idx, cui_to_icd9_types = generate_overlapping_sets_cui(filenames_type, True, cui_to_icd9_dicts)
@@ -57,11 +57,10 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
     
     filename_index = 0
     for filename, embedding_type, _ in filenames_type:
-#        # Matrix to convert cui to positions in the relevant filename
+         # Matrix to convert cui to positions in the relevant filename
          embedding_matrix = filename_to_embedding_matrix[filename]
          
-         # Create a null distribution by a bootstrap sample involving a set number 
-         # of cosine similiarities between random drug and disease pairs 
+         # Create a null distribution by a bootstrap sample involving a set number of cosine similiarities between random drug and disease pairs 
          n_bootstrap = 10000
          null_cos_sims = []
          p_value = 0.05
@@ -76,8 +75,8 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
          # Calculate the threshold for p < 0.05 significance in cosine similarity
          pos_threshold = int(n_bootstrap*p_value)
          sig_threshold = sorted(null_cos_sims)[-1*pos_threshold]        
-         print 'Done with bootstrap. Have this many examples: ' + str(len(null_cos_sims))
-         print 'Significance threshold is: ' + str(sig_threshold)
+         ##print 'Done with bootstrap. Have this many examples: ' + str(len(null_cos_sims))
+         ##print 'Significance threshold is: ' + str(sig_threshold)
          
          systems_n = {}
          systems_sig = {}
@@ -87,7 +86,7 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
          for system in icd9_systems_names:
              systems_n[system] = 0.0000001
              systems_sig[system] = 0
-        # Test all drug-relations that have cuis in this system
+         # Test all drug-relations that have cuis in this system
          for idx in drug_idxs:
              cui_drug = idx_to_cui[idx]
              tr_pr_systems = idx_to_tr_pr_systems[idx]
@@ -120,11 +119,8 @@ def get_beam_bootstrap_by_systems(filenames_type, icd9_systems, cui_to_icd9_dict
         
     return results
 
-
-
-
 def print_beam_bootstrap(filenames):
-    """JJN: Prints and writes the result from using Beam et al's boostrap method to evaluate
+    """Prints and writes the result from using Beam et al's boostrap method to evaluate
     whether known drug-disease relations are in the top 5% against a null distribution
     """
     
@@ -137,7 +133,6 @@ def print_beam_bootstrap(filenames):
     cui_to_icd9_dicts = {}
     cui_to_icd9_dicts['cui_to_icd9'] = cui_to_icd9
     cui_to_icd9_dicts['cui_to_icd9_drug_or_diag'] = cui_to_icd9_drug_or_diag
-    
     
     # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
     icd9_systems_file = 'icd9_systems.txt'
@@ -163,7 +158,7 @@ def print_beam_bootstrap(filenames):
     results = get_beam_bootstrap_by_systems(filenames, icd9_systems, cui_to_icd9_dicts, empty_results)
     for line in results: print line
     
-    beam_bootstrap_by_system = 'beam_bootstrap_by_system_beamonly.csv'
+    beam_bootstrap_by_system = 'beam_bootstrap_by_system.csv'
     o = open(str(results_folder / beam_bootstrap_by_system ), 'w')
     write_results_to_file(results,o)
     o.close()    

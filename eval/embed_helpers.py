@@ -90,8 +90,6 @@ def generate_overlapping_sets_icd9(filenames_type):
     start = 1
 
     for filename, embedding_type, _ in filenames_type:
-        #print filename
-        #print embedding_type
         if embedding_type == 'codes':
             embedding_matrix, embedding_type_to_indices, icd9_to_idx, idx_to_icd9 = read_embedding_codes(filename)
             embedding_idx_icd9[filename] = (embedding_matrix, idx_to_icd9, icd9_to_idx)
@@ -100,7 +98,6 @@ def generate_overlapping_sets_icd9(filenames_type):
                 overlapping_icd9s.update(set(icd9_to_idx.keys()))
             else:
                 overlapping_icd9s.intersection_update(set(icd9_to_idx.keys()))
-                #print len(overlapping_icd9s)
         elif embedding_type == 'cui':
             embedding_matrix, embedding_type_to_indices, icd9_to_idx, idx_to_icd9 = read_embedding_cui(filename)
             embedding_idx_icd9[filename] = (embedding_matrix, idx_to_icd9, icd9_to_idx)
@@ -109,7 +106,6 @@ def generate_overlapping_sets_icd9(filenames_type):
                 overlapping_icd9s.update(set(icd9_to_idx.keys()))
             else:
                 overlapping_icd9s.intersection_update(set(icd9_to_idx.keys()))
-                #print len(overlapping_icd9s)
     overlapping_icd9s = list(overlapping_icd9s)
 
     idx_of_overlapping_icd9s = {}

@@ -96,13 +96,7 @@ def get_new_sysvec_by_system(filenames_type, icd9_systems, cui_to_icd9_dicts, re
                 
                  for system in true_systems:
                     systems_n[system] += 1
-                    #print 'Here is the system: ' + str(system)
-                    #print 'Here is the pred_systems: ' + str(pred_systems)
-                    #print 'Here is the true_systems: ' + str(true_systems)
-                    #if system in pred_systems: print 'pred correct!'
                     if system in pred_systems: systems_correct[system] += 1
-                    #rand_system = random.choice(icd9_systems_names)
-                    #if rand_system in pred_systems: systems_correct[system] += 1
                  
          system_index = 0
          for system in icd9_systems_names:
@@ -153,7 +147,7 @@ def print_new_sysvec(filenames):
     results = get_new_sysvec_by_system(filenames, icd9_systems, cui_to_icd9_dicts, empty_results)
     for line in results: print line
     
-    out_filename = 'new_sysvec_by_system_diag_to_drug_beamonly.csv'
+    out_filename = 'new_sysvec_by_system_diag_to_drug.csv'
     o = open(str(results_folder / out_filename ), 'w')
     write_results_to_file(results,o)
     o.close()    

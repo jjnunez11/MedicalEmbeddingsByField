@@ -20,27 +20,8 @@ tree = ICD9('codes.json')
 data_folder = Path("../data")
 results_folder = Path("../results")
 
-#def mem_sav_cdist_rank(array, num_of_neighbor):
-#    """JJN: When embedding set is large, original code will not work as call to cdist
-#    creates too large a matrix (eg 100,000^2). This function is slower but will save memory.
-#    Calculates cosine distance one row at a time, and only saves the top num_of_neighbor + 1
-#    entries per row, so the rank matrix will only contain embeddings*(num_of_neighbor + 1) entries
-#    """
-#    
-#    r, c = array.shape
-#    
-#    ranks = np.zeros((r,num_of_neighbor + 1))
-#
-#    for i in range(r):
-#        row_cdist = cdist(array[i].reshape((1,c)),array,'cosine')[0]
-#        row_ranks = np.argsort(row_cdist)[0:num_of_neighbor + 1]
-#        ranks[i] = row_ranks
-#        if i % 1000 == 0: print i
-#    return ranks
-
-
 def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'):
-    """ JJN: Calculates Choi et al's Medical Relatedness Property by ICD9 system.
+    """ Calculates Choi et al's Medical Relatedness Property by ICD9 system.
     Heavily based upon similiar code from this author's Github 
     """
     
@@ -117,21 +98,18 @@ def get_choi_mrp_by_system(filenames_type, num_of_neighbor, start, end, type='f'
 
 
 def print_choi_mrp(filenames, num_of_nn=40):
-    """ JJN: Prints and writes Choi's Medical Relatednes Property by ICD9 system
+    """ rints and writes Choi's Medical Relatednes Property by ICD9 system
     """
     
     # csv file to write results to
-    choi_mrp_by_system = 'choi_mrp_by_system_withoutfix.csv'
+    choi_mrp_by_system = 'choi_mrp_by_system.csv'
     o = open(str(results_folder / choi_mrp_by_system ), 'w')
     o.write('ICD9 System,')
     # Write headers from 3rd entry in orig_files_all.txt
     o.write(",".join(list(map(lambda x: x[2], filenames))))
     # Write Examples per System
     o.write(", Examples in System")
-    
-    
-    
-    
+        
     # Text file containing the system, start, end. Note that 'end' is an integer, so will end up to next integer
     icd9_systems_file = 'icd9_systems.txt'
     # Parse above file to get the system names, starts, ends
@@ -141,11 +119,6 @@ def print_choi_mrp(filenames, num_of_nn=40):
         for row in data:
             icd9_systems.append(row.strip().split('|'))
     
-    
-    ## TODO: DELETE THIS, ONLY FOR "ALL" SYSTEM
-    ##icd9_systems_just_all = []
-    ##icd9_systems_just_all.append(icd9_systems[0])
-    ##icd9_systems = icd9_systems_just_all
     
     print 'Choi Medical Relatedness Property by ICD9 system'
     for system in icd9_systems:
