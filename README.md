@@ -1,6 +1,6 @@
 # MedicalEmbeddingsByField 
 
-Class project for CPSC 503 evaluating how the performance of clinical concept embedding vary by the field of medicine they're related to. 
+Project presented at LOUHI 2019 as "Comparing the Intrinsic Performance of CLinical Concept Embeddings by Their Field of Medicine"
 
 The current implementation uses five different evaluation methods to judge embeddings from four different embedding sets. 
 
